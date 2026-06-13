@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "package": "info.partonetrain.cle.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "HopperBlockEntityMixin",
+    "HuntMonsterGoalMixin",
+    "MillFoodItemMixin",
+    "MillVillagerMixin",
+    "VillageEnvironmentHelperMixin",
+    "VillageSpawnerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  },
+  "client": [
+    "client.ItemRendererMixin"
+  ]
+}

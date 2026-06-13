@@ -1,0 +1,34 @@
+{
+  "values": {
+    "millenaire:apple_tree_leaves": {
+      "chance": 0.3
+    },
+    "millenaire:apple_tree_sapling": {
+      "chance": 0.3
+    },
+    "millenaire:pistachio_tree_leaves": {
+      "chance": 0.3
+    },
+    "millenaire:pistachio_tree_sapling": {
+      "chance": 0.3
+    },
+    "millenaire:olives": {
+      "chance": 0.65
+    },
+    "millenaire:pistachios": {
+      "chance": 0.65
+    },
+    "millenaire:cotton": {
+      "chance": 0.65
+    },
+    "millenaire:grapes": {
+      "chance": 0.65
+    },
+    "millenaire:turmeric": {
+      "chance": 0.65
+    },
+    "millenaire:rice": {
+      "chance": 0.3
+    }
+  }
+}

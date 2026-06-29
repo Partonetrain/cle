@@ -8,6 +8,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.extensions.IItemStackExtension;
 import org.millenaire.item.MillFoodItem;
@@ -28,18 +29,18 @@ public class MillFoodItemMixin extends Item {
         super(properties);
     }
 
-    /*
+
     @Inject(method = "finishUsingItem", at= @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V", ordinal = 0))
     public void cle$finishUsingItem_Drink(ItemStack stack, Level level, LivingEntity entity, CallbackInfoReturnable<ItemStack> cir){
         MillFoodItem self = (MillFoodItem) (Object) this;
-        if(self.drink){
+        //if(self.drink){ //this is private
+        if(self.getUseAnimation(stack) == UseAnim.DRINK){
             if(CleConfig.DRINK_GIVES_BOTTLE.getAsBoolean()){
                 Player player = (Player)entity;
                 player.addItem(Items.GLASS_BOTTLE.getDefaultInstance());
             }
         }
     }
-     */
 
     @Inject(method = "finishUsingItem", at= @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V", ordinal = 1))
     public void cle$finishUsingItem_Yogurt(ItemStack stack, Level level, LivingEntity entity, CallbackInfoReturnable<ItemStack> cir){

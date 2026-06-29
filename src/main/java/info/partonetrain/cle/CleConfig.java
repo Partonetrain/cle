@@ -30,7 +30,7 @@ public class CleConfig {
 
         PREVENT_HOPPER_INTERACTIONS = BUILDER
                 .comment("If true, prevent all hopper interactions with Locked Chests")
-                .comment("Locked Chests should not work with standard modded item transfers (i.e., Create chutes) regardless of this config, because they lack capabilities")
+                .comment("Locked Chests should not work with standard modded item transfers (i.e., Create chutes) regardless of this config, because they lack Capabilities")
                 .comment("They only work with hoppers by default due to inheriting vanilla chest code")
                 .comment("However, other modded hoppers may or may not be affected by this - it depends on how they were implemented")
                 .define("Prevent Hopper Interactions", false);
@@ -51,11 +51,11 @@ public class CleConfig {
 
         ALTERNATIVE_INUIT_TRIDENT = BUILDER
                 .comment("If true, any Inuit Tridents obtained by survival mode players will behave like a Minecraft trident instead of a sword")
-                .comment("WARNING: this auto-replaces millenaire:inuittrident in player inventories with cle:inuittrident")
+                .comment("WARNING: this auto-replaces millenaire:inuittrident in player inventories with cle:inuit_trident")
                 .define("Alternative Inuit Trident", false); //NYI
 
         ALTERNATIVE_MACES = BUILDER
-                .comment("If true, any Mayan of Byzantine Maces obtained by survival mode players will behave like a Minecraft mace instead of a sword")
+                .comment("If true, any Mayan or Byzantine Maces obtained by survival mode players will behave like a Minecraft mace instead of a sword")
                 .comment("WARNING: this auto-replaces millenaire:mayan_mace and millenaire:byzantine_mace in player inventories with the Cle versions")
                 .define("Alternative Maces", false); //NYI
 

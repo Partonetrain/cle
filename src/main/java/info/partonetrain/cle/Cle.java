@@ -69,7 +69,7 @@ public class Cle {
     public static final DeferredItem<Item> ALTERNATIVE_BYZANTINE_MACE = ITEMS.register("byzantine_mace", () ->
             new MaceItem((new Item.Properties()).rarity(Rarity.COMMON).durability(500).component(DataComponents.TOOL, MaceItem.createToolProperties()).attributes(MaceItem.createAttributes())));
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("cle_tab", () -> CreativeModeTab.builder()
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CLE_TAB = CREATIVE_MODE_TABS.register("cle_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.cle"))
             .withTabsBefore(ModCreativeTabs.MILLENAIRE_TAB.getId())
             .icon(() -> ALTERNATIVE_INUIT_TRIDENT.get().getDefaultInstance())
@@ -105,7 +105,6 @@ public class Cle {
 
         NeoForge.EVENT_BUS.register(this);
 
-        modEventBus.addListener(this::addCreative);
         modEventBus.addListener(this::addPackFinders);
         modContainer.registerConfig(ModConfig.Type.STARTUP, CleConfig.SPEC);
     }
@@ -146,13 +145,6 @@ public class Cle {
         //LOGGER.info("HELLO FROM COMMON SETUP");
     }
 
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == EXAMPLE_TAB.getKey()) {
-            event.accept(ALTERNATIVE_INUIT_TRIDENT);
-            event.accept(ALTERNATIVE_MAYAN_MACE);
-            event.accept(ALTERNATIVE_BYZANTINE_MACE);
-        }
-    }
 
     @SubscribeEvent
     public void onServerStarted(ServerStartedEvent event) {
@@ -174,14 +166,17 @@ public class Cle {
                 if (!stack.isEmpty()) {
                     if(CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() && stack.is(ModItems.INUIT_TRIDENT)){
                         stack = stack.transmuteCopy(ALTERNATIVE_INUIT_TRIDENT);
+                        Cle.LOGGER.info("Converted Inuit Trident");
                     }
 
                     if(CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
                         if(stack.is(ModItems.MAYAN_MACE)){
                             stack = stack.transmuteCopy(ALTERNATIVE_MAYAN_MACE);
+                            Cle.LOGGER.info("Converted Mayan Mace");
                         }
                         else if(stack.is(ModItems.BYZANTINE_MACE)){
                             stack = stack.transmuteCopy(ALTERNATIVE_BYZANTINE_MACE);
+                            Cle.LOGGER.info("Converted Byzantine Mace");
                         }
                     }
                 }

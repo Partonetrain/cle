@@ -1,7 +1,8 @@
 {
   "itemGroup.cle": "Clé",
-  "block.cle.example_block": "Example Block",
-  "item.cle.example_item": "Example Item",
+  "item.cle.inuit_trident": "Inuit Trident",
+  "item.cle.mayan_mace": "Mayan Mace",
+  "item.cle.byzantine_mace": "Byzantine Mace",
 
   "cle.configuration.title": "Clé Configs",
   "cle.configuration.section.cle.common.toml": "Clé Configs",

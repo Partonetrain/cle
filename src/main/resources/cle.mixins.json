@@ -8,6 +8,7 @@
     "MillFoodItemMixin",
     "MillVillagerMixin",
     "VillageEnvironmentHelperMixin",
+    "VillagerCombatMixin",
     "VillageSpawnerMixin"
   ],
   "injectors": {
@@ -17,6 +18,7 @@
     "requireAnnotations": true
   },
   "client": [
-    "client.ItemRendererMixin"
+    "client.ItemRendererMixin",
+    "client.VillagePanelScreenMixin"
   ]
 }

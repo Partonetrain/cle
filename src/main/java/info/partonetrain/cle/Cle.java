@@ -15,16 +15,17 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.ai.goal.GoalSelector;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforgespi.locating.IModFile;
 import org.millenaire.entity.MillVillager;
-import org.millenaire.entity.ModEntities;
 import org.millenaire.item.ModCreativeTabs;
 import org.millenaire.item.ModItems;
 import org.slf4j.Logger;
@@ -145,10 +146,11 @@ public class Cle {
         //LOGGER.info("HELLO FROM COMMON SETUP");
     }
 
-    // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
+        if (event.getTabKey() == EXAMPLE_TAB.getKey()) {
             event.accept(ALTERNATIVE_INUIT_TRIDENT);
+            event.accept(ALTERNATIVE_MAYAN_MACE);
+            event.accept(ALTERNATIVE_BYZANTINE_MACE);
         }
     }
 
@@ -191,7 +193,7 @@ public class Cle {
     public void onLivingDamage(LivingDamageEvent.Pre event){
         LivingEntity damaged = event.getEntity();
         Entity cause = event.getContainer().getSource().getEntity();
-        Cle.LOGGER.info(event.getContainer().getSource().toString());
+        //Cle.LOGGER.info(event.getContainer().getSource().toString());
 
         if(damaged != null){
             if(damaged instanceof MillVillager){
@@ -205,6 +207,12 @@ public class Cle {
                 }
             }
         }
+    }
 
+    @SubscribeEvent
+    public void onEntityJoinLevel(EntityJoinLevelEvent event){
+        if(event.getEntity() instanceof MillVillager mv){
+            GoalSelector mobGoalSelector = mv.goalSelector;
+        }
     }
 }

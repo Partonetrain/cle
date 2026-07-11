@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(VillageSpawner.class)
 public class VillageSpawnerMixin {
 
+
     /*
     @ModifyReturnValue(method = "dryRunPlacement", at=@At("RETURN"))
     private static VillageSpawner.ValidationResult cle$dryRunPlacement(VillageSpawner.ValidationResult original, @Local(argsOnly = true) ServerLevel level, @Local(argsOnly = true) BlockPos center){
@@ -30,5 +31,7 @@ public class VillageSpawnerMixin {
         }
         return original;
     }
-    */
+
+     */
+
 }

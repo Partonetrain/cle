@@ -1,8 +1,15 @@
 package info.partonetrain.cle;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class ParsedConfigs {
+    //is this overengineered? probably.
     public static DamageMod modifiedDamageDealt;
     public static DamageMod modifiedDamageReceived;
+
+    public static List<String> lowPriorityBuildings = new ArrayList<>();
 
     public static void parseDamageMods(){
         modifiedDamageDealt = DamageMod.parse(CleConfig.MODIFIED_DAMAGE_DEALT.get());
@@ -74,6 +81,12 @@ public class ParsedConfigs {
                 default -> throw new IllegalStateException("Unexpected value: " + c);
             };
         }
+    }
+
+    public static void parseLowPriorityBuildings(){
+        String cfg = CleConfig.SORT_CONSTRUCTIONS_PANEL.get();
+        String[] split = cfg.split(",");
+        lowPriorityBuildings.addAll(Arrays.asList(split));
     }
 
 }

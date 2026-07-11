@@ -12,10 +12,11 @@ public class CleConfig {
     public static ModConfigSpec.BooleanValue DRINK_GIVES_BOTTLE;
     public static ModConfigSpec.BooleanValue ALTERNATIVE_INUIT_TRIDENT;
     public static ModConfigSpec.BooleanValue ALTERNATIVE_MACES;
-    public static ModConfigSpec.IntValue MAX_MIN_COORDINATE;
     public static ModConfigSpec.BooleanValue COMPOST_DATAPACK;
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_DEALT;
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_RECEIVED;
+
+    public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
 
     public static ModConfigSpec.BooleanValue ATTACKS_MILLAGERS;
     public static ModConfigSpec.BooleanValue DESPAWNS_IN_MILLAGE;
@@ -52,18 +53,12 @@ public class CleConfig {
         ALTERNATIVE_INUIT_TRIDENT = BUILDER
                 .comment("If true, any Inuit Tridents obtained by survival mode players will behave like a Minecraft trident instead of a sword")
                 .comment("WARNING: this auto-replaces millenaire:inuittrident in player inventories with cle:inuit_trident")
-                .define("Alternative Inuit Trident", false); //NYI
+                .define("Alternative Inuit Trident", true);
 
         ALTERNATIVE_MACES = BUILDER
                 .comment("If true, any Mayan or Byzantine Maces obtained by survival mode players will behave like a Minecraft mace instead of a sword")
                 .comment("WARNING: this auto-replaces millenaire:mayan_mace and millenaire:byzantine_mace in player inventories with the Cle versions")
-                .define("Alternative Maces", false); //NYI
-
-        MAX_MIN_COORDINATE = BUILDER
-                .comment("The maximum and minimum x/z coordinates that Millenaire villages can spawn in.")
-                .comment("Only use positive values. The minimum is calculated automatically by multiplying the max by -1.")
-                .comment("Set to 0 for no max")
-                .defineInRange("Max & Min Coordinates", 12_550_821, 0, Integer.MAX_VALUE); //implemented, untested
+                .define("Alternative Maces", true);
 
         COMPOST_DATAPACK = BUILDER
                 .comment("If true, enables a datapack containing composter values for Millenaire crops and related blocks will be enabled")
@@ -88,6 +83,11 @@ public class CleConfig {
                 .comment("If true, any entity in the the entity type tag " + Cle.HUNTS_MILLAGERS.location() + " will despawn if it enters a millage")
                 .comment("(Similar to Hunts Millagers, this has the potential to introduce lag)")
                 .define("Despawns In Millage", true);
+
+        SORT_CONSTRUCTIONS_PANEL = BUILDER.comment("If this option is not empty, the Constructions panel in any town hall will attempt to sort its list by moving items that contain matching strings in its target to the bottom")
+                .comment("This should make more important buildings appear first and less important buildings appear last")
+                .comment("Separate entries by comma. Entries should not include spaces.")
+                .define("Sort Constructions Panel", "wall,tower");
     }
 
 

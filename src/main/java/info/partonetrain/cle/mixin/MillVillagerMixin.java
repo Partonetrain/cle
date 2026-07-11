@@ -24,17 +24,5 @@ public class MillVillagerMixin extends PathfinderMob {
         super(entityType, level);
     }
 
-    @Inject(method = "triggerMobAttacks", at=@At("RETURN"))
-    public void cle$triggerMobAttacks(CallbackInfo ci, @Local AABB box){
-        if(CleConfig.ATTACKS_MILLAGERS.getAsBoolean()) {
-            List<Mob> nearbyEntities = this.level().getEntitiesOfClass(Mob.class, box);
-
-            for (Mob mob : nearbyEntities) {
-                if (mob.getType().is(Cle.HUNTS_MILLAGERS) && mob.getTarget() == null && mob.hasLineOfSight(this)) {
-                    mob.setTarget(this);
-                }
-            }
-        }
-    }
-
+    //nothing rn, hunts_millagers code moved to VillagerCombatMixin
 }

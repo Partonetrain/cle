@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:command_block",
+    {
+      "id": "vista:television",
+      "required": false
+    }
+  ]
+}

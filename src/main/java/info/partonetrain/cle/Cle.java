@@ -1,6 +1,7 @@
 package info.partonetrain.cle;
 
 import info.partonetrain.cle.entity.ThrownInuitTridentEntity;
+import info.partonetrain.cle.entity.goal.FleeBlockGoal;
 import info.partonetrain.cle.item.AlternativeInuitTrident;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.goal.GoalSelector;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
@@ -41,7 +43,6 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -94,6 +95,8 @@ public class Cle {
 
     public static final TagKey<EntityType<?>> HUNTS_MILLAGERS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "hunts_millagers"));
     public static final TagKey<EntityType<?>> DESPAWNS_IN_MILLAGE = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "despawns_in_millage"));
+
+    public static final TagKey<Block> MILLAGERS_AFRAID_OF = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MODID, "millagers_afraid_of"));
 
     public Cle(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
@@ -208,6 +211,7 @@ public class Cle {
     public void onEntityJoinLevel(EntityJoinLevelEvent event){
         if(event.getEntity() instanceof MillVillager mv){
             GoalSelector mobGoalSelector = mv.goalSelector;
+            mobGoalSelector.addGoal(2, new FleeBlockGoal<MillVillager>(mv, MILLAGERS_AFRAID_OF, 5));
         }
     }
 }

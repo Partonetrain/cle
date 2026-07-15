@@ -8,5 +8,8 @@
   "cle.configuration.section.cle.common.toml": "Clé Configs",
   "cle.configuration.section.cle.common.toml.title": "Clé Configs",
 
-  "cle.outside_of_config_range": "Outside of configured allowable coordinates"
+  "cle.outside_of_config_range": "Outside of configured allowable coordinates",
+
+  "cle.millager_afraid_of_block.1": "%1$s is running in fear of the ",
+  "cle.millager_afraid_of_block.2": "!"
 }

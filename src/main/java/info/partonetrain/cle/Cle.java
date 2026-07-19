@@ -1,8 +1,12 @@
 package info.partonetrain.cle;
 
+import info.partonetrain.cle.command.ReputationCapResetCommand;
+import info.partonetrain.cle.command.ReputationCapTestCommand;
+import info.partonetrain.cle.command.ReputationResetCommand;
 import info.partonetrain.cle.entity.ThrownInuitTridentEntity;
 import info.partonetrain.cle.entity.goal.FleeBlockGoal;
 import info.partonetrain.cle.item.AlternativeInuitTrident;
+import info.partonetrain.cle.mixin.VillagerInventoryAccessor;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackLocationInfo;
@@ -48,6 +52,8 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -107,6 +113,10 @@ public class Cle {
         ENTITY_TYPES.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
+        //i should probably be registering these differently...
+        NeoForge.EVENT_BUS.register(new ReputationCapTestCommand());
+        NeoForge.EVENT_BUS.register(new ReputationCapResetCommand());
+        NeoForge.EVENT_BUS.register(new ReputationResetCommand());
 
         modEventBus.addListener(this::addPackFinders);
         modContainer.registerConfig(ModConfig.Type.STARTUP, CleConfig.SPEC);
@@ -152,10 +162,20 @@ public class Cle {
     @SubscribeEvent
     public void onServerStarted(ServerStartedEvent event) {
         ParsedConfigs.parseDamageMods();
+        CleUtils.playerRepNotifCooldowns.clear();
     }
 
+    int cooldown = 200; //tiny optimization
     @SubscribeEvent
-    public void onPlayerTick(EntityTickEvent.Post event) {
+    public void onEntityTick(EntityTickEvent.Pre event) {
+        if(cooldown != 0){
+            cooldown = 200;
+        }
+        else{
+            cooldown--;
+            return;
+        }
+
         if(!CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() || !CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
             return;
         }
@@ -185,6 +205,35 @@ public class Cle {
                 }
             }
         }
+
+        if(CleConfig.CONVERT_ALTERNATIVE_MILLAGERS.getAsBoolean() && event.getEntity() instanceof MillVillager millager){
+            VillagerInventoryAccessor via = (VillagerInventoryAccessor) millager.getInventory();
+            String name = millager.getFirstName() + " " + millager.getFamilyName();
+
+            Map<Item, Integer> convert = new HashMap<>();
+            for (Map.Entry<Item, Integer> entry : via.cle$items().entrySet()) {
+                if(CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() && entry.getKey() == ModItems.INUIT_TRIDENT.asItem()){
+                    convert.put(ModItems.INUIT_TRIDENT.asItem(), entry.getValue());
+                    Cle.LOGGER.info("Converted Inuit Trident on Millager " + name);
+                }
+
+                if(CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
+                    if(entry.getKey() == ModItems.MAYAN_MACE.asItem()){
+                        convert.put(ModItems.MAYAN_MACE.asItem(), entry.getValue());
+                        Cle.LOGGER.info("Converted Mayan Mace on Millager " + name);
+                    }
+                    else if(entry.getKey() == ModItems.BYZANTINE_MACE.asItem()){
+                        convert.put(ModItems.BYZANTINE_MACE.asItem(), entry.getValue());
+                        Cle.LOGGER.info("Converted Byzantine Mace on Millager " + name);
+                    }
+                }
+            }
+
+            for(var entry : convert.entrySet()){
+                via.cle$items().put(entry.getKey().asItem(), entry.getValue());
+            }
+        }
+
     }
 
     @SubscribeEvent

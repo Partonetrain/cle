@@ -7,8 +7,12 @@
     "HuntMonsterGoalMixin",
     "MillFoodItemMixin",
     "MillVillagerMixin",
+    "PlayerCultureReputationAccessor",
     "VillageEnvironmentHelperMixin",
+    "VillagerInventoryAccessor",
+    "VillageMixin",
     "VillagerCombatMixin",
+    "VillageReputationAccessor",
     "VillageSpawnerMixin"
   ],
   "injectors": {

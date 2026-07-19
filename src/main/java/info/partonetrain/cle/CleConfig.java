@@ -12,9 +12,11 @@ public class CleConfig {
     public static ModConfigSpec.BooleanValue DRINK_GIVES_BOTTLE;
     public static ModConfigSpec.BooleanValue ALTERNATIVE_INUIT_TRIDENT;
     public static ModConfigSpec.BooleanValue ALTERNATIVE_MACES;
+    public static ModConfigSpec.BooleanValue CONVERT_ALTERNATIVE_MILLAGERS;
     public static ModConfigSpec.BooleanValue COMPOST_DATAPACK;
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_DEALT;
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_RECEIVED;
+    public static ModConfigSpec.IntValue REPUTATIION_CAP_PER_DAY;
 
     public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
 
@@ -40,15 +42,15 @@ public class CleConfig {
                 .comment("If true, Millenaire foods will use vanilla food components")
                 .comment("This can enhance compatibility with mods like AppleSkin")
                 .comment("However, other mods that utilize this component probably will not correctly account for the food's durability")
-                .define("Use Food Components", false);
+                .define("Use Food Components", true);
 
         YOGURT_GIVES_BOWL = BUILDER
                 .comment("If true, Yogurt will give the player a bowl after it is eaten (only in survival)")
-                .define("Yogurt Gives Bowl", false); //implemented, untested
+                .define("Yogurt Gives Bowl", true); //implemented, untested
 
         DRINK_GIVES_BOTTLE = BUILDER
                 .comment("If true, all drinks will give the player a glass bottle after it is drunk (only in survival)")
-                .define("Drink Gives Bottle", false);
+                .define("Drink Gives Bottle", true);
 
         ALTERNATIVE_INUIT_TRIDENT = BUILDER
                 .comment("If true, any Inuit Tridents obtained by survival mode players will behave like a Minecraft trident instead of a sword")
@@ -59,6 +61,11 @@ public class CleConfig {
                 .comment("If true, any Mayan or Byzantine Maces obtained by survival mode players will behave like a Minecraft mace instead of a sword")
                 .comment("WARNING: this auto-replaces millenaire:mayan_mace and millenaire:byzantine_mace in player inventories with the Cle versions")
                 .define("Alternative Maces", true);
+
+        CONVERT_ALTERNATIVE_MILLAGERS = builder
+                .comment("If true, any alternative items that are enabled will also be converted in Millager inventories")
+                .comment("This doesn't have much of an effect in practice, only increasing damage for relevant millagers")
+                .define("Convert Alternative Items on Millagers", true);
 
         COMPOST_DATAPACK = BUILDER
                 .comment("If true, enables a datapack containing composter values for Millenaire crops and related blocks will be enabled")
@@ -88,6 +95,12 @@ public class CleConfig {
                 .comment("This should make more important buildings appear first and less important buildings appear last")
                 .comment("Separate entries by comma. Entries should not include spaces.")
                 .define("Sort Constructions Panel", "wall,tower");
+
+        REPUTATIION_CAP_PER_DAY = BUILDER.comment("If greater than -1, the maximum amount of reputation a player can gain with per village per Minecraft day")
+                .comment("This can be used to ensure players don't just dump stacks of donations into a village and instantly be considered friends")
+                .comment("For reference, the reputation 'FRIEND OF THE VILLAGE' happens at 8192 points, and the reputation 'ONE OF US' happens at 32768 points")
+                .comment("This also affects player reputation for entire culture; a tenth of all reputation gained at a village is gained as culture reputation")
+                .defineInRange("Reputation Cap per Day", -1, -1, 32768);
     }
 
 

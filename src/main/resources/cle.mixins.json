@@ -9,11 +9,12 @@
     "MillVillagerMixin",
     "PlayerCultureReputationAccessor",
     "VillageEnvironmentHelperMixin",
-    "VillagerInventoryAccessor",
     "VillageMixin",
     "VillagerCombatMixin",
     "VillageReputationAccessor",
-    "VillageSpawnerMixin"
+    "VillagerInventoryAccessor",
+    "VillageSpawnerMixin",
+    "integration.malum.SoulHarvestHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

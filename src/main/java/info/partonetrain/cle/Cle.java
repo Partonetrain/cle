@@ -3,6 +3,7 @@ package info.partonetrain.cle;
 import info.partonetrain.cle.command.ReputationCapResetCommand;
 import info.partonetrain.cle.command.ReputationCapTestCommand;
 import info.partonetrain.cle.command.ReputationResetCommand;
+import info.partonetrain.cle.compat.ArsNouveauCompat;
 import info.partonetrain.cle.entity.ThrownInuitTridentEntity;
 import info.partonetrain.cle.entity.goal.FleeBlockGoal;
 import info.partonetrain.cle.item.AlternativeInuitTrident;
@@ -25,11 +26,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.fml.ModList;
+import net.neoforged.fml.loading.LoadingModList;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforgespi.locating.IModFile;
 import org.millenaire.entity.MillVillager;
 import org.millenaire.item.ModCreativeTabs;
@@ -118,6 +121,10 @@ public class Cle {
         NeoForge.EVENT_BUS.register(new ReputationCapResetCommand());
         NeoForge.EVENT_BUS.register(new ReputationResetCommand());
 
+        if(LoadingModList.get().getModFileById("ars_nouveau") != null){
+            NeoForge.EVENT_BUS.register(new ArsNouveauCompat());
+        }
+
         modEventBus.addListener(this::addPackFinders);
         modContainer.registerConfig(ModConfig.Type.STARTUP, CleConfig.SPEC);
     }
@@ -163,6 +170,11 @@ public class Cle {
     public void onServerStarted(ServerStartedEvent event) {
         ParsedConfigs.parseDamageMods();
         CleUtils.playerRepNotifCooldowns.clear();
+    }
+
+    @SubscribeEvent
+    public void onServerTick(ServerTickEvent.Pre event) {
+        CleUtils.tickCooldowns();
     }
 
     int cooldown = 200; //tiny optimization

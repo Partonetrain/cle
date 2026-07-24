@@ -11,7 +11,6 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
-import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
@@ -21,9 +20,7 @@ import org.millenaire.entity.VillagerNavDriver;
 import org.millenaire.goal.NavigationHelperUtils;
 
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.function.Predicate;
 
 public class FleeBlockGoal<T extends LivingEntity> extends Goal {
@@ -100,7 +97,7 @@ public class FleeBlockGoal<T extends LivingEntity> extends Goal {
                 langKeyWithPlaceholders.put("cle.millager_afraid_of_block.1", mv.getFirstName() + " " + mv.getFamilyName());
                 langKeyWithPlaceholders.put(avoidingState.getBlock().getDescriptionId(), null);
                 langKeyWithPlaceholders.put("cle.millager_afraid_of_block.2", null);
-                CleUtils.changeNearbyPlayerReputation((ServerLevel) owner.level(), mv, -1, langKeyWithPlaceholders);
+                CleUtils.changeNearbyPlayerReputationFromMillager(mv, (ServerLevel) owner.level(), -1, langKeyWithPlaceholders);
                 return true;
             }
             else {

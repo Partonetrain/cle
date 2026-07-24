@@ -12,5 +12,10 @@
 
   "cle.millager_afraid_of_block.1": "%1$s is running in fear of the ",
   "cle.millager_afraid_of_block.2": "!",
-  "cle.reputation_cap_reached": "You cannot earn any more reputation with %1$s today"
+  "cle.reputation_cap_reached": "You cannot earn any more reputation with %1$s today",
+
+  "cle.malum.millager_afraid_spirit_harvest.1": "Harvesting the spirits of ",
+  "cle.malum.millager_afraid_spirit_harvest.2": "%1$s ",
+  "cle.malum.millager_afraid_spirit_harvest.2.proper": "the %1$s ",
+  "cle.malum.millager_afraid_spirit_harvest.3": "has creeped out %1$s!"
 }

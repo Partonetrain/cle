@@ -1,8 +1,8 @@
 package info.partonetrain.cle;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.*;
 
 public class ParsedConfigs {
     //is this overengineered? probably.
@@ -10,6 +10,8 @@ public class ParsedConfigs {
     public static DamageMod modifiedDamageReceived;
 
     public static List<String> lowPriorityBuildings = new ArrayList<>();
+
+    public static Map<ResourceLocation, Integer> spellEffectReputations = new HashMap<>();
 
     public static void parseDamageMods(){
         modifiedDamageDealt = DamageMod.parse(CleConfig.MODIFIED_DAMAGE_DEALT.get());
@@ -87,6 +89,18 @@ public class ParsedConfigs {
         String cfg = CleConfig.SORT_CONSTRUCTIONS_PANEL.get();
         String[] split = cfg.split(",");
         lowPriorityBuildings.addAll(Arrays.asList(split));
+    }
+
+    public static int parseSpells(){
+        int parsed = 0;
+        List<String> cfg = CleConfig.SPELL_EFFECT_REPUTATIONS.get();
+        for(String s : cfg){
+            String[] split = s.split(",");
+            spellEffectReputations.put(ResourceLocation.parse(split[0]), Integer.parseInt(split[1]));
+            parsed++;
+        }
+
+        return parsed;
     }
 
 }

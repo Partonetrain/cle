@@ -2,6 +2,9 @@ package info.partonetrain.cle;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CleConfig {
     private static final ModConfigSpec.Builder BUILDER;
     public static final ModConfigSpec SPEC;
@@ -17,11 +20,13 @@ public class CleConfig {
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_DEALT;
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_RECEIVED;
     public static ModConfigSpec.IntValue REPUTATIION_CAP_PER_DAY;
-
     public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
-
     public static ModConfigSpec.BooleanValue ATTACKS_MILLAGERS;
     public static ModConfigSpec.BooleanValue DESPAWNS_IN_MILLAGE;
+
+    public static ModConfigSpec.IntValue SPIRIT_REAP_REPUTATION_LOSS;
+
+    public static ModConfigSpec.ConfigValue<List<String>>  SPELL_EFFECT_REPUTATIONS;
 
     static {
         BUILDER = new ModConfigSpec.Builder();
@@ -30,6 +35,8 @@ public class CleConfig {
     }
 
     public static void registerConfig(ModConfigSpec.Builder builder) {
+
+        BUILDER.push("General");
 
         PREVENT_HOPPER_INTERACTIONS = BUILDER
                 .comment("If true, prevent all hopper interactions with Locked Chests")
@@ -101,6 +108,53 @@ public class CleConfig {
                 .comment("For reference, the reputation 'FRIEND OF THE VILLAGE' happens at 8192 points, and the reputation 'ONE OF US' happens at 32768 points")
                 .comment("This also affects player reputation for entire culture; a tenth of all reputation gained at a village is gained as culture reputation")
                 .defineInRange("Reputation Cap per Day", -1, -1, 32768);
+
+        builder.pop();
+
+        BUILDER.push("Malum");
+
+        SPIRIT_REAP_REPUTATION_LOSS = BUILDER
+                .comment("The amount of reputation lost for reaping Spirits nearby a millager")
+                .comment("Set to -1 for no loss")
+                .defineInRange("Spirit Reap Reputation Loss", 4, -1, 8192);
+
+        builder.pop();
+
+        BUILDER.push("Ars Nouveau");
+
+        SPELL_EFFECT_REPUTATIONS = BUILDER
+                .comment("A map of spell effects to integers, that when resolved on a millager, will affect reputation with their village")
+                .comment("The number of amplifies in the spell recipe will multiply the value provided")
+                .define("Spell Effect Reputations", List.of(
+                        "ars_nouveau:glyph_bubble,-4",
+                        "ars_nouveau:glyph_cold_snap,-5",
+                        "ars_nouveau:glyph_crush,-3",
+                        "ars_nouveau:glyph_cut,-3",
+                        "ars_nouveau:glyph_exchange,-2",
+                        "ars_nouveau:glyph_explosion,-8",
+                        "ars_nouveau:glyph_fangs,-9",
+                        "ars_nouveau:glyph_flare,-3",
+                        "ars_nouveau:glyph_freeze,-3",
+                        "ars_nouveau:glyph_gravity,-2",
+                        "ars_nouveau:glyph_harm,-3",
+                        "ars_nouveau:glyph_heal,1",
+                        "ars_nouveau:glyph_ignite,-6",
+                        "ars_nouveau:glyph_gust,-4",
+                        "ars_nouveau:glyph_launch,-4",
+                        "ars_nouveau:glyph_leap,-4",
+                        "ars_nouveau:glyph_lightning,-9",
+                        "ars_nouveau:glyph_pull,-3",
+                        "ars_nouveau:glyph_snare,-5",
+                        "ars_nouveau:glyph_summon_undead,-9",
+                        "ars_nouveau:glyph_summon_vex,-9",
+                        "ars_nouveau:glyph_summon_wolves,-9",
+                        "ars_nouveau:glyph_wind_burst,-4",
+                        "ars_nouveau:glyph_wind_shear,-4",
+                        "ars_nouveau:glyph_wither,-7"
+                ));
+
+        builder.pop();
+
     }
 
 

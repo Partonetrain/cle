@@ -26,6 +26,9 @@ public class CleMixinPlugin implements IMixinConfigPlugin {
         if (mixinClassName.contains("integration/malum")) {
             return LoadingModList.get().getModFileById("malum") != null;
         }
+        if (mixinClassName.contains("integration/wayward_attributes")) {
+            return LoadingModList.get().getModFileById("wayward_attributes") != null;
+        }
 
         return true;
     }

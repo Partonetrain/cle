@@ -19,7 +19,6 @@ public class VillageSpawnQueueMixin {
     @Inject(method = "processMainQueue", at= @At(value = "INVOKE", target = "Lnet/minecraft/core/BlockPos;distSqr(Lnet/minecraft/core/Vec3i;)D"), cancellable = true)
     private void processMainQueue(ServerLevel level, VillageSavedData savedData, VillageManager manager, boolean genVillages, boolean genLone, boolean log, long currentTick, CallbackInfo ci, @Local BlockPos candidate){
         if(CleConfig.MAX_DISTANCE.get() != 0) {
-
             double distToSpawnSq = candidate.distSqr(level.getSharedSpawnPos());
             if (distToSpawnSq > (CleConfig.MAX_DISTANCE.get() * CleConfig.MAX_DISTANCE.get())) {
                 if (log) {
@@ -28,7 +27,6 @@ public class VillageSpawnQueueMixin {
                 ci.cancel();
             }
         }
-
     }
 
 }

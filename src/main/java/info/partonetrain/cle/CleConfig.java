@@ -23,8 +23,10 @@ public class CleConfig {
     public static ModConfigSpec.BooleanValue ATTACKS_MILLAGERS;
     public static ModConfigSpec.BooleanValue DESPAWNS_IN_MILLAGE;
     public static ModConfigSpec.IntValue MAX_DISTANCE;
+    public static ModConfigSpec.BooleanValue TRAVEL_BOOK_INFO_PANEL;
     //client
     public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
+    public static ModConfigSpec.BooleanValue PREVENT_KEYBINDS;
     //malum
     public static ModConfigSpec.IntValue SPIRIT_REAP_REPUTATION_LOSS;
     //ars
@@ -110,6 +112,10 @@ public class CleConfig {
                 .comment("This can be used in combination with the spawnProtectionRadius option in Millenaire server config to define a square region around world spawn in which villages are allowed to generate")
                 .defineInRange("Max Radius", 0, 0, 12_550_821);
 
+        TRAVEL_BOOK_INFO_PANEL = BUILDER.comment("If true, Millenaire's Travel Book will open the Millenaire Info Panel instead of the Travel Book screen")
+                .comment("(The Travel Book can still be opened from the Info Panel)")
+                .define("Travel Book Info Panel", false);
+
         BUILDER.pop();
 
         BUILDER.push("Client");
@@ -118,6 +124,10 @@ public class CleConfig {
                 .comment("This should make more important buildings appear first and less important buildings appear last")
                 .comment("Separate entries by comma. Entries should not include spaces.")
                 .define("Sort Constructions Panel", "wall,tower");
+
+        PREVENT_KEYBINDS = BUILDER.comment("If true, Millenaire's keybindings will not be registered")
+                .comment("There is currently no alternative to the Stance key, however")
+                .define("Prevent Keybindings", false);
 
         BUILDER.pop();
 
@@ -161,7 +171,6 @@ public class CleConfig {
                         "ars_nouveau:glyph_wind_burst,-4",
                         "ars_nouveau:glyph_wind_shear,-4",
                         "ars_nouveau:glyph_wither,-7",
-
 
                         "ars_elemental:glyph_cauterize,-4",
                         "ars_elemental:glyph_cavitate,-4",

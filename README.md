@@ -23,6 +23,7 @@ Clé's options are as follows:
 Integrations: 
  - Malum: Spirit reaping near millagers creeps them out and reduces your reputation
  - Ars Nouveau, Ars Elemental: Using positive spells on millagers improves reputation, negative spells reduce it
+ - Wayward Attributes: Millenaire's Bows, when used by the player, now use the stats programmed for them that are normally only used for millager combat. In practice this only affects the Yumi Bow 
 
 ## Useful Tags
 ### Mob AI related

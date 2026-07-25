@@ -136,6 +136,7 @@ dependencies {
     implementation 'maven.modrinth:lodestonelib:1.8.2'
     implementation 'maven.modrinth:ars-nouveau:5.12.1'
     implementation 'maven.modrinth:geckolib:tPkJmim6'
+    implementation 'maven.modrinth:wayward-attributes:1.1.1'
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

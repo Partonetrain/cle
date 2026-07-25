@@ -8,13 +8,16 @@
     "MillFoodItemMixin",
     "MillVillagerMixin",
     "PlayerCultureReputationAccessor",
+    "TravelBookItemMixin",
     "VillageEnvironmentHelperMixin",
     "VillageMixin",
     "VillagerCombatMixin",
     "VillageReputationAccessor",
     "VillagerInventoryAccessor",
     "VillageSpawnQueueMixin",
-    "integration.malum.SoulHarvestHandlerMixin"
+    "client.MillenaireKeyBindingsMixin",
+    "integration.malum.SoulHarvestHandlerMixin",
+    "integration.wayward_attributes.RangedAttributeTweaksMixin"
   ],
   "injectors": {
     "defaultRequire": 1

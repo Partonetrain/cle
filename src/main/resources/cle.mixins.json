@@ -13,7 +13,7 @@
     "VillagerCombatMixin",
     "VillageReputationAccessor",
     "VillagerInventoryAccessor",
-    "VillageSpawnerMixin",
+    "VillageSpawnQueueMixin",
     "integration.malum.SoulHarvestHandlerMixin"
   ],
   "injectors": {

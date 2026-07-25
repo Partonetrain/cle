@@ -2,13 +2,13 @@ package info.partonetrain.cle;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CleConfig {
     private static final ModConfigSpec.Builder BUILDER;
     public static final ModConfigSpec SPEC;
 
+    //general
     public static ModConfigSpec.BooleanValue PREVENT_HOPPER_INTERACTIONS;
     public static ModConfigSpec.BooleanValue USE_FOOD_COMPONENTS;
     public static ModConfigSpec.BooleanValue YOGURT_GIVES_BOWL;
@@ -20,12 +20,14 @@ public class CleConfig {
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_DEALT;
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_RECEIVED;
     public static ModConfigSpec.IntValue REPUTATIION_CAP_PER_DAY;
-    public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
     public static ModConfigSpec.BooleanValue ATTACKS_MILLAGERS;
     public static ModConfigSpec.BooleanValue DESPAWNS_IN_MILLAGE;
-
+    public static ModConfigSpec.IntValue MAX_DISTANCE;
+    //client
+    public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
+    //malum
     public static ModConfigSpec.IntValue SPIRIT_REAP_REPUTATION_LOSS;
-
+    //ars
     public static ModConfigSpec.ConfigValue<List<String>>  SPELL_EFFECT_REPUTATIONS;
 
     static {
@@ -53,7 +55,7 @@ public class CleConfig {
 
         YOGURT_GIVES_BOWL = BUILDER
                 .comment("If true, Yogurt will give the player a bowl after it is eaten (only in survival)")
-                .define("Yogurt Gives Bowl", true); //implemented, untested
+                .define("Yogurt Gives Bowl", true);
 
         DRINK_GIVES_BOTTLE = BUILDER
                 .comment("If true, all drinks will give the player a glass bottle after it is drunk (only in survival)")
@@ -69,7 +71,7 @@ public class CleConfig {
                 .comment("WARNING: this auto-replaces millenaire:mayan_mace and millenaire:byzantine_mace in player inventories with the Cle versions")
                 .define("Alternative Maces", true);
 
-        CONVERT_ALTERNATIVE_MILLAGERS = builder
+        CONVERT_ALTERNATIVE_MILLAGERS = BUILDER
                 .comment("If true, any alternative items that are enabled will also be converted in Millager inventories")
                 .comment("This doesn't have much of an effect in practice, only increasing damage for relevant millagers")
                 .define("Convert Alternative Items on Millagers", true);
@@ -98,18 +100,26 @@ public class CleConfig {
                 .comment("(Similar to Hunts Millagers, this has the potential to introduce lag)")
                 .define("Despawns In Millage", true);
 
-        SORT_CONSTRUCTIONS_PANEL = BUILDER.comment("If this option is not empty, the Constructions panel in any town hall will attempt to sort its list by moving items that contain matching strings in its target to the bottom")
-                .comment("This should make more important buildings appear first and less important buildings appear last")
-                .comment("Separate entries by comma. Entries should not include spaces.")
-                .define("Sort Constructions Panel", "wall,tower");
-
         REPUTATIION_CAP_PER_DAY = BUILDER.comment("If greater than -1, the maximum amount of reputation a player can gain with per village per Minecraft day")
                 .comment("This can be used to ensure players don't just dump stacks of donations into a village and instantly be considered friends")
                 .comment("For reference, the reputation 'FRIEND OF THE VILLAGE' happens at 8192 points, and the reputation 'ONE OF US' happens at 32768 points")
                 .comment("This also affects player reputation for entire culture; a tenth of all reputation gained at a village is gained as culture reputation")
                 .defineInRange("Reputation Cap per Day", -1, -1, 32768);
 
-        builder.pop();
+        MAX_DISTANCE = BUILDER.comment("If not 0, the max distance from world spawn at which Millenaire villages and long buildings can generate")
+                .comment("This can be used in combination with the spawnProtectionRadius option in Millenaire server config to define a square region around world spawn in which villages are allowed to generate")
+                .defineInRange("Max Radius", 0, 0, 12_550_821);
+
+        BUILDER.pop();
+
+        BUILDER.push("Client");
+
+        SORT_CONSTRUCTIONS_PANEL = BUILDER.comment("If this option is not empty, the Constructions panel in any town hall will attempt to sort its list by moving items that contain matching strings in its target to the bottom")
+                .comment("This should make more important buildings appear first and less important buildings appear last")
+                .comment("Separate entries by comma. Entries should not include spaces.")
+                .define("Sort Constructions Panel", "wall,tower");
+
+        BUILDER.pop();
 
         BUILDER.push("Malum");
 
@@ -118,7 +128,7 @@ public class CleConfig {
                 .comment("Set to -1 for no loss")
                 .defineInRange("Spirit Reap Reputation Loss", 4, -1, 8192);
 
-        builder.pop();
+        BUILDER.pop();
 
         BUILDER.push("Ars Nouveau");
 
@@ -150,10 +160,32 @@ public class CleConfig {
                         "ars_nouveau:glyph_summon_wolves,-9",
                         "ars_nouveau:glyph_wind_burst,-4",
                         "ars_nouveau:glyph_wind_shear,-4",
-                        "ars_nouveau:glyph_wither,-7"
+                        "ars_nouveau:glyph_wither,-7",
+
+
+                        "ars_elemental:glyph_cauterize,-4",
+                        "ars_elemental:glyph_cavitate,-4",
+                        "ars_elemental:glyph_charm,9",
+                        "ars_elemental:glyph_conflagrate,-8",
+                        "ars_elemental:glyph_geyser,-6",
+                        "ars_elemental:glyph_discharge,-5",
+                        "ars_elemental:glyph_mist,-2",
+                        "ars_elemental:glyph_nullify_defense,-4",
+                        "ars_elemental:glyph_oxidize,-5",
+                        "ars_elemental:glyph_phantom_grasp,-3",
+                        "ars_elemental:glyph_phantom_grasp,-3",
+                        "ars_elemental:glyph_poison_spores,-4",
+                        "ars_elemental:glyph_rage,-9",
+                        "ars_elemental:glyph_slip_feet,-3",
+                        "ars_elemental:glyph_spark,-4",
+                        "ars_elemental:glyph_spike,-6",
+                        "ars_elemental:glyph_summon_bee,-9",
+                        "ars_elemental:glyph_summon_slime,-9",
+                        "ars_elemental:glyph_water_jet,-5",
+                        "ars_elemental:glyph_watery_grave,-7"
                 ));
 
-        builder.pop();
+        BUILDER.pop();
 
     }
 

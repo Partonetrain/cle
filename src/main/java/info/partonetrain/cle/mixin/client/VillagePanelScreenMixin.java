@@ -2,9 +2,7 @@ package info.partonetrain.cle.mixin.client;
 
 import info.partonetrain.cle.CleConfig;
 import info.partonetrain.cle.ParsedConfigs;
-import net.minecraft.network.chat.Component;
 import org.millenaire.client.gui.VillagePanelScreen;
-import org.millenaire.network.PanelContentPayload;
 import org.millenaire.village.panel.PanelContent;
 import org.millenaire.village.panel.PanelLine;
 import org.millenaire.village.panel.PanelType;
@@ -15,7 +13,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;

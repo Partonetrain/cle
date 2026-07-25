@@ -1,8 +1,7 @@
 ## Clé
-(*"Clé" is French for "wrench"*. I don't speak French, but I thought it would make for a good name)
 
-This mod tweaks Millenaire, provides some customization and balance options, and enhances compatibility.
-Note: This mod refers to Millenaire villages and its villagers as "millages" and "millagers" respectively to distinguish them from vanilla villagers.
+This mod tweaks Millénaire 9, provides some customization and balance options, and enhances compatibility.
+Note: This mod (as well as the general Millénaire community) refers to Millénaire villages and its villagers as "millages" and "millagers" respectively to distinguish them from vanilla villagers.
 
 Clé's options are as follows:
 
@@ -21,6 +20,10 @@ Clé's options are as follows:
 | Sort Constructions Panel    | Moves less important constructions to the end of the construction panel in town halls                     | wall,tower    |
 | Reputation Cap per Day      | Caps the amount of reputation a player can gain per village per Minecraft day                             | -1 (disabled) |
 
+Integrations: 
+ - Malum: Spirit reaping near millagers creeps them out and reduces your reputation
+ - Ars Nouveau, Ars Elemental: Using positive spells on millagers improves reputation, negative spells reduce it
+
 ## Useful Tags
 ### Mob AI related
 - `cle:millagers_try_hunting` : Entities in this tag WILL be hunted by Millagers, even if their original logic said they should not
@@ -31,3 +34,6 @@ Clé's options are as follows:
 These are useful if you have especially powerful mobs walking around the Overworld, like from Grimoire of Gaia.
 - `cle:millagers_deal_modified_damage_to` : Millagers deal extra/less (determined by config) damage to entities in this tag.
 - `cle:millagers_take_modified_damage_from` : Entities in this tag take extra/less (determined by config) damage from millagers
+
+
+Fun fact: *"Clé" is French for "wrench"*. (I don't speak French, but I thought it would make for a good name)

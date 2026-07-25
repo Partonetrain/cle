@@ -129,7 +129,8 @@ configurations {
 
 dependencies {
     implementation "net.neoforged:testframework:${neo_version}" //required for millenaire
-    implementation files("./libs/millenaire-9.0.0-beta.1.jar")
+    implementation files("./libs/millenaire-9.0.0-beta.2.jar")
+
     implementation 'maven.modrinth:malum:1.8.2'
     implementation 'maven.modrinth:curios:9.5.1+1.21.1'
     implementation 'maven.modrinth:lodestonelib:1.8.2'
@@ -149,6 +150,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_name               : mod_name,
             mod_license            : mod_license,
             mod_version            : mod_version,
+            millenaire_version_range            : millenaire_version_range,
     ]
     inputs.properties replaceProperties
     expand replaceProperties

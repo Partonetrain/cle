@@ -46,7 +46,7 @@ authors="Partonetrain"
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Tweaks for Millenaire
+Tweaks and integrations for Millenaire 9
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
@@ -87,6 +87,13 @@ config="${mod_id}.mixins.json"
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="millenaire"
+type="required"
+versionRange="${millenaire_version_range}"
+ordering="AFTER"
+side="BOTH"
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't

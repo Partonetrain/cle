@@ -11,7 +11,7 @@ public class CleConfig {
     //general
     public static ModConfigSpec.BooleanValue PREVENT_HOPPER_INTERACTIONS;
     public static ModConfigSpec.BooleanValue USE_FOOD_COMPONENTS;
-    public static ModConfigSpec.BooleanValue YOGURT_GIVES_BOWL;
+    public static ModConfigSpec.BooleanValue FOOD_GIVES_BOWL;
     public static ModConfigSpec.BooleanValue DRINK_GIVES_BOTTLE;
     public static ModConfigSpec.BooleanValue ALTERNATIVE_INUIT_TRIDENT;
     public static ModConfigSpec.BooleanValue ALTERNATIVE_MACES;
@@ -55,9 +55,9 @@ public class CleConfig {
                 .comment("However, other mods that utilize this component probably will not correctly account for the food's durability")
                 .define("Use Food Components", true);
 
-        YOGURT_GIVES_BOWL = BUILDER
-                .comment("If true, Yogurt will give the player a bowl after it is eaten (only in survival)")
-                .define("Yogurt Gives Bowl", true);
+        FOOD_GIVES_BOWL = BUILDER
+                .comment("If true, Yogurt and Curry will give the player a bowl after it is eaten (only in survival)")
+                .define("Food Gives Bowl", true);
 
         DRINK_GIVES_BOTTLE = BUILDER
                 .comment("If true, all drinks will give the player a glass bottle after it is drunk (only in survival)")

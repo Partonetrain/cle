@@ -5,20 +5,21 @@ Note: This mod (as well as the general Millénaire community) refers to Milléna
 
 Clé's options are as follows:
 
-| Name                        | Function                                                                                                  | Default       |
-|-----------------------------|-----------------------------------------------------------------------------------------------------------|---------------|
-| Prevent Hopper Interactions | Prevents hopper interactions with Millenaire's Locked Chests.                                             | false         |
-| Use Food Components         | Adds vanilla foods components to Millenaire's foods, enhancing compatibility                              | true          |
-| Yogurt Gives Bowl           | Yogurt will give you a bowl after it's consumed                                                           | false         |
-| Drink Gives Bottle          | All drinks will give the player a glass bottle after being consumed                                       | true          |
-| Alternative Inuit Trident   | Automatically converts Millenaire Inuit Tridents to Clé's alternatives which behave like vanilla tridents | true          |
-| Alternative Maces           | Automatically converts Millenaire Inuit Tridents to Clé's alternatives which behave like vanilla tridents | true          |
-| Compost Datapack            | Adds a datapack that adds composter values to various Millenaire items                                    | true          |
-| Modified Damage             | Tagged mobs will take more and deal less damage to/from millagers                                         | x2 and /2     |
-| Hunts Millagers             | Tagged mobs will take hunt millagers                                                                      | true          |
-| Despawns in Millage         | Tagged mobs will take despawn in millages like how creepers do                                            | true          |
-| Sort Constructions Panel    | Moves less important constructions to the end of the construction panel in town halls                     | wall,tower    |
-| Reputation Cap per Day      | Caps the amount of reputation a player can gain per village per Minecraft day                             | -1 (disabled) |
+| Name                        | Function                                                                                                          | Default       |
+|-----------------------------|-------------------------------------------------------------------------------------------------------------------|---------------|
+| Prevent Hopper Interactions | Prevents hopper interactions with Millenaire's Locked Chests.                                                     | false         |
+| Use Food Components         | Adds vanilla foods components to Millenaire's foods, enhancing compatibility                                      | true          |
+| Food Gives Bowl             | Yogurt and Curry will give you a bowl after being consumed                                                        | false         |
+| Drink Gives Bottle          | All drinks will give the player a glass bottle after being consumed                                               | true          |
+| Alternative Inuit Trident   | Automatically converts Millenaire Inuit Tridents to Clé's alternatives which behave like vanilla tridents         | true          |
+| Alternative Maces           | Automatically converts Millenaire Byzantine and Mayan maces to Clé's alternatives which behave like vanilla maces | true          |
+| Compost Datapack            | Adds a datapack that adds composter values to various Millenaire items                                            | true          |
+| Modified Damage             | Tagged mobs will take more and deal less damage to/from millagers                                                 | x2 and /2     |
+| Hunts Millagers             | Tagged mobs will hunt millagers                                                                                   | true          |
+| Despawns in Millage         | Tagged mobs will despawn in millages like how creepers do                                                         | true          |
+| Sort Constructions Panel    | Moves less important constructions to the end of the construction panel in town halls                             | wall,tower    |
+| Reputation Cap per Day      | Caps the amount of reputation a player can gain per village per Minecraft day                                     | -1 (disabled) |
+| Max Distance                | Max distance from center a millage can spawn. Similar to Millenaire's spawnProtectionRadius option.               | 0 (disabled)  |
 
 Integrations: 
  - Malum: Spirit reaping near millagers creeps them out and reduces your reputation

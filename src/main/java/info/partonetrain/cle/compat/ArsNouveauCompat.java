@@ -81,11 +81,13 @@ public class ArsNouveauCompat {
             CleUtils.printAdjustedReputation(oldRep, change, newRep, "repChangeFromSpell");
         }
 
-        if(change > 0){
-            CleUtils.addParticlesAroundEntity(ParticleTypes.HAPPY_VILLAGER, millVillager, (ServerLevel) millVillager.level());
-        }
-        else{
-            CleUtils.addParticlesAroundEntity(ParticleTypes.ANGRY_VILLAGER, millVillager, (ServerLevel) millVillager.level());
+        if (change != 0) {
+            if(change > 0){
+                CleUtils.addParticlesAroundEntity(ParticleTypes.HAPPY_VILLAGER, millVillager, (ServerLevel) millVillager.level());
+            }
+            else{
+                CleUtils.addParticlesAroundEntity(ParticleTypes.ANGRY_VILLAGER, millVillager, (ServerLevel) millVillager.level());
+            }
         }
     }
 }

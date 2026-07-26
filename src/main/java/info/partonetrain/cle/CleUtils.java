@@ -24,7 +24,7 @@ public class CleUtils {
     public static Map<UUID, Integer> playerRepNotifCooldowns = new HashMap<>();
     public static final int REP_COOLDOWN = 500;
 
-    public static void tickCooldowns(){
+    public static void tickRepNotifCooldowns(){
         if(playerRepNotifCooldowns.isEmpty()){
             return;
         }

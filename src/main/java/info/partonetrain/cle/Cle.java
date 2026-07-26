@@ -174,7 +174,9 @@ public class Cle {
 
     @SubscribeEvent
     public void onServerTick(ServerTickEvent.Pre event) {
-        CleUtils.tickCooldowns();
+        if(CleConfig.REPUTATIION_CAP_PER_DAY.getAsInt() != -1){
+            CleUtils.tickRepNotifCooldowns();
+        }
     }
 
     int cooldown = 200; //tiny optimization

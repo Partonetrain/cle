@@ -40,13 +40,17 @@ public class MillFoodItemMixin extends Item {
                 player.addItem(Items.GLASS_BOTTLE.getDefaultInstance());
             }
         }
+        if(self == ModItems.CHICKENCURRY.get() || self == ModItems.VEGCURRY.get()){
+            Player player = (Player)entity;
+            player.addItem(Items.BOWL.getDefaultInstance());
+        }
     }
 
     @Inject(method = "finishUsingItem", at= @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V", ordinal = 1))
     public void cle$finishUsingItem_Yogurt(ItemStack stack, Level level, LivingEntity entity, CallbackInfoReturnable<ItemStack> cir){
         MillFoodItem self = (MillFoodItem) (Object) this;
         if(CleConfig.FOOD_GIVES_BOWL.getAsBoolean()){
-            if(self == ModItems.YOGURT.value() || self == ModItems.CHICKENCURRY.get() || self == ModItems.VEGCURRY.get()){
+            if(self == ModItems.YOGURT.value()){
                 Player player = (Player)entity;
                 player.addItem(Items.BOWL.getDefaultInstance());
             }

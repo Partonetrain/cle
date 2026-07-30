@@ -24,10 +24,12 @@ public class TravelBookItemMixin {
     @Inject(method = "use", at=@At("HEAD"), cancellable = true)
     public void cle$use(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
         if(CleConfig.TRAVEL_BOOK_INFO_PANEL.getAsBoolean()) {
-            if (level.isClientSide()) {
-                PacketDistributor.sendToServer(new InfoPanelRequestPayload(), new CustomPacketPayload[0]);
+            if(!player.isShiftKeyDown()) {
+                if (level.isClientSide()) {
+                    PacketDistributor.sendToServer(new InfoPanelRequestPayload(), new CustomPacketPayload[0]);
+                }
+                cir.setReturnValue(InteractionResultHolder.success(player.getItemInHand(hand)));
             }
-            cir.setReturnValue(InteractionResultHolder.success(player.getItemInHand(hand)));
         }
     }
 }

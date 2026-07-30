@@ -32,6 +32,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforgespi.locating.IModFile;
 import org.millenaire.entity.MillVillager;
@@ -181,8 +182,8 @@ public class Cle {
 
     int cooldown = 200; //tiny optimization
     @SubscribeEvent
-    public void onEntityTick(EntityTickEvent.Pre event) {
-        if(cooldown != 0){
+    public void onEntityTick(EntityTickEvent.Post event) {
+        if(cooldown == 0){
             cooldown = 200;
         }
         else{
@@ -196,28 +197,6 @@ public class Cle {
 
         if (event.getEntity().level().isClientSide()) {
             return;
-        }
-
-        if(event.getEntity() instanceof Player player && !player.getAbilities().instabuild){
-            for (ItemStack stack : player.getInventory().items) {
-                if (!stack.isEmpty()) {
-                    if(CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() && stack.is(ModItems.INUIT_TRIDENT)){
-                        stack = stack.transmuteCopy(ALTERNATIVE_INUIT_TRIDENT);
-                        Cle.LOGGER.info("Converted Inuit Trident");
-                    }
-
-                    if(CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
-                        if(stack.is(ModItems.MAYAN_MACE)){
-                            stack = stack.transmuteCopy(ALTERNATIVE_MAYAN_MACE);
-                            Cle.LOGGER.info("Converted Mayan Mace");
-                        }
-                        else if(stack.is(ModItems.BYZANTINE_MACE)){
-                            stack = stack.transmuteCopy(ALTERNATIVE_BYZANTINE_MACE);
-                            Cle.LOGGER.info("Converted Byzantine Mace");
-                        }
-                    }
-                }
-            }
         }
 
         if(CleConfig.CONVERT_ALTERNATIVE_MILLAGERS.getAsBoolean() && event.getEntity() instanceof MillVillager millager){
@@ -247,7 +226,46 @@ public class Cle {
                 via.cle$items().put(entry.getKey().asItem(), entry.getValue());
             }
         }
+    }
 
+    @SubscribeEvent
+    public void onPlayerTick(PlayerTickEvent.Post event){
+        if(!CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() || !CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
+            return;
+        }
+        if (event.getEntity().level().isClientSide()) {
+            return;
+        }
+
+        Player player = event.getEntity();
+
+        if(!player.getAbilities().instabuild){
+            for (ItemStack stack : player.getInventory().items) {
+                if (!stack.isEmpty()) {
+                    ItemStack newStack = ItemStack.EMPTY;
+                    if(CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() && stack.is(ModItems.INUIT_TRIDENT)){
+                        newStack = stack.transmuteCopy(ALTERNATIVE_INUIT_TRIDENT);
+                        Cle.LOGGER.info("Converted Inuit Trident");
+                    }
+                    else if(CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
+                        if(stack.is(ModItems.MAYAN_MACE)){
+                            newStack = stack.transmuteCopy(ALTERNATIVE_MAYAN_MACE);
+                            Cle.LOGGER.info("Converted Mayan Mace");
+                        }
+                        else if(stack.is(ModItems.BYZANTINE_MACE)){
+                            newStack = stack.transmuteCopy(ALTERNATIVE_BYZANTINE_MACE);
+                            Cle.LOGGER.info("Converted Byzantine Mace");
+                        }
+                    }
+                    if(!newStack.isEmpty()){
+                        stack.setCount(0);
+                        player.addItem(newStack);
+                    }
+
+                }
+
+            }
+        }
     }
 
     @SubscribeEvent

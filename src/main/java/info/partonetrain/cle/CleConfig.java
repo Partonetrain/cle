@@ -113,7 +113,7 @@ public class CleConfig {
                 .defineInRange("Max Radius", 0, 0, 12_550_821);
 
         TRAVEL_BOOK_INFO_PANEL = BUILDER.comment("If true, Millenaire's Travel Book will open the Millenaire Info Panel instead of the Travel Book screen")
-                .comment("(The Travel Book can still be opened from the Info Panel)")
+                .comment("(While this is enabled the Travel Book can still be opened from the Info Panel, or by shift-right-clicking with the book)")
                 .define("Travel Book Info Panel", false);
 
         BUILDER.pop();

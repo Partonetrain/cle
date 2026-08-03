@@ -4,6 +4,7 @@
   "plugin": "info.partonetrain.cle.CleMixinPlugin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "BlockGrapeVineMixin",
     "HopperBlockEntityMixin",
     "HuntMonsterGoalMixin",
     "MillFoodItemMixin",

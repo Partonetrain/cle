@@ -29,6 +29,9 @@ public class CleMixinPlugin implements IMixinConfigPlugin {
         if (mixinClassName.contains("integration/wayward_attributes")) {
             return LoadingModList.get().getModFileById("wayward_attributes") != null;
         }
+        if (mixinClassName.contains("integration/quark")) {
+            return LoadingModList.get().getModFileById("quark") != null;
+        }
 
         return true;
     }

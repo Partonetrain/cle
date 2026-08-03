@@ -24,6 +24,7 @@ public class CleConfig {
     public static ModConfigSpec.BooleanValue DESPAWNS_IN_MILLAGE;
     public static ModConfigSpec.IntValue MAX_DISTANCE;
     public static ModConfigSpec.BooleanValue TRAVEL_BOOK_INFO_PANEL;
+    public static ModConfigSpec.BooleanValue GRAPE_VINE_HARVEST;
     //client
     public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
     public static ModConfigSpec.BooleanValue PREVENT_KEYBINDS;
@@ -31,6 +32,8 @@ public class CleConfig {
     public static ModConfigSpec.IntValue SPIRIT_REAP_REPUTATION_LOSS;
     //ars
     public static ModConfigSpec.ConfigValue<List<String>>  SPELL_EFFECT_REPUTATIONS;
+    //quark
+    public static ModConfigSpec.BooleanValue SIMPLE_HARVEST_NON_PLAYERS;
 
     static {
         BUILDER = new ModConfigSpec.Builder();
@@ -116,6 +119,10 @@ public class CleConfig {
                 .comment("(While this is enabled the Travel Book can still be opened from the Info Panel, or by shift-right-clicking with the book)")
                 .define("Travel Book Info Panel", false);
 
+        GRAPE_VINE_HARVEST = BUILDER.comment("If true, Grape Vines will be right-clickable like Sweet Berry Bushes if the player has learned how to plant grapes")
+                .comment("(It seems unintentional that it isn't like this by default: Grape Vine block extends BushBlock, but it doesn't override useWithoutItem)")
+                .define("Grape Vine Right Click", true);
+
         BUILDER.pop();
 
         BUILDER.push("Client");
@@ -195,6 +202,13 @@ public class CleConfig {
                 ));
 
         BUILDER.pop();
+
+        BUILDER.push("Quark");
+
+        SIMPLE_HARVEST_NON_PLAYERS = BUILDER.comment("Cle makes Quark's Simple Harvest feature always check if players have the requisite knowledge of a Millenaire crop before letting them harvest")
+                .comment("However, non-players (i.e., fake players and other automated right-click blocks) are in theory still capable of triggering this check, which would always fail.")
+                .comment("Setting this to true allows non players to simple harvest")
+                .define("Simple Harvest Non Players", false);
 
     }
 

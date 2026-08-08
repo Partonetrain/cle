@@ -140,6 +140,8 @@ dependencies {
 
     implementation 'maven.modrinth:zeta:1.1-40'
     implementation 'maven.modrinth:quark:4.1-482'
+
+    implementation 'maven.modrinth:jei:feYG503c'
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

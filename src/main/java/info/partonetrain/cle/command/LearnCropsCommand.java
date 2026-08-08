@@ -10,7 +10,7 @@ import org.millenaire.village.PlayerCultureReputation;
 
 public class LearnCropsCommand {
 
-    final String[] CROPS = { "cotton", "maize", "rice", "turmeric", "grapes", "sapling_pistachio", "sapling_olivetree", "sapling_pistachio" };
+    public final String[] CROPS = { "cotton", "maize", "rice", "turmeric", "grapes", "sapling_appletree", "sapling_olivetree", "sapling_pistachio" };
 
     @SubscribeEvent
     public void onRegisterCommands(RegisterCommandsEvent event) {
@@ -24,11 +24,15 @@ public class LearnCropsCommand {
 
                                         PlayerCultureReputation cultureRep = PlayerCultureReputation.get((ServerLevel) sp.level());
                                         for(String s : CROPS){
-                                            cultureRep.learnCrop(sp.getUUID(), s);
-                                            context.getSource().sendSystemMessage(Component.literal("learned " + "\"" + s + "\""));
+                                            if(cultureRep.hasLearnedCrop(sp.getUUID(), s)){
+                                                context.getSource().sendSystemMessage(Component.literal("I already know crop " + "\"" + s + "\""));
+                                            }
+                                            else{
+                                                cultureRep.learnCrop(sp.getUUID(), s);
+                                                context.getSource().sendSystemMessage(Component.literal("learned " + "\"" + s + "\""));
+                                            }
+
                                         }
-
-
 
                                         return 1;
                                     }
@@ -39,8 +43,5 @@ public class LearnCropsCommand {
 
                                 }
                         )));
-
     }
-
-    //CleUtils.resetReputation(village, player);
 }

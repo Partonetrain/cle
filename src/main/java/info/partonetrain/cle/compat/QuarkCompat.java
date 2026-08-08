@@ -5,14 +5,11 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.common.util.FakePlayer;
 import org.millenaire.block.ModBlocks;
 import org.millenaire.village.PlayerCultureReputation;
 import org.violetmoon.quark.api.event.SimpleHarvestEvent;
-import org.violetmoon.quark.content.tweaks.module.SimpleHarvestModule;
 
 public class QuarkCompat {
 
@@ -34,6 +31,8 @@ public class QuarkCompat {
         }
     }
 
+    //put this in your quark "Harvestable Blocks" config:
+    //"millenaire:rice_paddy[planted=true,age=7,waterlogged=false],millenaire:rice_paddy[planted=true,age=0,waterlogged=false]", "millenaire:rice_paddy[planted=true,age=7,waterlogged=true],millenaire:rice_paddy[planted=true,age=0,waterlogged=true]"
     public static boolean canPlayerSimpleHarvest(ServerPlayer serverPlayer, BlockState state){
         PlayerCultureReputation cultureRep = PlayerCultureReputation.get((ServerLevel) serverPlayer.level());
         String cropKey = "";
@@ -44,7 +43,7 @@ public class QuarkCompat {
         else if (state.is(ModBlocks.CROP_MAIZE.get())){
             cropKey = "maize";
         }
-        else if (state.is(ModBlocks.CROP_RICE.get())){
+        else if (state.is(ModBlocks.CROP_RICE.get()) || state.is(ModBlocks.RICE_PADDY.get())){
             cropKey = "rice";
         }
         else if (state.is(ModBlocks.CROP_TURMERIC.get())){
@@ -52,6 +51,16 @@ public class QuarkCompat {
         }
         else if (state.is(ModBlocks.CROP_VINE.get())){
             cropKey = "grapes";
+        }
+        else{ //those are all the crops in vanilla millenaire.
+
+            if(state.getBlock().getDescriptionId().equals("block.nonspecificmillenaireaddon.crop")){ //for explicit compat to be added later
+                cropKey = "crop";
+            }
+            else{
+                return false; //millenaire addons that aren't covered by above: inject here :)
+            }
+
         }
 
         return cultureRep.hasLearnedCrop(serverPlayer.getUUID(), cropKey);

@@ -219,9 +219,10 @@ public class CleConfig {
 
         JEI_ENABLED = BUILDER.define("JEI integration enabled", true);
 
+        BUILDER.pop();
          */
 
-        BUILDER.pop();
+
 
     }
 

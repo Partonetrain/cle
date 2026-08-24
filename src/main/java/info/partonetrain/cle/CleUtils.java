@@ -13,9 +13,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.fml.loading.FMLEnvironment;
+import org.millenaire.ReputationConstants;
+import org.millenaire.culture.ModCultures;
+import org.millenaire.culture.VillagerType;
 import org.millenaire.entity.MillVillager;
+import org.millenaire.entity.VillagerCombat;
 import org.millenaire.village.PlayerCultureReputation;
 import org.millenaire.village.Village;
+import org.millenaire.village.VillageReputation;
 
 import java.util.*;
 
@@ -47,30 +52,34 @@ public class CleUtils {
         }
 
         for(MillVillager millager : nearbyMillagers){
-            Village village = Village.resolve(serverLevel, millager.getVillageId());
-            if(village != null){
-                int oldRep = village.getReputation().get(player.getUUID());
-                int newRep = village.adjustReputation(serverLevel, player.getUUID(), amount);
-                printAdjustedReputation(oldRep, amount, newRep, "changeNearbyPlayerReputationFromPlayer");
+            if(isMillagerHostileTowards(millager, player)){
+                //NO-OP
+            }
+            else{
+                Village village = Village.resolve(serverLevel, millager.getVillageId());
+                if(village != null) {
+                    int oldRep = village.getReputation().get(player.getUUID());
+                    int newRep = village.adjustReputation(serverLevel, player.getUUID(), amount);
+                    printAdjustedReputation(oldRep, amount, newRep, "changeNearbyPlayerReputationFromPlayer");
 
-                if(langKeysWithPlaceholders.get("cle.malum.millager_afraid_spirit_harvest.2") != null || langKeysWithPlaceholders.get("cle.malum.millager_afraid_spirit_harvest.2.proper") != null){
-                    langKeysWithPlaceholders.put("cle.malum.millager_afraid_spirit_harvest.3", millager.getFirstName() + " " + millager.getFamilyName());
-                }
-
-                MutableComponent actionBarMessage = Component.empty();
-                for(String key : langKeysWithPlaceholders.keySet()){
-                    String placeholder = langKeysWithPlaceholders.get(key);
-                    if(placeholder != null){
-                        actionBarMessage.append(Component.translatable(key, placeholder));
+                    if (langKeysWithPlaceholders.get("cle.malum.millager_afraid_spirit_harvest.2") != null || langKeysWithPlaceholders.get("cle.malum.millager_afraid_spirit_harvest.2.proper") != null) {
+                        langKeysWithPlaceholders.put("cle.malum.millager_afraid_spirit_harvest.3", millager.getFirstName() + " " + millager.getFamilyName());
                     }
-                    else{
-                        actionBarMessage.append(Component.translatable(key));
-                    }
-                }
 
-                player.displayClientMessage(actionBarMessage, true);
-                addParticlesAroundEntity(ParticleTypes.ANGRY_VILLAGER, millager, (ServerLevel) millager.level());
-                return true;
+                    MutableComponent actionBarMessage = Component.empty();
+                    for (String key : langKeysWithPlaceholders.keySet()) {
+                        String placeholder = langKeysWithPlaceholders.get(key);
+                        if (placeholder != null) {
+                            actionBarMessage.append(Component.translatable(key, placeholder));
+                        } else {
+                            actionBarMessage.append(Component.translatable(key));
+                        }
+                    }
+
+                    player.displayClientMessage(actionBarMessage, true);
+                    addParticlesAroundEntity(ParticleTypes.ANGRY_VILLAGER, millager, (ServerLevel) millager.level());
+                    return true;
+                }
             }
         }
 
@@ -78,8 +87,10 @@ public class CleUtils {
     }
 
 
-    //returns false if no player was found or villager did not belong to a village.
+    //returns false if no player was found, villager was hostile, or villager did not belong to a village.
     public static boolean changeNearbyPlayerReputationFromMillager(MillVillager villager, ServerLevel serverLevel, int amount, LinkedHashMap<String, String> langKeysWithPlaceholders){
+        if(isMillagerAlwaysHostile(villager)) return false;
+
         List<ServerPlayer> nearbyPlayers = serverLevel.getEntitiesOfClass(ServerPlayer.class, villager.getHitbox().inflate(5));
 
         if(nearbyPlayers.isEmpty()){
@@ -87,16 +98,21 @@ public class CleUtils {
         }
 
         for(ServerPlayer player : nearbyPlayers){
-            Village village = Village.resolve(serverLevel, villager.getVillageId());
-            if(village != null){
-                int oldRep = village.getReputation().get(player.getUUID());
-                int newRep = village.adjustReputation(serverLevel, player.getUUID(), amount);
-                printAdjustedReputation(oldRep, amount, newRep, "changeNearbyPlayerReputationFromMillager");
+            if(isMillagerHostileTowards(villager, player)){
+                //NO-OP
+            }
+            else {
+                Village village = Village.resolve(serverLevel, villager.getVillageId());
+                if (village != null) {
+                    int oldRep = village.getReputation().get(player.getUUID());
+                    int newRep = village.adjustReputation(serverLevel, player.getUUID(), amount);
+                    printAdjustedReputation(oldRep, amount, newRep, "changeNearbyPlayerReputationFromMillager");
 
-                MutableComponent actionBarMessage = constructActionBarMessage(langKeysWithPlaceholders);
-                player.displayClientMessage(actionBarMessage, true);
-                return true;
-                //for FleeBlockGoal the particles come from there
+                    MutableComponent actionBarMessage = constructActionBarMessage(langKeysWithPlaceholders);
+                    player.displayClientMessage(actionBarMessage, true);
+                    return true;
+                    //for FleeBlockGoal the particles come from there
+                }
             }
         }
         return false;
@@ -158,6 +174,31 @@ public class CleUtils {
             Minecraft.getInstance().player.displayClientMessage(Component.literal(print), false);
         }
         Cle.LOGGER.info(print);
+    }
+
+    public static boolean isMillagerAlwaysHostile(MillVillager millager){
+        VillagerType vType = ModCultures.getVillagerType(millager.getVillagerTypeId());
+        return (vType != null && vType.isHostile()) || millager.isRaiderEntity();
+    }
+
+    public static boolean isMillagerHostileTowards(MillVillager millager, ServerPlayer serverPlayer){
+        if(isMillagerAlwaysHostile(millager)){
+            return true;
+        }
+        else{
+            Village village = Village.resolve(serverPlayer.serverLevel(), millager.getVillageId());
+            if(village == null){
+                return false;
+            }
+            VillageReputation vRep = village.getReputation();
+            if(vRep != null){
+                int rep = vRep.get(serverPlayer.getUUID());
+                if(rep <= ReputationConstants.BOYCOTT_THRESHOLD){ //TODO this is just when they stop trading. figure out when they actually attack you
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

@@ -15,7 +15,7 @@ public class CleConfig {
     public static ModConfigSpec.BooleanValue DRINK_GIVES_BOTTLE;
     public static ModConfigSpec.BooleanValue ALTERNATIVE_INUIT_TRIDENT;
     public static ModConfigSpec.BooleanValue ALTERNATIVE_MACES;
-    public static ModConfigSpec.BooleanValue CONVERT_ALTERNATIVE_MILLAGERS;
+    public static ModConfigSpec.BooleanValue MILLAGERS_CONVERT_TO_ALTERNATIVES;
     public static ModConfigSpec.BooleanValue COMPOST_DATAPACK;
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_DEALT;
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_RECEIVED;
@@ -25,6 +25,7 @@ public class CleConfig {
     public static ModConfigSpec.IntValue MAX_DISTANCE;
     public static ModConfigSpec.BooleanValue TRAVEL_BOOK_INFO_PANEL;
     public static ModConfigSpec.BooleanValue GRAPE_VINE_HARVEST;
+    //public static ModConfigSpec.BooleanValue SHIELD_FIX;
     //client
     public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
     public static ModConfigSpec.BooleanValue PREVENT_KEYBINDS;
@@ -35,7 +36,7 @@ public class CleConfig {
     //quark
     public static ModConfigSpec.BooleanValue SIMPLE_HARVEST_NON_PLAYERS;
     //jei
-    public static ModConfigSpec.BooleanValue JEI_ENABLED;
+    //public static ModConfigSpec.BooleanValue JEI_ENABLED;
 
     static {
         BUILDER = new ModConfigSpec.Builder();
@@ -78,10 +79,10 @@ public class CleConfig {
                 .comment("WARNING: this auto-replaces millenaire:mayan_mace and millenaire:byzantine_mace in player inventories with the Cle versions")
                 .define("Alternative Maces", true);
 
-        CONVERT_ALTERNATIVE_MILLAGERS = BUILDER
-                .comment("If true, any alternative items that are enabled will also be converted in Millager inventories")
-                .comment("This doesn't have much of an effect in practice, only increasing damage for relevant millagers")
-                .define("Convert Alternative Items on Millagers", true);
+        MILLAGERS_CONVERT_TO_ALTERNATIVES = BUILDER
+                .comment("If true, any alternative items that are enabled above will also be converted in Millager inventories")
+                .comment("NOTE: THIS IS CURRENTLY BROKEN (millagers cannot use them) DUE TO tool_categories.json NOT BEING DEPLOYED")
+                .define("Millagers Convert to Alternative Items", false);
 
         COMPOST_DATAPACK = BUILDER
                 .comment("If true, enables a datapack containing composter values for Millenaire crops and related blocks will be enabled")
@@ -125,6 +126,12 @@ public class CleConfig {
                 .comment("(It seems unintentional that it isn't like this by default: Grape Vine block extends BushBlock, but it doesn't override useWithoutItem)")
                 .define("Grape Vine Right Click", true);
 
+        /*
+        SHIELD_FIX = BUILDER.comment("If true, players won't attempt to interact with millagers who have a hostile villager type if they have a shield (item tagged with #c:tools/shield) in either hand")
+                        .define("Shield Fix", true);
+
+         */
+
         BUILDER.pop();
 
         BUILDER.push("Client");
@@ -143,7 +150,7 @@ public class CleConfig {
         BUILDER.push("Malum");
 
         SPIRIT_REAP_REPUTATION_LOSS = BUILDER
-                .comment("The amount of reputation lost for reaping Spirits nearby a millager")
+                .comment("The amount of reputation lost for reaping Spirits nearby a non-hostile millager")
                 .comment("Set to -1 for no loss")
                 .defineInRange("Spirit Reap Reputation Loss", 4, -1, 8192);
 
@@ -152,7 +159,7 @@ public class CleConfig {
         BUILDER.push("Ars Nouveau");
 
         SPELL_EFFECT_REPUTATIONS = BUILDER
-                .comment("A map of spell effects to integers, that when resolved on a millager, will affect reputation with their village")
+                .comment("A map of spell effects to integers, that when resolved on a non-hostile millager, will affect reputation with their village")
                 .comment("The number of amplifies in the spell recipe will multiply the value provided")
                 .define("Spell Effect Reputations", List.of(
                         "ars_nouveau:glyph_bubble,-4",
@@ -221,8 +228,6 @@ public class CleConfig {
 
         BUILDER.pop();
          */
-
-
 
     }
 

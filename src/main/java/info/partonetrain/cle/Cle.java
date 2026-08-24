@@ -9,9 +9,9 @@ import info.partonetrain.cle.compat.QuarkCompat;
 import info.partonetrain.cle.entity.ThrownInuitTridentEntity;
 import info.partonetrain.cle.entity.goal.FleeBlockGoal;
 import info.partonetrain.cle.item.AlternativeInuitTrident;
-import info.partonetrain.cle.mixin.VillagerInventoryAccessor;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackSelectionConfig;
 import net.minecraft.server.packs.PackType;
@@ -37,8 +37,8 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforgespi.locating.IModFile;
-import org.millenaire.block.ModBlocks;
 import org.millenaire.entity.MillVillager;
+import org.millenaire.entity.VillagerInventory;
 import org.millenaire.item.ModCreativeTabs;
 import org.millenaire.item.ModItems;
 import org.slf4j.Logger;
@@ -190,6 +190,13 @@ public class Cle {
     int cooldown = 200; //tiny optimization
     @SubscribeEvent
     public void onEntityTick(EntityTickEvent.Post event) {
+        if (event.getEntity().level().isClientSide()) {
+            return;
+        }
+        if(!CleConfig.MILLAGERS_CONVERT_TO_ALTERNATIVES.getAsBoolean() || !CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() || !CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
+            return;
+        }
+
         if(cooldown == 0){
             cooldown = 200;
         }
@@ -198,45 +205,31 @@ public class Cle {
             return;
         }
 
-        if(!CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() || !CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
-            return;
-        }
-
-        if (event.getEntity().level().isClientSide()) {
-            return;
-        }
-
-        if(CleConfig.CONVERT_ALTERNATIVE_MILLAGERS.getAsBoolean() && event.getEntity() instanceof MillVillager millager){
-            VillagerInventoryAccessor via = (VillagerInventoryAccessor) millager.getInventory();
+        if(CleConfig.MILLAGERS_CONVERT_TO_ALTERNATIVES.getAsBoolean() && event.getEntity().level() instanceof ServerLevel && event.getEntity() instanceof MillVillager millager){
+            VillagerInventory inv = millager.getInventory();
             String name = millager.getFirstName() + " " + millager.getFamilyName();
 
             Map<Item, Integer> convert = new HashMap<>();
-            for (Map.Entry<Item, Integer> entry : via.cle$items().entrySet()) {
-                if(CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() && entry.getKey() == ModItems.INUIT_TRIDENT.asItem()){
-                    convert.put(ModItems.INUIT_TRIDENT.asItem(), entry.getValue());
+                if(CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() && inv.remove(ModItems.INUIT_TRIDENT.get(), 1) > 0){
+                    inv.add(Cle.ALTERNATIVE_INUIT_TRIDENT.get(), 1);
                     Cle.LOGGER.info("Converted Inuit Trident on Millager " + name);
                 }
 
                 if(CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
-                    if(entry.getKey() == ModItems.MAYAN_MACE.asItem()){
-                        convert.put(ModItems.MAYAN_MACE.asItem(), entry.getValue());
+                    if(inv.remove(ModItems.MAYAN_MACE.get(), 1) > 0){
+                        inv.add(Cle.ALTERNATIVE_MAYAN_MACE.get(), 1);
                         Cle.LOGGER.info("Converted Mayan Mace on Millager " + name);
                     }
-                    else if(entry.getKey() == ModItems.BYZANTINE_MACE.asItem()){
-                        convert.put(ModItems.BYZANTINE_MACE.asItem(), entry.getValue());
+                    else if(inv.remove(ModItems.BYZANTINE_MACE.get(), 1) > 0){
+                        inv.add(Cle.ALTERNATIVE_BYZANTINE_MACE.get(), 1);
                         Cle.LOGGER.info("Converted Byzantine Mace on Millager " + name);
                     }
                 }
-            }
-
-            for(var entry : convert.entrySet()){
-                via.cle$items().put(entry.getKey().asItem(), entry.getValue());
-            }
         }
     }
 
     @SubscribeEvent
-    public void onPlayerTick(PlayerTickEvent.Post event){
+    public void onPlayerTick(PlayerTickEvent.Pre event){
         if(!CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() || !CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
             return;
         }
@@ -245,35 +238,35 @@ public class Cle {
         }
 
         Player player = event.getEntity();
+        String playerName = player.getName().getString();
 
         if(!player.getAbilities().instabuild){
+            int inventoryId = 0;
             for (ItemStack stack : player.getInventory().items) {
                 if (!stack.isEmpty()) {
                     ItemStack newStack = ItemStack.EMPTY;
                     if(CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() && stack.is(ModItems.INUIT_TRIDENT)){
                         newStack = stack.transmuteCopy(ALTERNATIVE_INUIT_TRIDENT);
-                        Cle.LOGGER.info("Converted Inuit Trident");
                     }
                     else if(CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
                         if(stack.is(ModItems.MAYAN_MACE)){
                             newStack = stack.transmuteCopy(ALTERNATIVE_MAYAN_MACE);
-                            Cle.LOGGER.info("Converted Mayan Mace");
                         }
                         else if(stack.is(ModItems.BYZANTINE_MACE)){
                             newStack = stack.transmuteCopy(ALTERNATIVE_BYZANTINE_MACE);
-                            Cle.LOGGER.info("Converted Byzantine Mace");
                         }
                     }
                     if(!newStack.isEmpty()){
-                        stack.setCount(0);
-                        player.addItem(newStack);
+                        Cle.LOGGER.info("Converted " + stack + " -> " + newStack + " on " + playerName);
+                        player.getInventory().setItem(inventoryId, newStack);
                     }
-
                 }
-
+                inventoryId++;
             }
         }
     }
+
+
 
     @SubscribeEvent
     public void onLivingDamage(LivingDamageEvent.Pre event){

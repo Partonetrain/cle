@@ -12,6 +12,7 @@ import info.partonetrain.cle.item.AlternativeInuitTrident;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackSelectionConfig;
 import net.minecraft.server.packs.PackType;
@@ -59,8 +60,6 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -138,17 +137,23 @@ public class Cle {
     }
 
     private void addPackFinders(AddPackFindersEvent event){
-        //these datapacks add enchantment tags to cle's alternative items
-        //and add #c:hidden_from_recipe_viewers to millenaire's original items
         if (event.getPackType() == PackType.SERVER_DATA) {
+
+            //these datapacks add enchantment tags to cle's alternative items
+            //and add #c:hidden_from_recipe_viewers to millenaire's original items
             if(CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean()){
                 addSubDataPack("cle_alternative_inuit_trident", event);
             }
             if(CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
                 addSubDataPack("cle_alternative_maces", event);
             }
+
+
             if(CleConfig.COMPOST_DATAPACK.getAsBoolean()){
                 addSubDataPack("cle_compost", event);
+            }
+            if(CleConfig.OWN_RIGHT_CLICK_DATAPACK.getAsBoolean()){
+                addSubDataPack("cle_own_right_click", event);
             }
         }
     }
@@ -209,27 +214,58 @@ public class Cle {
             VillagerInventory inv = millager.getInventory();
             String name = millager.getFirstName() + " " + millager.getFamilyName();
 
-            Map<Item, Integer> convert = new HashMap<>();
-                if(CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() && inv.remove(ModItems.INUIT_TRIDENT.get(), 1) > 0){
-                    inv.add(Cle.ALTERNATIVE_INUIT_TRIDENT.get(), 1);
-                    Cle.LOGGER.info("Converted Inuit Trident on Millager " + name);
-                }
+            if(CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() && inv.remove(ModItems.INUIT_TRIDENT.get(), 1) > 0){
+                inv.add(Cle.ALTERNATIVE_INUIT_TRIDENT.get(), 1);
+                Cle.LOGGER.info("Converted Inuit Trident on Millager " + name);
+            }
 
-                if(CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
-                    if(inv.remove(ModItems.MAYAN_MACE.get(), 1) > 0){
-                        inv.add(Cle.ALTERNATIVE_MAYAN_MACE.get(), 1);
-                        Cle.LOGGER.info("Converted Mayan Mace on Millager " + name);
-                    }
-                    else if(inv.remove(ModItems.BYZANTINE_MACE.get(), 1) > 0){
-                        inv.add(Cle.ALTERNATIVE_BYZANTINE_MACE.get(), 1);
-                        Cle.LOGGER.info("Converted Byzantine Mace on Millager " + name);
-                    }
+            if(CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
+                if(inv.remove(ModItems.MAYAN_MACE.get(), 1) > 0){
+                    inv.add(Cle.ALTERNATIVE_MAYAN_MACE.get(), 1);
+                    Cle.LOGGER.info("Converted Mayan Mace on Millager " + name);
                 }
+                else if(inv.remove(ModItems.BYZANTINE_MACE.get(), 1) > 0){
+                    inv.add(Cle.ALTERNATIVE_BYZANTINE_MACE.get(), 1);
+                    Cle.LOGGER.info("Converted Byzantine Mace on Millager " + name);
+                }
+            }
         }
     }
 
+    int playerTickCooldown = 20;
     @SubscribeEvent
-    public void onPlayerTick(PlayerTickEvent.Pre event){
+    public void onPlayerTickGeneric(PlayerTickEvent.Pre event) {
+        if (event.getEntity().level().isClientSide()) {
+            return;
+        }
+        if(cooldown == 0){
+            cooldown = 20;
+        }
+        else{
+            cooldown--;
+            return;
+        }
+
+        ServerPlayer player = (ServerPlayer) event.getEntity();
+
+        if(CleConfig.TAG_PLAYERS_IN_VILLAGE.getAsBoolean()){
+            if(player.getTags().contains("cle.in_millage")){
+                if (!CleUtils.isPlayerInVillage(player)) {
+                    player.removeTag("cle.in_millage");
+                }
+            }
+            else{
+                if (CleUtils.isPlayerInVillage(player)) {
+                    player.addTag("cle.in_millage");
+                }
+            }
+        }
+
+
+    }
+
+    @SubscribeEvent
+    public void onPlayerTickAlternativeItems(PlayerTickEvent.Pre event){
         if(!CleConfig.ALTERNATIVE_INUIT_TRIDENT.getAsBoolean() || !CleConfig.ALTERNATIVE_MACES.getAsBoolean()){
             return;
         }
@@ -289,10 +325,12 @@ public class Cle {
     }
 
     @SubscribeEvent
-    public void onEntityJoinLevel(EntityJoinLevelEvent event){
-        if(event.getEntity() instanceof MillVillager mv){
-            GoalSelector mobGoalSelector = mv.goalSelector;
-            mobGoalSelector.addGoal(2, new FleeBlockGoal<MillVillager>(mv, MILLAGERS_AFRAID_OF, 5));
+    public void onEntityJoinLevel(EntityJoinLevelEvent event) {
+        if (CleConfig.ADD_FLEE_BLOCK_GOAL.getAsBoolean()){
+            if (event.getEntity() instanceof MillVillager mv) {
+                GoalSelector mobGoalSelector = mv.goalSelector;
+                mobGoalSelector.addGoal(2, new FleeBlockGoal<MillVillager>(mv, MILLAGERS_AFRAID_OF, 5));
+            }
         }
     }
 }

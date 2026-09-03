@@ -129,7 +129,7 @@ configurations {
 
 dependencies {
     implementation "net.neoforged:testframework:${neo_version}" //required for millenaire
-    implementation files("./libs/millenaire-9.0.0-beta.2.jar")
+    implementation files("./libs/millenaire-9.0.1.jar")
 
     implementation 'maven.modrinth:malum:1.8.2'
     implementation 'maven.modrinth:curios:9.5.1+1.21.1'

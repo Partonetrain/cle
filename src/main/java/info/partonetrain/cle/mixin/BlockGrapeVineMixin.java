@@ -39,7 +39,7 @@ public abstract class BlockGrapeVineMixin extends BushBlock { //abstract so no-i
                 if (i >= 4) {
                     popResource(level, pos, new ItemStack(ModItems.GRAPES.asItem(), 1 + (fullyGrown ? 1 : 0)));
                     level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
-                    BlockState blockstate = state.setValue(BlockGrapeVine.AGE, 1);
+                    BlockState blockstate = state.setValue(BlockGrapeVine.AGE, 0);
                     level.setBlock(pos, blockstate, 2);
                     level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, blockstate));
                     return InteractionResult.sidedSuccess(level.isClientSide);

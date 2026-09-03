@@ -29,6 +29,9 @@
     },
     "millenaire:rice": {
       "chance": 0.3
+    },
+    "millenaire:masa": {
+      "chance": 0.85
     }
   }
 }

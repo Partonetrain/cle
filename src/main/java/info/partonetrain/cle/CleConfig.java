@@ -17,6 +17,7 @@ public class CleConfig {
     public static ModConfigSpec.BooleanValue ALTERNATIVE_MACES;
     public static ModConfigSpec.BooleanValue MILLAGERS_CONVERT_TO_ALTERNATIVES;
     public static ModConfigSpec.BooleanValue COMPOST_DATAPACK;
+    public static ModConfigSpec.BooleanValue OWN_RIGHT_CLICK_DATAPACK;
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_DEALT;
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_RECEIVED;
     public static ModConfigSpec.IntValue REPUTATIION_CAP_PER_DAY;
@@ -25,7 +26,9 @@ public class CleConfig {
     public static ModConfigSpec.IntValue MAX_DISTANCE;
     public static ModConfigSpec.BooleanValue TRAVEL_BOOK_INFO_PANEL;
     public static ModConfigSpec.BooleanValue GRAPE_VINE_HARVEST;
-    //public static ModConfigSpec.BooleanValue SHIELD_FIX;
+    public static ModConfigSpec.BooleanValue ADD_FLEE_BLOCK_GOAL;
+    public static ModConfigSpec.BooleanValue TAG_PLAYERS_IN_VILLAGE;
+    //public static ModConfigSpec.BooleanValue MILLAGER_ENTITY_TAGGING;
     //client
     public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
     public static ModConfigSpec.BooleanValue PREVENT_KEYBINDS;
@@ -88,6 +91,11 @@ public class CleConfig {
                 .comment("If true, enables a datapack containing composter values for Millenaire crops and related blocks will be enabled")
                 .define("Compost Datapack", true);
 
+        OWN_RIGHT_CLICK_DATAPACK = BUILDER
+                .comment("If true, enables a datapack that tags various vanilla and modded items with `#millenaire:own_right_click`, which allows them to be used on villagers instead of opening the villager's menu")
+                .comment("(As of 9.0.1 this only applies to bandits, which is a bug that needs to be fixed in the main mod)")
+                .define("Own Right Click Datapack", true);
+
         MODIFIED_DAMAGE_DEALT = BUILDER
                 .comment("Entities in the entity type tag " + Cle.MILLAGERS_DEAL_MODIFIED_DAMAGE_TO.location() + " will take modified damage when attacked by millagers")
                 .comment("The format of this is (operation)(value), so for example \"x2\" will make entities take twice as much damage and \"+2\" will make entities take 2 more damage")
@@ -126,6 +134,28 @@ public class CleConfig {
                 .comment("(It seems unintentional that it isn't like this by default: Grape Vine block extends BushBlock, but it doesn't override useWithoutItem)")
                 .define("Grape Vine Right Click", true);
 
+        ADD_FLEE_BLOCK_GOAL = BUILDER.comment("If true, millagers will have a flee block AI goal added to them, where they will run away from any block near them in the tag " + Cle.MILLAGERS_AFRAID_OF.location().toString())
+                .comment("If the millager isn't a bandit, any players nearby will be blamed for it, and their reputation reduced")
+                .comment("This has a minimal performance impact")
+                .define("Add Flee Block Goal", true);
+
+        TAG_PLAYERS_IN_VILLAGE = BUILDER.comment("If true, players will have the nbt tag cle.in_millage applied to them when they are within 50 blocks of a village's center")
+                .comment("This can be useful for advancements. This can have a tiny performance impact")
+                .define("Tag Players In Millage", true);
+
+        /* doesnt work
+        MILLAGER_ENTITY_TAGGING = BUILDER.comment("If true, millager entities will be NBT tagged with one of the following tags depending on their type:" )
+                .comment(
+                        MillagerTagHandler.getTagName(MillagerTagHandler.MillagerTagType.BELONGS_TO_NATURAL_MILLAGE)
+                        + ", " + MillagerTagHandler.getTagName(MillagerTagHandler.MillagerTagType.BELONGS_TO_PLAYER_CONTROLLED_MILLAGE)
+                        + ", " + MillagerTagHandler.getTagName(MillagerTagHandler.MillagerTagType.BELONGS_TO_LONE_BUILDING)
+                        + ", " + MillagerTagHandler.getTagName(MillagerTagHandler.MillagerTagType.BANDIT)
+                        )
+                .comment("This can be useful for things like custom advancements or commands")
+                .define("Millager Entity Tagging", true);
+
+         */
+
         /*
         SHIELD_FIX = BUILDER.comment("If true, players won't attempt to interact with millagers who have a hostile villager type if they have a shield (item tagged with #c:tools/shield) in either hand")
                         .define("Shield Fix", true);
@@ -150,7 +180,7 @@ public class CleConfig {
         BUILDER.push("Malum");
 
         SPIRIT_REAP_REPUTATION_LOSS = BUILDER
-                .comment("The amount of reputation lost for reaping Spirits nearby a non-hostile millager")
+                .comment("The amount of reputation lost for reaping Spirits nearby a non-hostilemillager")
                 .comment("Set to -1 for no loss")
                 .defineInRange("Spirit Reap Reputation Loss", 4, -1, 8192);
 

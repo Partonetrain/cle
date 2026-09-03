@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "#c:tools/fishing_rod", "required": false },
+    { "id": "#c:tools/ranged_weapon", "required": false },
+    { "id": "#ars_nouveau:spellbook", "required": false }
+  ]
+}

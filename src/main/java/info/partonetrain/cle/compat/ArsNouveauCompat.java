@@ -35,10 +35,14 @@ public class ArsNouveauCompat {
     public void onEffectResolve(EffectResolveEvent.Post event){
         if(event.shooter instanceof ServerPlayer sp){
             if(event.rayTraceResult instanceof EntityHitResult ehr && ehr.getEntity() instanceof MillVillager mv){
-                int finalRepChange = 0;
+                if(CleUtils.isMillagerHostileTowards(mv, sp)){
+                    return;
+                }
                 if(mv.getVillageId() == null){
                     return;
                 }
+
+                int finalRepChange = 0;
 
                 Spell spell = event.spell;
 

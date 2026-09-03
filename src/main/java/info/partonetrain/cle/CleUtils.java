@@ -13,14 +13,17 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.common.Tags;
 import org.millenaire.ReputationConstants;
 import org.millenaire.culture.ModCultures;
 import org.millenaire.culture.VillagerType;
 import org.millenaire.entity.MillVillager;
 import org.millenaire.entity.VillagerCombat;
+import org.millenaire.item.PurseItem;
 import org.millenaire.village.PlayerCultureReputation;
 import org.millenaire.village.Village;
 import org.millenaire.village.VillageReputation;
+import org.millenaire.village.VillageSavedData;
 
 import java.util.*;
 
@@ -199,6 +202,30 @@ public class CleUtils {
             }
         }
         return false;
+    }
+
+    public static boolean isPlayerInVillage(ServerPlayer serverPlayer){
+        if(serverPlayer.level().dimension() != ServerLevel.OVERWORLD){
+            return false;
+        }
+
+        boolean inMillage;
+        VillageSavedData savedData = VillageSavedData.get((ServerLevel) serverPlayer.level());
+        Village village = savedData.getVillageManager().findNearestVillage(serverPlayer.blockPosition(), 50);
+        if(village == null){
+            inMillage = false;
+        }
+        else{
+            if(village.isLoneBuilding()){
+                inMillage = false;
+            }
+            else{
+                inMillage = true;
+            }
+        }
+
+        //Cle.LOGGER.info("isPlayerInVillage: " + inMillage);
+        return inMillage;
     }
 
 }

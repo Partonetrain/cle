@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
@@ -35,6 +36,9 @@ public class FleeBlockGoal<T extends LivingEntity> extends Goal {
     protected final PathNavigation pathNav;
     protected BlockPos posToAvoid;
 
+    private final int MAX_COOLDOWN = 5;
+    private int cooldown = MAX_COOLDOWN;
+
     public FleeBlockGoal(PathfinderMob mob, TagKey<Block> blocksToAvoid, int distanceToCheck) {
         this.owner = mob;
         this.blocksToAvoid = blocksToAvoid;
@@ -55,7 +59,8 @@ public class FleeBlockGoal<T extends LivingEntity> extends Goal {
     public void stop() {
         owner.setSprinting(false);
         posToAvoid = null;
-        spawnDebugParticle(ParticleTypes.HAPPY_VILLAGER, owner.blockPosition());
+        cooldown = MAX_COOLDOWN;
+        //spawnDebugParticle(ParticleTypes.HAPPY_VILLAGER, owner.blockPosition());
     }
 
     public void tick() {
@@ -63,13 +68,13 @@ public class FleeBlockGoal<T extends LivingEntity> extends Goal {
             return;
         }
 
-        if (owner.distanceToSqr(posToAvoid.getX(), posToAvoid.getY(), posToAvoid.getZ()) < 49.0) {
+        if (owner.distanceToSqr(posToAvoid.getX(), posToAvoid.getY(), posToAvoid.getZ()) < (distanceToCheck * distanceToCheck)) {
             owner.setSprinting(true);
         }
         else{
             owner.setSprinting(false);
         }
-        spawnDebugParticle(ParticleTypes.CRIT, owner.blockPosition());
+        //spawnDebugParticle(ParticleTypes.CRIT, owner.blockPosition());
         if(path != null){
             spawnDebugParticle(ParticleTypes.SONIC_BOOM, path.getTarget());
         }
@@ -77,6 +82,20 @@ public class FleeBlockGoal<T extends LivingEntity> extends Goal {
 
     @Override
     public boolean canUse() {
+        if(cooldown == 0){
+            cooldown = MAX_COOLDOWN;
+        }
+        else{
+            cooldown--;
+            return false;
+        }
+
+        if(owner instanceof MillVillager mv) {
+            if(mv.isSleeping() || mv.isVillagerSleeping()){
+                return false;
+            }
+        }
+
         BlockPos found = findNearestBlock(AVOID_PREDICATE, distanceToCheck);
         if(found == null) {
             return false;
@@ -85,15 +104,21 @@ public class FleeBlockGoal<T extends LivingEntity> extends Goal {
             posToAvoid = found;
 
             if(owner instanceof MillVillager mv){
-                BlockPos randomSafePos = NavigationHelperUtils.findRandomSafePos(owner.level(), owner.getOnPos(), (b) -> b.closerThan(posToAvoid, 3));
+                BlockPos randomSafePos = NavigationHelperUtils.findRandomSafePos(owner.level(), owner.getOnPos(), (b) -> b.closerThan(posToAvoid, distanceToCheck - 1));
+                BlockState avoidingState = owner.level().getBlockState(posToAvoid);
+                LinkedHashMap<String, String> langKeyWithPlaceholders = new LinkedHashMap<>();
+
                 if(randomSafePos == null){
-                        return false;
+                    langKeyWithPlaceholders.put("cle.millager_afraid_of_block.no_safe_place.1", mv.getFirstName() + " " + mv.getFamilyName());
+                    langKeyWithPlaceholders.put(avoidingState.getBlock().getDescriptionId(), null);
+                    langKeyWithPlaceholders.put("cle.millager_afraid_of_block.no_safe_place.2", null);
+                    CleUtils.changeNearbyPlayerReputationFromMillager(mv, (ServerLevel) owner.level(), -2, langKeyWithPlaceholders);
+
+                    return false;
                 }
                 VillagerNavDriver nav = mv.getNavManager();
                 nav.navigateTo(mv, randomSafePos, 0.65);
 
-                BlockState avoidingState = owner.level().getBlockState(posToAvoid);
-                LinkedHashMap<String, String> langKeyWithPlaceholders = new LinkedHashMap<>();
                 langKeyWithPlaceholders.put("cle.millager_afraid_of_block.1", mv.getFirstName() + " " + mv.getFamilyName());
                 langKeyWithPlaceholders.put(avoidingState.getBlock().getDescriptionId(), null);
                 langKeyWithPlaceholders.put("cle.millager_afraid_of_block.2", null);

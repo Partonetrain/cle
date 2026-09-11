@@ -28,6 +28,7 @@ public class CleConfig {
     public static ModConfigSpec.BooleanValue GRAPE_VINE_HARVEST;
     public static ModConfigSpec.BooleanValue ADD_FLEE_BLOCK_GOAL;
     public static ModConfigSpec.BooleanValue TAG_PLAYERS_IN_VILLAGE;
+    public static ModConfigSpec.BooleanValue DISABLE_HARDCODED_EGG_CHECK;
     //public static ModConfigSpec.BooleanValue MILLAGER_ENTITY_TAGGING;
     //client
     public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
@@ -142,6 +143,13 @@ public class CleConfig {
         TAG_PLAYERS_IN_VILLAGE = BUILDER.comment("If true, players will have the nbt tag cle.in_millage applied to them when they are within 50 blocks of a village's center")
                 .comment("This can be useful for advancements. This can have a tiny performance impact")
                 .define("Tag Players In Millage", true);
+
+        DISABLE_HARDCODED_EGG_CHECK = BUILDER.comment("If true, the hardcoded check for a minecraft:egg in every child millager's home every night that increases their growth is disabled")
+                .comment("This check is technically redundant as there are already minecraft:egg in the villager config json, as indicated by this comment in default.json:")
+                .comment("\"Valeur = growth bonus (growth += value + random(value)). Trié par valeur descendante. Egg est aussi dans cette liste (iso-legacy) en plus du cas spécial dans le code.\"")
+                .comment("which translates to:")
+                .comment("\"Value = growth bonus (growth += value + random(value)). Sorted by descending value. 'Egg' is also included in this list (legacy parity), in addition to the special case in the code.\"")
+                .define("Disable Hardcoded Egg Check", true);
 
         /* doesnt work
         MILLAGER_ENTITY_TAGGING = BUILDER.comment("If true, millager entities will be NBT tagged with one of the following tags depending on their type:" )

@@ -139,7 +139,7 @@ dependencies {
     implementation 'maven.modrinth:wayward-attributes:1.1.1'
 
     implementation 'maven.modrinth:zeta:1.1-40'
-    implementation 'maven.modrinth:quark:4.1-482'
+    compileOnly 'maven.modrinth:quark:4.1-484'
 
     implementation 'maven.modrinth:jei:feYG503c'
 }

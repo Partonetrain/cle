@@ -9,6 +9,7 @@
     "HuntMonsterGoalMixin",
     "MillFoodItemMixin",
     "MillVillagerMixin",
+    "NightActionHelperMixin",
     "PlayerCultureReputationAccessor",
     "TravelBookItemMixin",
     "VillageEnvironmentHelperMixin",

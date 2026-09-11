@@ -7,6 +7,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.millenaire.block.LockedChestBlock;
+import org.millenaire.block.LockedChestBlockEntity;
 import org.millenaire.block.ModBlocks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,6 +20,15 @@ public class HopperBlockEntityMixin {
     private static void cle$getBlockContainer(Level level, BlockPos pos, BlockState state, CallbackInfoReturnable<Container> cir){
         if(CleConfig.PREVENT_HOPPER_INTERACTIONS.getAsBoolean()){
             if(state.is(ModBlocks.LOCKED_CHEST)){
+                //if only hopper block entities had some kind of mechanism to determine their owner,
+                //we could use that here to make locked chests compatible with relevant hoppers
+                /*
+                if(state.getBlock() instanceof LockedChestBlock lcb){
+                    if(level.getBlockEntity(pos) instanceof LockedChestBlockEntity lcbe){
+                        lcbe.isLockedFor(???)
+                    }
+                }
+                 */
                 cir.setReturnValue(null);
             }
         }

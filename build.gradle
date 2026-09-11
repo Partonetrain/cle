@@ -38,6 +38,8 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
+
+    maven { url "https://www.cursemaven.com" }
 }
 
 base {
@@ -129,7 +131,7 @@ configurations {
 
 dependencies {
     implementation "net.neoforged:testframework:${neo_version}" //required for millenaire
-    implementation files("./libs/millenaire-9.0.1.jar")
+    //implementation files("./libs/millenaire-9.0.1.jar")
 
     implementation 'maven.modrinth:malum:1.8.2'
     implementation 'maven.modrinth:curios:9.5.1+1.21.1'
@@ -142,6 +144,8 @@ dependencies {
     compileOnly 'maven.modrinth:quark:4.1-484'
 
     implementation 'maven.modrinth:jei:feYG503c'
+
+    implementation "curse.maven:millenaire-270871:8772286"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

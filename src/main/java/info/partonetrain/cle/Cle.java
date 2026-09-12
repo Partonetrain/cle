@@ -1,9 +1,6 @@
 package info.partonetrain.cle;
 
-import info.partonetrain.cle.command.LearnCropsCommand;
-import info.partonetrain.cle.command.ReputationCapResetCommand;
-import info.partonetrain.cle.command.ReputationCapTestCommand;
-import info.partonetrain.cle.command.ReputationResetCommand;
+import info.partonetrain.cle.command.*;
 import info.partonetrain.cle.compat.ArsNouveauCompat;
 import info.partonetrain.cle.compat.QuarkCompat;
 import info.partonetrain.cle.entity.ThrownInuitTridentEntity;
@@ -124,6 +121,7 @@ public class Cle {
         NeoForge.EVENT_BUS.register(new ReputationCapResetCommand());
         NeoForge.EVENT_BUS.register(new ReputationResetCommand());
         NeoForge.EVENT_BUS.register(new LearnCropsCommand());
+        NeoForge.EVENT_BUS.register(new ShowCommand());
 
         if(LoadingModList.get().getModFileById("ars_nouveau") != null){
             NeoForge.EVENT_BUS.register(new ArsNouveauCompat());

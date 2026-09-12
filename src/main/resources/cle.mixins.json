@@ -15,6 +15,7 @@
     "VillageEnvironmentHelperMixin",
     "VillageMixin",
     "VillagerCombatMixin",
+    "VillagerConfigAccessor",
     "VillageReputationAccessor",
     "VillagerInventoryAccessor",
     "VillageSpawnQueueMixin",

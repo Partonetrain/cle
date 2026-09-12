@@ -45,5 +45,4 @@ public class ReputationResetCommand {
 
     }
 
-    //CleUtils.resetReputation(village, player);
 }

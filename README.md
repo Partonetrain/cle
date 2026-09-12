@@ -41,4 +41,10 @@ These are useful if you have especially powerful mobs walking around the Overwor
 - `cle:millagers_deal_modified_damage_to` : Millagers deal extra/less (determined by config) damage to entities in this tag.
 - `cle:millagers_take_modified_damage_from` : Entities in this tag take extra/less (determined by config) damage from millagers
 
+## Useful operator commands
+- `/cle learn_crops` teaches you all of Millenaire's crops.
+- `/cle reset_reputation` resets your reputation of the village and culture you are currently in.
+- `/cle show` has different options to list certain internal Millenaire variables, for use with making custom cultures.
+- If reputation caps are enabled, commands for testing them will be available.
+
 Fun fact: *"Clé" is French for "wrench"*. (I don't speak French, but I thought it would make for a good name)

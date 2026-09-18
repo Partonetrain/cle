@@ -31,6 +31,7 @@
   },
   "client": [
     "client.ItemRendererMixin",
+    "client.QuestScreenMixin",
     "client.VillagePanelScreenMixin"
   ]
 }

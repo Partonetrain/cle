@@ -32,6 +32,7 @@ public class CleConfig {
     //public static ModConfigSpec.BooleanValue MILLAGER_ENTITY_TAGGING;
     //client
     public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
+    public static ModConfigSpec.BooleanValue READABLE_SCREENS;
     public static ModConfigSpec.BooleanValue PREVENT_KEYBINDS;
     //malum
     public static ModConfigSpec.IntValue SPIRIT_REAP_REPUTATION_LOSS;
@@ -178,6 +179,10 @@ public class CleConfig {
                 .comment("This should make more important buildings appear first and less important buildings appear last")
                 .comment("Separate entries by comma. Entries should not include spaces.")
                 .define("Sort Constructions Panel", "wall,tower");
+
+        READABLE_SCREENS = builder.comment("If true, several instances of text colors in Millenaire's GUIs will be changed to make them more readable")
+                .comment("No more squinting over bright green text")
+                .define("Readable Screens", true);
 
         PREVENT_KEYBINDS = BUILDER.comment("If true, Millenaire's keybindings will not be registered")
                 .comment("There is currently no alternative to the Stance key, however")

@@ -63,6 +63,10 @@ public class ReputationCapTestCommand {
 
     @SubscribeEvent
     public void onServerTickEventPost(ServerTickEvent.Post event) {
+        if(CleConfig.REPUTATIION_CAP_PER_DAY.getAsInt() <= 0 && activeTests.isEmpty()){
+            return;
+        }
+
         List<ScheduledRepTest> finished = new ArrayList<>();
         for (ScheduledRepTest t : activeTests) {
             t.tick();
@@ -70,7 +74,9 @@ public class ReputationCapTestCommand {
                 finished.add(t);
             }
         }
-        activeTests.removeAll(finished);
+        if(!finished.isEmpty()){
+            activeTests.removeAll(finished);
+        }
     }
 
     private static class ScheduledRepTest {

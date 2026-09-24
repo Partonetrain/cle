@@ -4,6 +4,7 @@
   "plugin": "info.partonetrain.cle.CleMixinPlugin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "BlockCostRegistryAccessor",
     "BlockGrapeVineMixin",
     "HopperBlockEntityMixin",
     "HuntMonsterGoalMixin",
@@ -11,6 +12,7 @@
     "MillVillagerMixin",
     "NightActionHelperMixin",
     "PlayerCultureReputationAccessor",
+    "QuestRegistryAccessor",
     "ToolCategoryRegistryAccessor",
     "TravelBookItemMixin",
     "VersionCheckerMixin",

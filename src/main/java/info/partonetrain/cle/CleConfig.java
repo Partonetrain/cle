@@ -10,12 +10,6 @@ public class CleConfig {
 
     //general
     public static ModConfigSpec.BooleanValue PREVENT_HOPPER_INTERACTIONS;
-    public static ModConfigSpec.BooleanValue USE_FOOD_COMPONENTS;
-    public static ModConfigSpec.BooleanValue FOOD_GIVES_BOWL;
-    public static ModConfigSpec.BooleanValue DRINK_GIVES_BOTTLE;
-    public static ModConfigSpec.BooleanValue ALTERNATIVE_INUIT_TRIDENT;
-    public static ModConfigSpec.BooleanValue ALTERNATIVE_MACES;
-    public static ModConfigSpec.BooleanValue MILLAGERS_CONVERT_TO_ALTERNATIVES;
     public static ModConfigSpec.BooleanValue COMPOST_DATAPACK;
     public static ModConfigSpec.BooleanValue OWN_RIGHT_CLICK_DATAPACK;
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_DEALT;
@@ -23,14 +17,22 @@ public class CleConfig {
     public static ModConfigSpec.IntValue REPUTATIION_CAP_PER_DAY;
     public static ModConfigSpec.BooleanValue ATTACKS_MILLAGERS;
     public static ModConfigSpec.BooleanValue DESPAWNS_IN_MILLAGE;
-    public static ModConfigSpec.IntValue MAX_DISTANCE;
-    public static ModConfigSpec.DoubleValue REJECTION_CHANCE;
     public static ModConfigSpec.BooleanValue TRAVEL_BOOK_INFO_PANEL;
     public static ModConfigSpec.BooleanValue GRAPE_VINE_HARVEST;
     public static ModConfigSpec.BooleanValue ADD_FLEE_BLOCK_GOAL;
     public static ModConfigSpec.BooleanValue TAG_PLAYERS_IN_VILLAGE;
     public static ModConfigSpec.BooleanValue DISABLE_HARDCODED_EGG_CHECK;
-    //public static ModConfigSpec.BooleanValue MILLAGER_ENTITY_TAGGING;
+
+    //items
+    public static ModConfigSpec.BooleanValue USE_FOOD_COMPONENTS;
+    public static ModConfigSpec.BooleanValue FOOD_GIVES_BOWL;
+    public static ModConfigSpec.BooleanValue DRINK_GIVES_BOTTLE;
+    public static ModConfigSpec.BooleanValue ALTERNATIVE_INUIT_TRIDENT;
+    public static ModConfigSpec.BooleanValue ALTERNATIVE_MACES;
+    public static ModConfigSpec.BooleanValue MILLAGERS_CONVERT_TO_ALTERNATIVES;
+    //world
+    public static ModConfigSpec.IntValue MAX_DISTANCE;
+    public static ModConfigSpec.DoubleValue REJECTION_CHANCE;
     //network
     public static ModConfigSpec.BooleanValue DISABLE_VERSION_CHECK;
     //client
@@ -62,35 +64,6 @@ public class CleConfig {
                 .comment("They only work with hoppers by default due to inheriting vanilla chest code")
                 .comment("However, other modded hoppers may or may not be affected by this - it depends on how they were implemented")
                 .define("Prevent Hopper Interactions", false);
-
-        USE_FOOD_COMPONENTS = BUILDER
-                .comment("If true, Millenaire foods will use vanilla food components")
-                .comment("This can enhance compatibility with mods like AppleSkin")
-                .comment("However, other mods that utilize this component probably will not correctly account for the food's durability")
-                .define("Use Food Components", true);
-
-        FOOD_GIVES_BOWL = BUILDER
-                .comment("If true, Yogurt and Curry will give the player a bowl after it is eaten (only in survival)")
-                .define("Food Gives Bowl", true);
-
-        DRINK_GIVES_BOTTLE = BUILDER
-                .comment("If true, all drinks will give the player a glass bottle after it is drunk (only in survival)")
-                .define("Drink Gives Bottle", true);
-
-        ALTERNATIVE_INUIT_TRIDENT = BUILDER
-                .comment("If true, any Inuit Tridents obtained by survival mode players will behave like a Minecraft trident instead of a sword")
-                .comment("WARNING: this auto-replaces millenaire:inuittrident in player inventories with cle:inuit_trident")
-                .define("Alternative Inuit Trident", true);
-
-        ALTERNATIVE_MACES = BUILDER
-                .comment("If true, any Mayan or Byzantine Maces obtained by survival mode players will behave like a Minecraft mace instead of a sword")
-                .comment("WARNING: this auto-replaces millenaire:mayan_mace and millenaire:byzantine_mace in player inventories with the Cle versions")
-                .define("Alternative Maces", true);
-
-        MILLAGERS_CONVERT_TO_ALTERNATIVES = BUILDER
-                .comment("If true, any alternative items that are enabled above will also be converted in Millager inventories")
-                .comment("NOTE: THIS IS CURRENTLY BROKEN (millagers cannot use them) DUE TO tool_categories.json NOT BEING DEPLOYED")
-                .define("Millagers Convert to Alternative Items", false);
 
         COMPOST_DATAPACK = BUILDER
                 .comment("If true, enables a datapack containing composter values for Millenaire crops and related blocks will be enabled")
@@ -127,14 +100,6 @@ public class CleConfig {
                 .comment("This also affects player reputation for entire culture; a tenth of all reputation gained at a village is gained as culture reputation")
                 .defineInRange("Reputation Cap per Day", -1, -1, 32768);
 
-        MAX_DISTANCE = BUILDER.comment("If not 0, the max distance from world spawn at which Millenaire villages and long buildings can generate")
-                .comment("This can be used in combination with the spawnProtectionRadius option in Millenaire server config to define a square region around world spawn in which villages are allowed to generate")
-                .defineInRange("Max Radius", 0, 0, 12_550_821);
-
-        REJECTION_CHANCE = BUILDER.comment("If not 0, chance that a millage/lone building generation attempt will be randomly rejected")
-                .comment("This can be used to make millages less frequent")
-                .defineInRange("Rejection Chance", 0.0, 0.0, 0.99);
-
         TRAVEL_BOOK_INFO_PANEL = BUILDER.comment("If true, Millenaire's Travel Book will open the Millenaire Info Panel instead of the Travel Book screen")
                 .comment("(While this is enabled the Travel Book can still be opened from the Info Panel, or by shift-right-clicking with the book)")
                 .define("Travel Book Info Panel", false);
@@ -161,6 +126,39 @@ public class CleConfig {
 
         BUILDER.pop();
 
+        builder.push("Items");
+
+        USE_FOOD_COMPONENTS = BUILDER
+                .comment("If true, Millenaire foods will use vanilla food components")
+                .comment("This can enhance compatibility with mods like AppleSkin")
+                .comment("However, other mods that utilize this component probably will not correctly account for the food's durability")
+                .define("Use Food Components", true);
+
+        FOOD_GIVES_BOWL = BUILDER
+                .comment("If true, Yogurt and Curry will give the player a bowl after it is eaten (only in survival)")
+                .define("Food Gives Bowl", true);
+
+        DRINK_GIVES_BOTTLE = BUILDER
+                .comment("If true, all drinks will give the player a glass bottle after it is drunk (only in survival)")
+                .define("Drink Gives Bottle", true);
+
+        ALTERNATIVE_INUIT_TRIDENT = BUILDER
+                .comment("If true, any Inuit Tridents obtained by survival mode players will behave like a Minecraft trident instead of a sword")
+                .comment("WARNING: this auto-replaces millenaire:inuittrident in player inventories with cle:inuit_trident")
+                .define("Alternative Inuit Trident", true);
+
+        ALTERNATIVE_MACES = BUILDER
+                .comment("If true, any Mayan or Byzantine Maces obtained by survival mode players will behave like a Minecraft mace instead of a sword")
+                .comment("WARNING: this auto-replaces millenaire:mayan_mace and millenaire:byzantine_mace in player inventories with the Cle versions")
+                .define("Alternative Maces", true);
+
+        MILLAGERS_CONVERT_TO_ALTERNATIVES = BUILDER
+                .comment("If true, any alternative items that are enabled above will also be converted in Millager inventories")
+                .comment("This puts a \"cle_millagers_convert_to_alternatives\" folder in your millenaire-custom folder, so millagers can actually use these items. Delete it if you set the option back to false")
+                .define("Millagers Convert to Alternative Items", true);
+
+        builder.pop();
+
         BUILDER.push("Network");
 
         DISABLE_VERSION_CHECK = BUILDER.comment("If true, Millenaire's version check will be disabled")
@@ -171,24 +169,17 @@ public class CleConfig {
 
         BUILDER.pop();
 
-        /* doesnt work
-        MILLAGER_ENTITY_TAGGING = BUILDER.comment("If true, millager entities will be NBT tagged with one of the following tags depending on their type:" )
-                .comment(
-                        MillagerTagHandler.getTagName(MillagerTagHandler.MillagerTagType.BELONGS_TO_NATURAL_MILLAGE)
-                        + ", " + MillagerTagHandler.getTagName(MillagerTagHandler.MillagerTagType.BELONGS_TO_PLAYER_CONTROLLED_MILLAGE)
-                        + ", " + MillagerTagHandler.getTagName(MillagerTagHandler.MillagerTagType.BELONGS_TO_LONE_BUILDING)
-                        + ", " + MillagerTagHandler.getTagName(MillagerTagHandler.MillagerTagType.BANDIT)
-                        )
-                .comment("This can be useful for things like custom advancements or commands")
-                .define("Millager Entity Tagging", true);
+        BUILDER.push("World");
 
-         */
+        MAX_DISTANCE = BUILDER.comment("If not 0, the max distance from world spawn at which Millenaire villages and long buildings can generate")
+                .comment("This can be used in combination with the spawnProtectionRadius option in Millenaire server config to define a square region around world spawn in which villages are allowed to generate")
+                .defineInRange("Max Radius", 0, 0, 12_550_821);
 
-        /*
-        SHIELD_FIX = BUILDER.comment("If true, players won't attempt to interact with millagers who have a hostile villager type if they have a shield (item tagged with #c:tools/shield) in either hand")
-                        .define("Shield Fix", true);
+        REJECTION_CHANCE = BUILDER.comment("If not 0, chance that a millage/lone building generation attempt will be randomly rejected")
+                .comment("This can be used to make millages less frequent")
+                .defineInRange("Rejection Chance", 0.0, 0.0, 0.99);
 
-         */
+        BUILDER.pop();
 
         BUILDER.push("Client");
 
@@ -210,7 +201,7 @@ public class CleConfig {
         BUILDER.push("Malum");
 
         SPIRIT_REAP_REPUTATION_LOSS = BUILDER
-                .comment("The amount of reputation lost for reaping Spirits nearby a non-hostilemillager")
+                .comment("The amount of reputation lost for reaping Spirits nearby a non-hostile millager")
                 .comment("Set to -1 for no loss")
                 .defineInRange("Spirit Reap Reputation Loss", 4, -1, 8192);
 

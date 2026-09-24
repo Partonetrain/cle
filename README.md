@@ -5,25 +5,43 @@ Note: This mod (as well as the general Millénaire community) refers to Milléna
 
 Clé's options are as follows:
 
+### General
 | Name                        | Function                                                                                                                                    | Default       |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|---------------|
 | Prevent Hopper Interactions | Prevents hopper interactions with Millenaire's Locked Chests.                                                                               | false         |
-| Use Food Components         | Adds vanilla foods components to Millenaire's foods, enhancing compatibility                                                                | true          |
-| Food Gives Bowl             | Yogurt and Curry will give you a bowl after being consumed                                                                                  | false         |
-| Drink Gives Bottle          | All drinks will give the player a glass bottle after being consumed                                                                         | true          |
-| Alternative Inuit Trident   | Automatically converts Millenaire Inuit Tridents to Clé's alternatives which behave like vanilla tridents                                   | true          |
-| Alternative Maces           | Automatically converts Millenaire Byzantine and Mayan maces to Clé's alternatives which behave like vanilla maces                           | true          |
 | Compost Datapack            | Adds a datapack that adds composter values to various Millenaire items                                                                      | true          |
 | Modified Damage             | Tagged mobs will take more and deal less damage to/from millagers                                                                           | x2 and /2     |
 | Hunts Millagers             | Tagged mobs will hunt millagers                                                                                                             | true          |
 | Despawns in Millage         | Tagged mobs will despawn in millages like how creepers do                                                                                   | true          |
-| Sort Constructions Panel    | Moves less important constructions to the end of the construction panel in town halls                                                       | wall,tower    |
 | Reputation Cap per Day      | Caps the amount of reputation a player can gain per village per Minecraft day                                                               | -1 (disabled) |
-| Max Distance                | Max distance from center a millage can spawn. Similar to Millenaire's spawnProtectionRadius option.                                         | 0 (disabled)  |
 | Travel Book Info Panel      | If true, Travel Book will open the Millenaire Info Panel instead of the Travel Book screen                                                  | false         |
 | Grape Vine Right Click      | If true, Grape Vines can be right-clicked like Sweet Berry Bushes if the player has learned how to plant grapes                             | true          |
 
-Integrations: 
+### Items
+| Name                              | Function                                                                                                          | Default |
+|-----------------------------------|-------------------------------------------------------------------------------------------------------------------|---------|
+| Use Food Components               | Adds vanilla foods components to Millenaire's foods, enhancing compatibility                                      | true    |
+| Food Gives Bowl                   | Yogurt and Curry will give you a bowl after being consumed                                                        | true    |
+| Drink Gives Bottle                | All drinks will give the player a glass bottle after being consumed                                               | true    |
+| Alternative Inuit Trident         | Automatically converts Millenaire Inuit Tridents to Clé's alternatives which behave like vanilla tridents         | true    |
+| Alternative Maces                 | Automatically converts Millenaire Byzantine and Mayan maces to Clé's alternatives which behave like vanilla maces | true    |
+| Millagers Convert to Alternatives | Automatically converts these items in millager inventories                                                        | true    |
+
+### World
+| Name             | Function                                                                                            | Default       |
+|------------------|-----------------------------------------------------------------------------------------------------|---------------|
+| Max Distance     | Max distance from center a millage can spawn. Similar to Millenaire's spawnProtectionRadius option. | 0 (disabled)  |
+| Rejection Chance | Chance that a millage/lone building generation attempt will be rejected                             | 0 (disabled)  |
+
+### Client
+| Name                     | Function                                                                              | Default    |
+|--------------------------|---------------------------------------------------------------------------------------|------------|
+| Sort Constructions Panel | Moves less important constructions to the end of the construction panel in town halls | wall,tower |
+| Readable Screens         | changes some font colors in Millenaire screens to be more readable                    | true       |
+| Prevent Keybindings      | Prevents Millenaire from registering keybindings                                      | false      |
+
+
+# Mod Integrations: 
  - Malum: Spirit reaping near millagers creeps them out and reduces your reputation
  - Ars Nouveau, Ars Elemental: Using positive spells on millagers improves reputation, negative spells reduce it
  - Wayward Attributes: Millenaire's Bows, when used by the player, now use the stats programmed for them that are normally only used for millager combat. In practice this only affects the Yumi Bow 

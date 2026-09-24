@@ -26,6 +26,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.fml.ModList;
+import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.LoadingModList;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
@@ -34,6 +35,7 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforgespi.Environment;
 import net.neoforged.neoforgespi.locating.IModFile;
 import org.millenaire.entity.MillVillager;
 import org.millenaire.entity.VillagerInventory;
@@ -64,6 +66,8 @@ import java.util.function.Supplier;
 public class Cle {
     public static final String MODID = "cle";
     public static final Logger LOGGER = LogUtils.getLogger();
+
+    public static final boolean DEV = !FMLLoader.isProduction();
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
@@ -181,6 +185,10 @@ public class Cle {
     public void onServerStarted(ServerStartedEvent event) {
         ParsedConfigs.parseDamageMods();
         CleUtils.playerRepNotifCooldowns.clear();
+
+        if(CleConfig.MILLAGERS_CONVERT_TO_ALTERNATIVES.getAsBoolean()){
+            DeploymentHelper.deployCustomFolder(event.getServer(), "cle_millagers_convert_to_alternatives");
+        }
     }
 
     @SubscribeEvent
@@ -331,4 +339,5 @@ public class Cle {
             }
         }
     }
+
 }

@@ -1,0 +1,12 @@
+{
+  "toolssword": [
+    {"item": "cle:byzantine_mace", "priority": 100},
+    {"item": "cle:mayan_mace", "priority": 90},
+    {"item": "cle:inuit_trident", "priority": 85}
+  ],
+  "weaponshandtohand": [
+    {"item": "cle:byzantine_mace", "priority": 100},
+    {"item": "cle:mayan_mace", "priority": 90},
+    {"item": "cle:inuit_trident", "priority": 85}
+  ]
+}

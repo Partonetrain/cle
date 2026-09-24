@@ -24,12 +24,15 @@ public class CleConfig {
     public static ModConfigSpec.BooleanValue ATTACKS_MILLAGERS;
     public static ModConfigSpec.BooleanValue DESPAWNS_IN_MILLAGE;
     public static ModConfigSpec.IntValue MAX_DISTANCE;
+    public static ModConfigSpec.DoubleValue REJECTION_CHANCE;
     public static ModConfigSpec.BooleanValue TRAVEL_BOOK_INFO_PANEL;
     public static ModConfigSpec.BooleanValue GRAPE_VINE_HARVEST;
     public static ModConfigSpec.BooleanValue ADD_FLEE_BLOCK_GOAL;
     public static ModConfigSpec.BooleanValue TAG_PLAYERS_IN_VILLAGE;
     public static ModConfigSpec.BooleanValue DISABLE_HARDCODED_EGG_CHECK;
     //public static ModConfigSpec.BooleanValue MILLAGER_ENTITY_TAGGING;
+    //network
+    public static ModConfigSpec.BooleanValue DISABLE_VERSION_CHECK;
     //client
     public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
     public static ModConfigSpec.BooleanValue READABLE_SCREENS;
@@ -128,6 +131,10 @@ public class CleConfig {
                 .comment("This can be used in combination with the spawnProtectionRadius option in Millenaire server config to define a square region around world spawn in which villages are allowed to generate")
                 .defineInRange("Max Radius", 0, 0, 12_550_821);
 
+        REJECTION_CHANCE = BUILDER.comment("If not 0, chance that a millage/lone building generation attempt will be randomly rejected")
+                .comment("This can be used to make millages less frequent")
+                .defineInRange("Rejection Chance", 0.0, 0.0, 0.99);
+
         TRAVEL_BOOK_INFO_PANEL = BUILDER.comment("If true, Millenaire's Travel Book will open the Millenaire Info Panel instead of the Travel Book screen")
                 .comment("(While this is enabled the Travel Book can still be opened from the Info Panel, or by shift-right-clicking with the book)")
                 .define("Travel Book Info Panel", false);
@@ -152,6 +159,18 @@ public class CleConfig {
                 .comment("\"Value = growth bonus (growth += value + random(value)). Sorted by descending value. 'Egg' is also included in this list (legacy parity), in addition to the special case in the code.\"")
                 .define("Disable Hardcoded Egg Check", true);
 
+        BUILDER.pop();
+
+        BUILDER.push("Network");
+
+        DISABLE_VERSION_CHECK = BUILDER.comment("If true, Millenaire's version check will be disabled")
+                .comment("Otherwise, this occurs 60 seconds after a player logs in and queries a millenaire.org endpoint")
+                .comment("If your installed version is outdated, it sends you a message in chat")
+                .comment("But it can be annoying if for instance you are playing on a modpack that hasn't updated yet")
+                .define("Disable Version Check", false);
+
+        BUILDER.pop();
+
         /* doesnt work
         MILLAGER_ENTITY_TAGGING = BUILDER.comment("If true, millager entities will be NBT tagged with one of the following tags depending on their type:" )
                 .comment(
@@ -170,8 +189,6 @@ public class CleConfig {
                         .define("Shield Fix", true);
 
          */
-
-        BUILDER.pop();
 
         BUILDER.push("Client");
 

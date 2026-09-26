@@ -17,6 +17,7 @@ public class CleConfig {
     public static ModConfigSpec.IntValue REPUTATIION_CAP_PER_DAY;
     public static ModConfigSpec.BooleanValue ATTACKS_MILLAGERS;
     public static ModConfigSpec.BooleanValue DESPAWNS_IN_MILLAGE;
+    public static ModConfigSpec.BooleanValue DISABLE_DESPAWN_ALL_MOBS;
     public static ModConfigSpec.BooleanValue TRAVEL_BOOK_INFO_PANEL;
     public static ModConfigSpec.BooleanValue GRAPE_VINE_HARVEST;
     public static ModConfigSpec.BooleanValue ADD_FLEE_BLOCK_GOAL;
@@ -42,7 +43,7 @@ public class CleConfig {
     //malum
     public static ModConfigSpec.IntValue SPIRIT_REAP_REPUTATION_LOSS;
     //ars
-    public static ModConfigSpec.ConfigValue<List<String>>  SPELL_EFFECT_REPUTATIONS;
+    public static ModConfigSpec.ConfigValue<List<String>> SPELL_EFFECT_REPUTATIONS;
     //quark
     public static ModConfigSpec.BooleanValue SIMPLE_HARVEST_NON_PLAYERS;
     //jei
@@ -90,9 +91,15 @@ public class CleConfig {
                 .define("Hunts Millagers", true);
 
         DESPAWNS_IN_MILLAGE = BUILDER
-                .comment("If true, any entity in the the entity type tag " + Cle.HUNTS_MILLAGERS.location() + " will despawn if it enters a millage")
+                .comment("If true, any entity in the the entity type tag " + Cle.HUNTS_MILLAGERS.location() + " will despawn if it is within the bounds of a millage")
+                .comment("This is a distinct mechanic from individual buildings with the despawnallmobs tag")
                 .comment("(Similar to Hunts Millagers, this has the potential to introduce lag)")
                 .define("Despawns In Millage", true);
+
+        DISABLE_DESPAWN_ALL_MOBS = BUILDER
+                .comment("If true, the mechanic that despawns mobs near buildings with the \"despawnallmobs\" tag is disabled")
+                .comment("By default only special buildings such as the Pantheon have this tag")
+                .define("Disable Despawn All Mobs", false);
 
         REPUTATIION_CAP_PER_DAY = BUILDER.comment("If greater than -1, the maximum amount of reputation a player can gain with per village per Minecraft day")
                 .comment("This can be used to ensure players don't just dump stacks of donations into a village and instantly be considered friends")
@@ -123,6 +130,7 @@ public class CleConfig {
                 .comment("which translates to:")
                 .comment("\"Value = growth bonus (growth += value + random(value)). Sorted by descending value. 'Egg' is also included in this list (legacy parity), in addition to the special case in the code.\"")
                 .define("Disable Hardcoded Egg Check", true);
+
 
         BUILDER.pop();
 

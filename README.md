@@ -6,16 +6,17 @@ Note: This mod (as well as the general Millénaire community) refers to Milléna
 Clé's options are as follows:
 
 ### General
-| Name                        | Function                                                                                                                                    | Default       |
-|-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-| Prevent Hopper Interactions | Prevents hopper interactions with Millenaire's Locked Chests.                                                                               | false         |
-| Compost Datapack            | Adds a datapack that adds composter values to various Millenaire items                                                                      | true          |
-| Modified Damage             | Tagged mobs will take more and deal less damage to/from millagers                                                                           | x2 and /2     |
-| Hunts Millagers             | Tagged mobs will hunt millagers                                                                                                             | true          |
-| Despawns in Millage         | Tagged mobs will despawn in millages like how creepers do                                                                                   | true          |
-| Reputation Cap per Day      | Caps the amount of reputation a player can gain per village per Minecraft day                                                               | -1 (disabled) |
-| Travel Book Info Panel      | If true, Travel Book will open the Millenaire Info Panel instead of the Travel Book screen                                                  | false         |
-| Grape Vine Right Click      | If true, Grape Vines can be right-clicked like Sweet Berry Bushes if the player has learned how to plant grapes                             | true          |
+| Name                        | Function                                                                                                        | Default       |
+|-----------------------------|-----------------------------------------------------------------------------------------------------------------|---------------|
+| Prevent Hopper Interactions | Prevents hopper interactions with Millenaire's Locked Chests.                                                   | false         |
+| Compost Datapack            | Adds a datapack that adds composter values to various Millenaire items                                          | true          |
+| Modified Damage             | Tagged mobs will take more and deal less damage to/from millagers                                               | x2 and /2     |
+| Hunts Millagers             | Tagged mobs will hunt millagers                                                                                 | true          |
+| Despawns in Millage         | Tagged mobs will despawn in millages like how creepers do                                                       | true          |
+| Disable Despawn All Mobs    | Disables all mobs despawning around special buildings like the Pantheon                                         | false         |
+| Reputation Cap per Day      | Caps the amount of reputation a player can gain per village per Minecraft day                                   | -1 (disabled) |
+| Travel Book Info Panel      | If true, Travel Book will open the Millenaire Info Panel instead of the Travel Book screen                      | false         |
+| Grape Vine Right Click      | If true, Grape Vines can be right-clicked like Sweet Berry Bushes if the player has learned how to plant grapes | true          |
 
 ### Items
 | Name                              | Function                                                                                                          | Default |
@@ -53,7 +54,8 @@ Clé's options are as follows:
 - `cle:millagers_try_hunting` : Entities in this tag WILL be hunted by Millagers, even if their original logic said they should not
 - `cle:millagers_avoid_hunting` : Entities in this tag will NOT be hunted by Millagers, even if their original logic said they should
 - `cle:hunts_millagers`: (if enabled) Mobs in this tag will target Millagers when they are nearby, even if that mob didn't originally
-- `cle:despawns_in_millage`: (if enabled) Mobs in this tag will despawn inside of millages, in addition to the default of Creepers and Endermen
+- `cle:despawns_in_millage`: (if enabled) Mobs in this tag will be considered "extra dangerous" and despawn inside of the bounds of millages, in addition to the default of Creepers and Endermen
+- `cle:disallowed_hunting`: Mobs in this tag will be excluded from Millenaire's hunting drop mechanics. This is necessary for mobs that extend the relevant vanilla ones (Squid, Guardian, Polar Bear, Wolf) that you DON'T want to drop those meats
 ### Damage
 These are useful if you have especially powerful mobs walking around the Overworld, like from Grimoire of Gaia.
 - `cle:millagers_deal_modified_damage_to` : Millagers deal extra/less (determined by config) damage to entities in this tag.
@@ -61,6 +63,7 @@ These are useful if you have especially powerful mobs walking around the Overwor
 
 ## Useful operator commands
 - `/cle learn_crops` teaches you all of Millenaire's crops.
+- `/cle learn_drops` teaches you all of Millenaire's hunting drops.
 - `/cle reset_reputation` resets your reputation of the village and culture you are currently in.
 - `/cle show` has different options to list certain internal Millenaire variables, for use with making custom cultures.
 - If reputation caps are enabled, commands for testing them will be available.

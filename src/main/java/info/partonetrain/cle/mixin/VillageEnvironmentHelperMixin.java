@@ -1,5 +1,7 @@
 package info.partonetrain.cle.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import info.partonetrain.cle.Cle;
 import info.partonetrain.cle.CleConfig;
 import net.minecraft.server.level.ServerLevel;
@@ -29,6 +31,14 @@ public class VillageEnvironmentHelperMixin {
                 }
             }
         }
+    }
+
+    @WrapOperation(method = "despawnDangerousMobs", at= @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z"))
+    private static boolean cle$despawnDangerousMobs2(List instance, Operation<Boolean> original){
+        if(CleConfig.DISABLE_DESPAWN_ALL_MOBS.getAsBoolean()){
+            return false; //evaluates to true
+        }
+        return original.call(instance);
     }
 
 }

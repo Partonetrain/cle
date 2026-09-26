@@ -35,7 +35,6 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
-import net.neoforged.neoforgespi.Environment;
 import net.neoforged.neoforgespi.locating.IModFile;
 import org.millenaire.entity.MillVillager;
 import org.millenaire.entity.VillagerInventory;
@@ -109,6 +108,8 @@ public class Cle {
     public static final TagKey<EntityType<?>> HUNTS_MILLAGERS = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "hunts_millagers"));
     public static final TagKey<EntityType<?>> DESPAWNS_IN_MILLAGE = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "despawns_in_millage"));
 
+    public static final TagKey<EntityType<?>> DISALLOWED_HUNTING = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "disallowed_hunting"));
+
     public static final TagKey<Block> MILLAGERS_AFRAID_OF = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MODID, "millagers_afraid_of"));
 
     public Cle(IEventBus modEventBus, ModContainer modContainer) {
@@ -125,6 +126,7 @@ public class Cle {
         NeoForge.EVENT_BUS.register(new ReputationCapResetCommand());
         NeoForge.EVENT_BUS.register(new ReputationResetCommand());
         NeoForge.EVENT_BUS.register(new LearnCropsCommand());
+        NeoForge.EVENT_BUS.register(new LearnDropsCommand());
         NeoForge.EVENT_BUS.register(new ShowCommand());
 
         if(LoadingModList.get().getModFileById("ars_nouveau") != null){

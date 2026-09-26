@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "ars_nouveau:summon_wolf",
+      "required": false
+    }
+  ]
+}

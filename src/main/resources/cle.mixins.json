@@ -8,6 +8,7 @@
     "BlockGrapeVineMixin",
     "HopperBlockEntityMixin",
     "HuntMonsterGoalMixin",
+    "InuitHuntingDropHandlerMixin",
     "MillFoodItemMixin",
     "MillVillagerMixin",
     "NightActionHelperMixin",

@@ -128,6 +128,7 @@ public class Cle {
         NeoForge.EVENT_BUS.register(new LearnCropsCommand());
         NeoForge.EVENT_BUS.register(new LearnDropsCommand());
         NeoForge.EVENT_BUS.register(new ShowCommand());
+        NeoForge.EVENT_BUS.register(new SpawnCommand());
 
         if(LoadingModList.get().getModFileById("ars_nouveau") != null){
             NeoForge.EVENT_BUS.register(new ArsNouveauCompat());
@@ -186,6 +187,7 @@ public class Cle {
     @SubscribeEvent
     public void onServerStarted(ServerStartedEvent event) {
         ParsedConfigs.parseDamageMods();
+        ParsedConfigs.parseStructuresToAvoid();
         CleUtils.playerRepNotifCooldowns.clear();
 
         if(CleConfig.MILLAGERS_CONVERT_TO_ALTERNATIVES.getAsBoolean()){

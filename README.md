@@ -29,10 +29,11 @@ Clé's options are as follows:
 | Millagers Convert to Alternatives | Automatically converts these items in millager inventories                                                        | true    |
 
 ### World
-| Name             | Function                                                                                            | Default       |
-|------------------|-----------------------------------------------------------------------------------------------------|---------------|
-| Max Distance     | Max distance from center a millage can spawn. Similar to Millenaire's spawnProtectionRadius option. | 0 (disabled)  |
-| Rejection Chance | Chance that a millage/lone building generation attempt will be rejected                             | 0 (disabled)  |
+| Name                | Function                                                                                            | Default              |
+|---------------------|-----------------------------------------------------------------------------------------------------|----------------------|
+| Max Distance        | Max distance from center a millage can spawn. Similar to Millenaire's spawnProtectionRadius option. | 0 (disabled)         |
+| Rejection Chance    | Chance that a millage/lone building generation attempt will be rejected                             | 0 (disabled)         |
+| Structures To Avoid | Additional structures for Millenaire's structure avoidance logic                                    | "minecraft:monument" |
 
 ### Client
 | Name                     | Function                                                                              | Default    |
@@ -66,6 +67,7 @@ These are useful if you have especially powerful mobs walking around the Overwor
 - `/cle learn_drops` teaches you all of Millenaire's hunting drops.
 - `/cle reset_reputation` resets your reputation of the village and culture you are currently in.
 - `/cle show` has different options to list certain internal Millenaire variables, for use with making custom cultures.
+- `/cle spawn all_villager_types` spawns all villager types in a LONG line with their AI disabled for debugging/texturing purposes. Use with caution, it's difficult to remove them.
 - If reputation caps are enabled, commands for testing them will be available.
 
 Fun fact: *"Clé" is French for "wrench"*. (I don't speak French, but I thought it would make for a good name)

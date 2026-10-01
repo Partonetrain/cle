@@ -1,23 +1,16 @@
 package info.partonetrain.cle.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
-import info.partonetrain.cle.Cle;
-import info.partonetrain.cle.CleConfig;
-import info.partonetrain.cle.MillagerTagHandler;
+import info.partonetrain.cle.CleUtils;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import org.millenaire.building.BuildingId;
+import org.millenaire.culture.VillagerType;
 import org.millenaire.entity.MillVillager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MillVillager.class)
 public class MillVillagerMixin extends PathfinderMob {
@@ -26,5 +19,19 @@ public class MillVillagerMixin extends PathfinderMob {
         super(entityType, level);
     }
 
-    //nuthin
+    @Inject(method = "updateClothTextures", at=@At("HEAD"), cancellable = true)
+    public void cle$updateClothTextures(VillagerType vType, CallbackInfo ci){
+        MillVillager self = (MillVillager) (Object) this;
+        if(CleUtils.isTestingMillager(self)){
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "isLocalMerchant", at=@At("HEAD"), cancellable = true)
+    public void cle$isLocalMerchant(CallbackInfoReturnable<Boolean> cir){
+        MillVillager self = (MillVillager) (Object) this;
+        if(CleUtils.isTestingMillager(self)){
+            cir.setReturnValue(false);
+        }
+    }
 }

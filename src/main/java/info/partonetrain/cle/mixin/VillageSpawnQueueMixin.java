@@ -1,10 +1,16 @@
 package info.partonetrain.cle.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.datafixers.util.Pair;
 import info.partonetrain.cle.Cle;
 import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.ParsedConfigs;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import org.millenaire.village.VillageManager;
 import org.millenaire.village.VillageSavedData;
 import org.millenaire.world.VillageSpawnQueue;
@@ -12,7 +18,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(VillageSpawnQueue.class)
 public class VillageSpawnQueueMixin {
@@ -38,6 +43,36 @@ public class VillageSpawnQueueMixin {
                 ci.cancel();
             }
         }
+
+        /* MILLENAIRE ALREADY HAS CODE FOR THIS
+        if(!ParsedConfigs.minDistanceConfigs.isEmpty()){
+            for(ParsedConfigs.MinDistanceConfig mdc : ParsedConfigs.minDistanceConfigs){
+                HolderSet<Structure> structureHolderSet = mdc.isTag() ? //contains structures, either all the ones in the tag or just the one
+                        level.registryAccess().registryOrThrow(Registries.STRUCTURE).getOrCreateTag(mdc.structureTag()) :
+                        HolderSet.direct(level.registryAccess().registryOrThrow(Registries.STRUCTURE).getHolderOrThrow(mdc.structure()));
+
+                int searchDistance = (int) Math.sqrt(mdc.minDistance());
+                //the following is the same way LocateCommand does it
+                Pair<BlockPos, Holder<Structure>> nearestStructure = level.getChunkSource().getGenerator().findNearestMapStructure(level, structureHolderSet, candidate, searchDistance, false);
+                //potential issue: there's technically nothing preventing structures in the same tag from being close together and findNearestMapStructure only finding the first one,
+                //and then the millage spawning inside/replacing the farther one
+                //let's hope that doesn't come up...
+
+                if(nearestStructure != null){
+                    int realDist = (int) candidate.distSqr(nearestStructure.getFirst());
+
+                    if(realDist <= mdc.minDistance()){
+                        String logged = mdc.isTag() ? "#" + mdc.structureTag().location().toString() : mdc.structure().location().toString();
+                        if (log || Cle.DEV) {
+                            Cle.LOGGER.info("Spawn at " + candidate.toShortString() + " was rejected due to a " + logged + " being too close (configured distance: " + mdc.minDistance() + " <= actual distance: " + realDist + ")");
+                        }
+                        ci.cancel();
+                    }
+                }
+
+            }
+        }
+        */
     }
 
 }

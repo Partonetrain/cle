@@ -1,5 +1,6 @@
 package info.partonetrain.cle;
 
+import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.List;
@@ -34,6 +35,8 @@ public class CleConfig {
     //world
     public static ModConfigSpec.IntValue MAX_DISTANCE;
     public static ModConfigSpec.DoubleValue REJECTION_CHANCE;
+    //public static ModConfigSpec.ConfigValue<List<String>>  MIN_DISTANCE_FROM_STRUCTURES;
+    public static ModConfigSpec.ConfigValue<List<String>> STRUCTURES_TO_AVOID;
     //network
     public static ModConfigSpec.BooleanValue DISABLE_VERSION_CHECK;
     //client
@@ -186,6 +189,20 @@ public class CleConfig {
         REJECTION_CHANCE = BUILDER.comment("If not 0, chance that a millage/lone building generation attempt will be randomly rejected")
                 .comment("This can be used to make millages less frequent")
                 .defineInRange("Rejection Chance", 0.0, 0.0, 0.99);
+
+        /* MILLENAIRE ALREADY HAS CODE FOR THIS
+        MIN_DISTANCE_FROM_STRUCTURES = BUILDER.comment("Minimum distance from structures for millages/lone buildings")
+                        .comment("Format is <structure ID or structure tag>,<min distance in blocks>")
+                        .comment("This can make village placement take much longer as it essentially has to scan the world for structures the same way the /locate structure command does")
+                        .define("Min Distance From Structures", List.of(
+                                "#minecraft:village,150",
+                                "minecraft:desert_pyramid,100"));
+         */
+
+        STRUCTURES_TO_AVOID = BUILDER.comment("Structure IDs to add to Millenaire's built-in structure avoidance logic")
+                .comment("Millenaire already avoids structures like vanilla igloos and desert pyramids, this just adds more structures to that logic")
+                .comment("Keep in mind the more of these there are, the longer a millage/lone building will take to be placed")
+                .define("Structures To Avoid", List.of(BuiltinStructures.OCEAN_MONUMENT.location().toString()));
 
         BUILDER.pop();
 

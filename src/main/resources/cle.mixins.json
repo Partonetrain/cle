@@ -14,6 +14,8 @@
     "NightActionHelperMixin",
     "PlayerCultureReputationAccessor",
     "QuestRegistryAccessor",
+    "StructureAvoidanceAccessor",
+    "StructureAvoidanceMixin",
     "ToolCategoryRegistryAccessor",
     "TravelBookItemMixin",
     "VersionCheckerMixin",

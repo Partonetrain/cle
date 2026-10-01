@@ -228,4 +228,8 @@ public class CleUtils {
         return inMillage;
     }
 
+    public static boolean isTestingMillager(MillVillager millager){
+        return millager.getFamilyName().equals("Testerson");
+    }
+
 }

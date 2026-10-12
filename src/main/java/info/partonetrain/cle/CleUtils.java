@@ -229,7 +229,7 @@ public class CleUtils {
     }
 
     public static boolean isTestingMillager(MillVillager millager){
-        return millager.getFamilyName().equals("Testerson");
+        return millager.isNoAi();
     }
 
 }

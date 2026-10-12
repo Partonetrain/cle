@@ -94,7 +94,7 @@ public class CleConfig {
                 .define("Hunts Millagers", true);
 
         DESPAWNS_IN_MILLAGE = BUILDER
-                .comment("If true, any entity in the the entity type tag " + Cle.HUNTS_MILLAGERS.location() + " will despawn if it is within the bounds of a millage")
+                .comment("If true, any entity in the the entity type tag " + Cle.DESPAWNS_IN_MILLAGE.location() + " will despawn if it is within the bounds of a millage")
                 .comment("This is a distinct mechanic from individual buildings with the despawnallmobs tag")
                 .comment("(Similar to Hunts Millagers, this has the potential to introduce lag)")
                 .define("Despawns In Millage", true);

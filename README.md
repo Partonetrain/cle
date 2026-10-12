@@ -22,7 +22,7 @@ Clé's options are as follows:
 | Name                              | Function                                                                                                          | Default |
 |-----------------------------------|-------------------------------------------------------------------------------------------------------------------|---------|
 | Use Food Components               | Adds vanilla foods components to Millenaire's foods, enhancing compatibility                                      | true    |
-| Food Gives Bowl                   | Yogurt and Curry will give you a bowl after being consumed                                                        | true    |
+| Food Gives Bowl                   | Yogurt, Curry, and Stews will give you a bowl after being consumed                                                | true    |
 | Drink Gives Bottle                | All drinks will give the player a glass bottle after being consumed                                               | true    |
 | Alternative Inuit Trident         | Automatically converts Millenaire Inuit Tridents to Clé's alternatives which behave like vanilla tridents         | true    |
 | Alternative Maces                 | Automatically converts Millenaire Byzantine and Mayan maces to Clé's alternatives which behave like vanilla maces | true    |
@@ -67,7 +67,7 @@ These are useful if you have especially powerful mobs walking around the Overwor
 - `/cle learn_drops` teaches you all of Millenaire's hunting drops.
 - `/cle reset_reputation` resets your reputation of the village and culture you are currently in.
 - `/cle show` has different options to list certain internal Millenaire variables, for use with making custom cultures.
-- `/cle spawn all_villager_types` spawns all villager types in a LONG line with their AI disabled for debugging/texturing purposes. Use with caution, it's difficult to remove them.
+- `/cle spawn` has different options to spawn villagers in a LONG line with their AI disabled for debugging/texturing purposes. Use with caution, it's difficult to remove them.
 - If reputation caps are enabled, commands for testing them will be available.
 
 Fun fact: *"Clé" is French for "wrench"*. (I don't speak French, but I thought it would make for a good name)

@@ -40,7 +40,8 @@ public class MillFoodItemMixin extends Item {
                 player.addItem(Items.GLASS_BOTTLE.getDefaultInstance());
             }
         }
-        if(self == ModItems.CHICKENCURRY.get() || self == ModItems.VEGCURRY.get()){
+        if(self == ModItems.CHICKENCURRY.get() || self == ModItems.VEGCURRY.get() ||
+                self == ModItems.INUIT_POTATO_STEW.get() || self == ModItems.INUIT_MEATY_STEW.get() || self == ModItems.INUIT_BEAR_STEW.get()){
             Player player = (Player)entity;
             player.addItem(Items.BOWL.getDefaultInstance());
         }

@@ -13,6 +13,7 @@
     "MillVillagerMixin",
     "NightActionHelperMixin",
     "PlayerCultureReputationAccessor",
+    "QuestManagerAccessor",
     "QuestRegistryAccessor",
     "StructureAvoidanceAccessor",
     "StructureAvoidanceMixin",
@@ -26,6 +27,8 @@
     "VillageReputationAccessor",
     "VillagerInventoryAccessor",
     "VillageSpawnQueueMixin",
+    "client.ClientQuestCacheAccessor",
+    "client.ClientQuestCacheMixin",
     "client.MillenaireKeyBindingsMixin",
     "integration.malum.SoulHarvestHandlerMixin",
     "integration.wayward_attributes.RangedAttributeTweaksMixin"
@@ -38,6 +41,7 @@
   },
   "client": [
     "client.ItemRendererMixin",
+    "client.MinecraftMixin",
     "client.QuestScreenMixin",
     "client.VillagePanelScreenMixin"
   ]

@@ -1,5 +1,6 @@
 package info.partonetrain.cle;
 
+import info.partonetrain.cle.client.QuestHighlighterManager;
 import info.partonetrain.cle.command.*;
 import info.partonetrain.cle.compat.ArsNouveauCompat;
 import info.partonetrain.cle.compat.QuarkCompat;
@@ -26,8 +27,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.fml.ModList;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.LoadingModList;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -36,6 +39,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforgespi.locating.IModFile;
+import org.millenaire.content.BuiltInCultures;
 import org.millenaire.entity.MillVillager;
 import org.millenaire.entity.VillagerInventory;
 import org.millenaire.item.ModCreativeTabs;
@@ -127,8 +131,10 @@ public class Cle {
         NeoForge.EVENT_BUS.register(new ReputationResetCommand());
         NeoForge.EVENT_BUS.register(new LearnCropsCommand());
         NeoForge.EVENT_BUS.register(new LearnDropsCommand());
+        NeoForge.EVENT_BUS.register(new LearnLanguagesCommand());
         NeoForge.EVENT_BUS.register(new ShowCommand());
         NeoForge.EVENT_BUS.register(new SpawnCommand());
+        NeoForge.EVENT_BUS.register(new AuditCommand());
 
         if(LoadingModList.get().getModFileById("ars_nouveau") != null){
             NeoForge.EVENT_BUS.register(new ArsNouveauCompat());
@@ -139,6 +145,12 @@ public class Cle {
 
         modEventBus.addListener(this::addPackFinders);
         modContainer.registerConfig(ModConfig.Type.STARTUP, CleConfig.SPEC);
+
+        if(!FMLEnvironment.production) {
+            for (String s : BuiltInCultures.IDS) {
+                Cle.LOGGER.info("color of " + s + ": " + String.valueOf(CleUtils.getARGBfromCultureName(s)));
+            }
+        }
     }
 
     private void addPackFinders(AddPackFindersEvent event){
@@ -248,11 +260,11 @@ public class Cle {
         if (event.getEntity().level().isClientSide()) {
             return;
         }
-        if(cooldown == 0){
-            cooldown = 20;
+        if(playerTickCooldown == 0){
+            playerTickCooldown = 20;
         }
         else{
-            cooldown--;
+            playerTickCooldown--;
             return;
         }
 
@@ -270,8 +282,6 @@ public class Cle {
                 }
             }
         }
-
-
     }
 
     @SubscribeEvent
@@ -342,6 +352,11 @@ public class Cle {
                 mobGoalSelector.addGoal(2, new FleeBlockGoal<MillVillager>(mv, MILLAGERS_AFRAID_OF, 5));
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onClientTick(ClientTickEvent.Post event) {
+        QuestHighlighterManager.tickCooldown();
     }
 
 }

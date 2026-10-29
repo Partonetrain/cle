@@ -6,24 +6,28 @@ Note: This mod (as well as the general Millénaire community) refers to Milléna
 Clé's options are as follows:
 
 ### General
-| Name                        | Function                                                                                                        | Default       |
-|-----------------------------|-----------------------------------------------------------------------------------------------------------------|---------------|
-| Prevent Hopper Interactions | Prevents hopper interactions with Millenaire's Locked Chests.                                                   | false         |
-| Compost Datapack            | Adds a datapack that adds composter values to various Millenaire items                                          | true          |
-| Modified Damage             | Tagged mobs will take more and deal less damage to/from millagers                                               | x2 and /2     |
-| Hunts Millagers             | Tagged mobs will hunt millagers                                                                                 | true          |
-| Despawns in Millage         | Tagged mobs will despawn in millages like how creepers do                                                       | true          |
-| Disable Despawn All Mobs    | Disables all mobs despawning around special buildings like the Pantheon                                         | false         |
-| Reputation Cap per Day      | Caps the amount of reputation a player can gain per village per Minecraft day                                   | -1 (disabled) |
-| Travel Book Info Panel      | If true, Travel Book will open the Millenaire Info Panel instead of the Travel Book screen                      | false         |
-| Grape Vine Right Click      | If true, Grape Vines can be right-clicked like Sweet Berry Bushes if the player has learned how to plant grapes | true          |
+| Name                        | Function                                                                                                                | Default       |
+|-----------------------------|-------------------------------------------------------------------------------------------------------------------------|---------------|
+| Prevent Hopper Interactions | Prevents hopper interactions with Millenaire's Locked Chests.                                                           | false         |
+| Compost Datapack            | Adds a datapack that adds composter values to various Millenaire items                                                  | true          |
+| Modified Damage             | Tagged mobs will take more and deal less damage to/from millagers                                                       | x2 and /2     |
+| Hunts Millagers             | Tagged mobs will hunt millagers                                                                                         | true          |
+| Despawns in Millage         | Tagged mobs will despawn in millages like how creepers do                                                               | true          |
+| Disable Despawn All Mobs    | Disables all mobs despawning around special buildings like the Pantheon                                                 | false         |
+| Reputation Cap per Day      | Caps the amount of reputation a player can gain per village per Minecraft day                                           | -1 (disabled) |
+| Travel Book Info Panel      | If true, Travel Book will open the Millenaire Info Panel instead of the Travel Book screen                              | false         |
+| Grape Vine Right Click      | If true, Grape Vines can be right-clicked like Sweet Berry Bushes if the player has learned how to plant grapes         | true          |
+| Add Flee Block Goal         | Adds a "run away from scary block" AI goal to millagers                                                                 | true          |
+| Tag Players In Millage      | Players in millagers get the `cle.in_millage` nbt tag; useful for advancements or commands                              | true          |
+| Disable Hardcoded Egg Check | Extremely minor optimization: disables a redundant check for `minecraft:egg`                                            | true          |
+| Change Team Colors          | Changes the team color (vanilla mechanic) of millagers, used in Glowing effect and also Clé's Quest Highlighting option | true          |
 
 ### Items
 | Name                              | Function                                                                                                          | Default |
 |-----------------------------------|-------------------------------------------------------------------------------------------------------------------|---------|
 | Use Food Components               | Adds vanilla foods components to Millenaire's foods, enhancing compatibility                                      | true    |
-| Food Gives Bowl                   | Yogurt, Curry, and Stews will give you a bowl after being consumed                                                | true    |
-| Drink Gives Bottle                | All drinks will give the player a glass bottle after being consumed                                               | true    |
+| Food Gives Bowl                   | Yogurt, Curry, and Stews will give you a bowl after being consumed                                                | false   |
+| Drink Gives Bottle                | All drinks will give the player a glass bottle after being consumed                                               | false   |
 | Alternative Inuit Trident         | Automatically converts Millenaire Inuit Tridents to Clé's alternatives which behave like vanilla tridents         | true    |
 | Alternative Maces                 | Automatically converts Millenaire Byzantine and Mayan maces to Clé's alternatives which behave like vanilla maces | true    |
 | Millagers Convert to Alternatives | Automatically converts these items in millager inventories                                                        | true    |
@@ -36,11 +40,12 @@ Clé's options are as follows:
 | Structures To Avoid | Additional structures for Millenaire's structure avoidance logic                                    | "minecraft:monument" |
 
 ### Client
-| Name                     | Function                                                                              | Default    |
-|--------------------------|---------------------------------------------------------------------------------------|------------|
-| Sort Constructions Panel | Moves less important constructions to the end of the construction panel in town halls | wall,tower |
-| Readable Screens         | changes some font colors in Millenaire screens to be more readable                    | true       |
-| Prevent Keybindings      | Prevents Millenaire from registering keybindings                                      | false      |
+| Name                     | Function                                                                                    | Default    |
+|--------------------------|---------------------------------------------------------------------------------------------|------------|
+| Sort Constructions Panel | Moves less important constructions to the end of the construction panel in town halls       | wall,tower |
+| Readable Screens         | changes some font colors in Millenaire screens to be more readable                          | true       |
+| Prevent Keybindings      | Prevents Millenaire from registering keybindings                                            | false      |
+| Quest Highlighting       | Highlights millagers as though they had the Glowing effect for accepted quests              | true       |
 
 
 # Mod Integrations: 
@@ -52,11 +57,15 @@ Clé's options are as follows:
 
 ## Useful Tags
 ### Mob AI related
-- `cle:millagers_try_hunting` : Entities in this tag WILL be hunted by Millagers, even if their original logic said they should not
-- `cle:millagers_avoid_hunting` : Entities in this tag will NOT be hunted by Millagers, even if their original logic said they should
-- `cle:hunts_millagers`: (if enabled) Mobs in this tag will target Millagers when they are nearby, even if that mob didn't originally
+#### entity_type
+- `cle:millagers_try_hunting` : Entities in this tag WILL be hunted by millagers, even if their original logic said they should not
+- `cle:millagers_avoid_hunting` : Entities in this tag will NOT be hunted by millagers, even if their original logic said they should
+- `cle:hunts_millagers`: (if enabled) Mobs in this tag will target millagers when they are nearby, even if that mob didn't originally
 - `cle:despawns_in_millage`: (if enabled) Mobs in this tag will be considered "extra dangerous" and despawn inside of the bounds of millages, in addition to the default of Creepers and Endermen
 - `cle:disallowed_hunting`: Mobs in this tag will be excluded from Millenaire's hunting drop mechanics. This is necessary for mobs that extend the relevant vanilla ones (Squid, Guardian, Polar Bear, Wolf) that you DON'T want to drop those meats
+#### block
+- `cle:millagers_afraid_of`: blocks in this tag will cause millagers to flee in panic of if the Add Flee Block Goal option is enabled. Useful for roleplay/disencitivising technology near millages.
+- 
 ### Damage
 These are useful if you have especially powerful mobs walking around the Overworld, like from Grimoire of Gaia.
 - `cle:millagers_deal_modified_damage_to` : Millagers deal extra/less (determined by config) damage to entities in this tag.

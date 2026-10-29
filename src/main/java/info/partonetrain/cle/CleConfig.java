@@ -24,6 +24,7 @@ public class CleConfig {
     public static ModConfigSpec.BooleanValue ADD_FLEE_BLOCK_GOAL;
     public static ModConfigSpec.BooleanValue TAG_PLAYERS_IN_VILLAGE;
     public static ModConfigSpec.BooleanValue DISABLE_HARDCODED_EGG_CHECK;
+    public static ModConfigSpec.BooleanValue CHANGE_TEAM_COLORS;
 
     //items
     public static ModConfigSpec.BooleanValue USE_FOOD_COMPONENTS;
@@ -32,6 +33,7 @@ public class CleConfig {
     public static ModConfigSpec.BooleanValue ALTERNATIVE_INUIT_TRIDENT;
     public static ModConfigSpec.BooleanValue ALTERNATIVE_MACES;
     public static ModConfigSpec.BooleanValue MILLAGERS_CONVERT_TO_ALTERNATIVES;
+    public static ModConfigSpec.BooleanValue GHANA_SPEAR_REACH_INCREASE;
     //world
     public static ModConfigSpec.IntValue MAX_DISTANCE;
     public static ModConfigSpec.DoubleValue REJECTION_CHANCE;
@@ -39,10 +41,12 @@ public class CleConfig {
     public static ModConfigSpec.ConfigValue<List<String>> STRUCTURES_TO_AVOID;
     //network
     public static ModConfigSpec.BooleanValue DISABLE_VERSION_CHECK;
+    public static ModConfigSpec.BooleanValue DISABLE_ADVANCEMENT_REPORTER;
     //client
     public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
     public static ModConfigSpec.BooleanValue READABLE_SCREENS;
     public static ModConfigSpec.BooleanValue PREVENT_KEYBINDS;
+    public static ModConfigSpec.BooleanValue QUEST_HIGHLIGHTING;
     //malum
     public static ModConfigSpec.IntValue SPIRIT_REAP_REPUTATION_LOSS;
     //ars
@@ -134,6 +138,11 @@ public class CleConfig {
                 .comment("\"Value = growth bonus (growth += value + random(value)). Sorted by descending value. 'Egg' is also included in this list (legacy parity), in addition to the special case in the code.\"")
                 .define("Disable Hardcoded Egg Check", true);
 
+        CHANGE_TEAM_COLORS = BUILDER.comment("If true, Millagers will have their team color (from the vanilla teams mechanic) changed instead of using the default pure-white")
+                .comment("The team color used for a millager are red if it always hostile, and automatically generated based on the culture's name if not")
+                .comment("This affects millagers inflicted with the Glowing effect, but also the Quest Highlighting option")
+                .define("Change Team Colors", true);
+
 
         BUILDER.pop();
 
@@ -147,11 +156,11 @@ public class CleConfig {
 
         FOOD_GIVES_BOWL = BUILDER
                 .comment("If true, Yogurt and Curry will give the player a bowl after it is eaten (only in survival)")
-                .define("Food Gives Bowl", true);
+                .define("Food Gives Bowl", false);
 
         DRINK_GIVES_BOTTLE = BUILDER
                 .comment("If true, all drinks will give the player a glass bottle after it is drunk (only in survival)")
-                .define("Drink Gives Bottle", true);
+                .define("Drink Gives Bottle", false);
 
         ALTERNATIVE_INUIT_TRIDENT = BUILDER
                 .comment("If true, any Inuit Tridents obtained by survival mode players will behave like a Minecraft trident instead of a sword")
@@ -220,6 +229,9 @@ public class CleConfig {
         PREVENT_KEYBINDS = BUILDER.comment("If true, Millenaire's keybindings will not be registered")
                 .comment("There is currently no alternative to the Stance key, however")
                 .define("Prevent Keybindings", false);
+
+        QUEST_HIGHLIGHTING = BUILDER.comment("If millagers related to accepted quests should be highlighted as if they had the Glowing effect or not")
+                .define("Quest Highlighting", true);
 
         BUILDER.pop();
 

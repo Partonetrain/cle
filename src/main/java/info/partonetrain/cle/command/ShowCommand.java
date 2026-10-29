@@ -100,6 +100,7 @@ public class ShowCommand {
                                                             context.getSource().sendSystemMessage(Component.literal(" * # of villagers: " + q.villagerDefs().size()) );
                                                         }
 
+                                                        context.getSource().sendSystemMessage(Component.literal(quests.size() + " quests in total").withStyle(ChatFormatting.ITALIC));
                                                         context.getSource().sendSystemMessage(Component.literal("Note: there are more data points in quests than what is shown here").withStyle(ChatFormatting.ITALIC));
 
                                                         return 1;

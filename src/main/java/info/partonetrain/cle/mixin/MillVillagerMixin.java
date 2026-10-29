@@ -1,5 +1,6 @@
 package info.partonetrain.cle.mixin;
 
+import info.partonetrain.cle.CleConfig;
 import info.partonetrain.cle.CleUtils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
@@ -33,5 +34,25 @@ public class MillVillagerMixin extends PathfinderMob {
         if(CleUtils.isTestingMillager(self)){
             cir.setReturnValue(false);
         }
+    }
+
+    @Override
+    public int getTeamColor(){
+        if(CleConfig.CHANGE_TEAM_COLORS.getAsBoolean()) {
+            MillVillager self = (MillVillager) (Object) this;
+            if(CleUtils.isTestingMillager(self)){
+                return 0xFF00FFFF; //debug fuchsia
+            }
+            if (CleUtils.isMillagerAlwaysHostile(self)) {
+                return 0xFF0000FF; //pure red
+            }
+            String culturePath = self.getCultureId().getPath();
+            int cultureColor = CleUtils.getARGBfromCultureName(culturePath);
+            if (cultureColor != -1) {
+                super.getTeamColor();
+            }
+            return cultureColor;
+        }
+        return super.getTeamColor();
     }
 }

@@ -11,15 +11,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.common.Tags;
 import org.millenaire.ReputationConstants;
 import org.millenaire.culture.ModCultures;
 import org.millenaire.culture.VillagerType;
 import org.millenaire.entity.MillVillager;
-import org.millenaire.entity.VillagerCombat;
-import org.millenaire.item.PurseItem;
 import org.millenaire.village.PlayerCultureReputation;
 import org.millenaire.village.Village;
 import org.millenaire.village.VillageReputation;
@@ -28,6 +26,8 @@ import org.millenaire.village.VillageSavedData;
 import java.util.*;
 
 public class CleUtils {
+
+    private static Map<String, Integer> colorCache = new HashMap<>();
 
     public static Map<UUID, Integer> playerRepNotifCooldowns = new HashMap<>();
     public static final int REP_COOLDOWN = 500;
@@ -230,6 +230,26 @@ public class CleUtils {
 
     public static boolean isTestingMillager(MillVillager millager){
         return millager.isNoAi();
+    }
+
+    public static int getARGBfromCultureName(String cultureName){
+        if(cultureName.length() < 3){
+            return -1;
+        }
+
+        if(colorCache.containsKey(cultureName)){
+            return colorCache.get(cultureName);
+        }
+
+        //kinda sorta similar to what future locator bar does?
+        //we want bright distinct colors so use HSV.
+        int hash = cultureName.hashCode();
+        float hue = (hash >>> 16) / 65535f; //top 16 bits of hash divided by largest value possible,
+        //get a float between 0 and 1
+
+        int color = java.awt.Color.HSBtoRGB(hue, 0.9f, 0.9f);
+        colorCache.put(cultureName, color);
+        return color;
     }
 
 }

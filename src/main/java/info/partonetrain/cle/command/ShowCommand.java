@@ -22,7 +22,9 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.millenaire.Millenaire;
 import org.millenaire.building.BlockCostRegistry;
 import org.millenaire.config.VillagerConfig;
+import org.millenaire.culture.VillagerType;
 import org.millenaire.quest.Quest;
+import org.millenaire.quest.QuestVillagerDef;
 import org.millenaire.tool.ToolCategory;
 import org.millenaire.tool.ToolCategoryRegistry;
 
@@ -98,6 +100,12 @@ public class ShowCommand {
                                                             context.getSource().sendSystemMessage(Component.literal(" * min reputation: " + q.minReputation() ));
                                                             context.getSource().sendSystemMessage(Component.literal(" * # of steps: " + q.steps().size()) );
                                                             context.getSource().sendSystemMessage(Component.literal(" * # of villagers: " + q.villagerDefs().size()) );
+                                                            for(QuestVillagerDef qvd : q.villagerDefs()){
+                                                                context.getSource().sendSystemMessage(Component.literal("   * " + qvd.key() ));
+                                                                for(String vt : qvd.villagerTypes()){
+                                                                    context.getSource().sendSystemMessage(Component.literal("     * " + vt ));
+                                                                }
+                                                            }
                                                         }
 
                                                         context.getSource().sendSystemMessage(Component.literal(quests.size() + " quests in total").withStyle(ChatFormatting.ITALIC));

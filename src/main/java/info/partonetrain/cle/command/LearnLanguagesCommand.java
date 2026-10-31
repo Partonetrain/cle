@@ -1,5 +1,6 @@
 package info.partonetrain.cle.command;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -28,10 +29,14 @@ public class LearnLanguagesCommand {
                                         PlayerCultureReputation cultureRep = PlayerCultureReputation.get((ServerLevel) sp.level());
 
                                         Map<ResourceLocation, Culture> cultures = ModCultures.getAllCultures();
+                                        int count = 0;
                                         for(ResourceLocation rl : cultures.keySet()){
                                             cultureRep.addLanguageKnowledge(sp.getUUID(), rl, 500);
                                             context.getSource().sendSystemMessage(Component.literal("Maxed-out language knowledge for " + rl.toString()));
+                                            count++;
                                         }
+
+                                        context.getSource().sendSystemMessage(Component.literal("Gained controlled villages for " + count + " cultures").withStyle(ChatFormatting.ITALIC));
 
                                         return 1;
                                     }

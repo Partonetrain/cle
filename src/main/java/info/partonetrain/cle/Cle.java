@@ -132,6 +132,7 @@ public class Cle {
         NeoForge.EVENT_BUS.register(new LearnCropsCommand());
         NeoForge.EVENT_BUS.register(new LearnDropsCommand());
         NeoForge.EVENT_BUS.register(new LearnLanguagesCommand());
+        NeoForge.EVENT_BUS.register(new GrantControlCommand());
         NeoForge.EVENT_BUS.register(new ShowCommand());
         NeoForge.EVENT_BUS.register(new SpawnCommand());
         NeoForge.EVENT_BUS.register(new AuditCommand());

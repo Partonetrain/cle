@@ -6,6 +6,7 @@
   "mixins": [
     "BlockCostRegistryAccessor",
     "BlockGrapeVineMixin",
+    "BuildingProjectRequestPayloadMixin",
     "HopperBlockEntityMixin",
     "HuntMonsterGoalMixin",
     "InuitHuntingDropHandlerMixin",

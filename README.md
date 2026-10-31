@@ -75,6 +75,7 @@ These are useful if you have especially powerful mobs walking around the Overwor
 - `/cle learn_crops` teaches you all of Millenaire's crops.
 - `/cle learn_drops` teaches you all of Millenaire's hunting drops.
 - `/cle learn_languages` teaches you all of Millenaire's languages.
+- `/cle grant_control` grants you the ability to spawn controlled villages for every culture.
 - `/cle reset_reputation` resets your reputation of the village and culture you are currently in.
 - `/cle show` has different options to list certain internal Millenaire variables, for use with making custom cultures.
 - `/cle spawn` has different options to spawn villagers in a LONG line with their AI disabled for debugging/texturing purposes. Use with caution, it's difficult to remove them.

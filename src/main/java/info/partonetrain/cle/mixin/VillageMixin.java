@@ -1,10 +1,7 @@
 package info.partonetrain.cle.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import info.partonetrain.cle.Cle;
-import info.partonetrain.cle.CleUtils;
-import info.partonetrain.cle.MillagerTagHandler;
-import info.partonetrain.cle.ReputationCapSaveData;
+import info.partonetrain.cle.*;
 import net.minecraft.server.level.ServerLevel;
 import org.millenaire.building.BuildingId;
 import org.millenaire.entity.MillVillager;
@@ -39,6 +36,10 @@ public class VillageMixin {
 
     @ModifyArgs(method="adjustReputation", at= @At(value = "INVOKE", target = "Lorg/millenaire/village/Village;addReputation(Ljava/util/UUID;I)I"))
     public void cle$adjustReputation(Args args, @Local(argsOnly = true) ServerLevel level){
+        if(CleConfig.REPUTATIION_CAP_PER_DAY.getAsInt() == -1){
+            return;
+        }
+
         int reputationAttemptingToAdd = args.get(1);
         if(reputationAttemptingToAdd <= 0){
             return;

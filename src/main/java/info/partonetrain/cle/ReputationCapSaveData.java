@@ -178,6 +178,10 @@ public class ReputationCapSaveData extends SavedData {
     }
 
     public boolean canPlayerGainMoreRepToday(UUID playerUUID, UUID villageUUID, int levelDayNumber){
+        if(CleConfig.REPUTATIION_CAP_PER_DAY.getAsInt() == -1){
+            return true;
+        }
+
         List<ReputationCap> repCaps = players.get(playerUUID);
         if(repCaps == null) { //if the player has no reputation caps set up yet
             return true;

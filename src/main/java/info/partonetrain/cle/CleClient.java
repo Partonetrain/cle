@@ -1,7 +1,11 @@
 package info.partonetrain.cle;
 
 import info.partonetrain.cle.client.InuitTridentRenderer;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -12,6 +16,8 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import org.millenaire.village.VillageId;
 
 @Mod(value = Cle.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = Cle.MODID, value = Dist.CLIENT)
@@ -36,5 +42,23 @@ public class CleClient {
     public static void modelRegistry(ModelEvent.RegisterAdditional event) {
         event.register(ModelResourceLocation.standalone(Cle.ALTERNATIVE_INUIT_TRIDENT.getId().withPrefix("item/")));
         event.register(ModelResourceLocation.standalone(Cle.ALTERNATIVE_INUIT_TRIDENT.getId().withPrefix("item/").withSuffix("_in_hand")));
+    }
+
+    @SubscribeEvent
+    public static void onItemTooltip(ItemTooltipEvent event) {
+        ItemStack stack = event.getItemStack();
+        if (stack.is(Items.HOPPER)) {
+            String villageName = "?";
+            if (stack.get(Cle.CONTROLLED_HOPPER_DATA_COMPONENT_TYPE.get()) != null){
+                ControlledHopper ch = stack.get(Cle.CONTROLLED_HOPPER_DATA_COMPONENT_TYPE);
+                VillageId villageId = new VillageId(ch.villageUUID());
+                //TODO set villageName with village name cache? does millenaire provide this?
+                event.getToolTip().add(Component.translatable("cle.tooltip.controlled_hopper", villageName).withStyle(ChatFormatting.BLUE));
+
+                if(event.getFlags().isAdvanced()){
+                    event.getToolTip().add(Component.literal(ch.villageUUID().toString()));
+                }
+            }
+        }
     }
 }

@@ -20,15 +20,8 @@ public class HopperBlockEntityMixin {
     private static void cle$getBlockContainer(Level level, BlockPos pos, BlockState state, CallbackInfoReturnable<Container> cir){
         if(CleConfig.PREVENT_HOPPER_INTERACTIONS.getAsBoolean()){
             if(state.is(ModBlocks.LOCKED_CHEST)){
-                //if only hopper block entities had some kind of mechanism to determine their owner,
-                //we could use that here to make locked chests compatible with relevant hoppers
-                /*
-                if(state.getBlock() instanceof LockedChestBlock lcb){
-                    if(level.getBlockEntity(pos) instanceof LockedChestBlockEntity lcbe){
-                        lcbe.isLockedFor(???)
-                    }
-                }
-                 */
+                //TODO write controlled hopper logic
+                //wrinkle: this is a static method. we can't check if this is running from a controlled hopper. might need refactoring
                 cir.setReturnValue(null);
             }
         }

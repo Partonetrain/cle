@@ -145,7 +145,7 @@ dependencies {
 
     implementation 'maven.modrinth:jei:feYG503c'
 
-    implementation files("./libs/millenaire-9.0.3.jar")
+    implementation files("./libs/millenaire-9.1.0.jar")
     //implementation "curse.maven:millenaire-270871:${millenaire_file_id}"
 
     //for testing waywardattributes damage

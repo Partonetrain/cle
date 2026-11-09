@@ -3,6 +3,14 @@
 This mod tweaks Millénaire 9, provides some customization and balance options, and enhances compatibility.
 Note: This mod (as well as the general Millénaire community) refers to Millénaire villages and its villagers as "millages" and "millagers" respectively to distinguish them from vanilla villagers.
 
+# Mod Integrations:
+- Malum: Spirit reaping near millagers creeps them out and reduces your reputation
+- Ars Nouveau, Ars Elemental: Using positive spells on millagers improves reputation, negative spells reduce it
+- Wayward Attributes (bugged): Millenaire's Bows, when used by the player, now use the stats programmed for them that are normally only used for millager combat. In practice this only affects the Yumi Bow
+- Quark: Simple Harvest now checks if players have the requisite knowledge of a Millenaire crop before letting them harvest. For Rice Paddy blocks, you will need to add the following to your Quark config's "Harvestable Blocks" option:
+  ``"millenaire:rice_paddy[planted=true,age=7,waterlogged=false],millenaire:rice_paddy[planted=true,age=0,waterlogged=false]", "millenaire:rice_paddy[planted=true,age=7,waterlogged=true],millenaire:rice_paddy[planted=true,age=0,waterlogged=true]"``
+
+
 Clé's options are as follows:
 
 ### General
@@ -47,29 +55,22 @@ Clé's options are as follows:
 | Prevent Keybindings      | Prevents Millenaire from registering keybindings                                            | false      |
 | Quest Highlighting       | Highlights millagers as though they had the Glowing effect for accepted quests              | true       |
 
-
-# Mod Integrations: 
- - Malum: Spirit reaping near millagers creeps them out and reduces your reputation
- - Ars Nouveau, Ars Elemental: Using positive spells on millagers improves reputation, negative spells reduce it
- - Wayward Attributes: Millenaire's Bows, when used by the player, now use the stats programmed for them that are normally only used for millager combat. In practice this only affects the Yumi Bow 
- - Quark: Simple Harvest now checks if players have the requisite knowledge of a Millenaire crop before letting them harvest. For Rice Paddy blocks, you will need to add the following to your Quark config's "Harvestable Blocks" option:
-``"millenaire:rice_paddy[planted=true,age=7,waterlogged=false],millenaire:rice_paddy[planted=true,age=0,waterlogged=false]", "millenaire:rice_paddy[planted=true,age=7,waterlogged=true],millenaire:rice_paddy[planted=true,age=0,waterlogged=true]"``
-
 ## Useful Tags
-### Mob AI related
 #### entity_type
+
 - `cle:millagers_try_hunting` : Entities in this tag WILL be hunted by millagers, even if their original logic said they should not
 - `cle:millagers_avoid_hunting` : Entities in this tag will NOT be hunted by millagers, even if their original logic said they should
 - `cle:hunts_millagers`: (if enabled) Mobs in this tag will target millagers when they are nearby, even if that mob didn't originally
 - `cle:despawns_in_millage`: (if enabled) Mobs in this tag will be considered "extra dangerous" and despawn inside of the bounds of millages, in addition to the default of Creepers and Endermen
 - `cle:disallowed_hunting`: Mobs in this tag will be excluded from Millenaire's hunting drop mechanics. This is necessary for mobs that extend the relevant vanilla ones (Squid, Guardian, Polar Bear, Wolf) that you DON'T want to drop those meats
-#### block
-- `cle:millagers_afraid_of`: blocks in this tag will cause millagers to flee in panic of if the Add Flee Block Goal option is enabled. Useful for roleplay/disencitivising technology near millages.
-- 
-### Damage
-These are useful if you have especially powerful mobs walking around the Overworld, like from Grimoire of Gaia.
 - `cle:millagers_deal_modified_damage_to` : Millagers deal extra/less (determined by config) damage to entities in this tag.
 - `cle:millagers_take_modified_damage_from` : Entities in this tag take extra/less (determined by config) damage from millagers
+
+#### block
+
+- `cle:millagers_afraid_of`: blocks in this tag will cause millagers to flee in panic of if the Add Flee Block Goal option is enabled. Useful for roleplay/disencitivising technology near millages.
+
+These are useful if you have especially powerful mobs walking around the Overworld, like from Grimoire of Gaia.
 
 ## Useful operator commands
 - `/cle learn_crops` teaches you all of Millenaire's crops.

@@ -21,5 +21,8 @@
   "cle.malum.millager_afraid_spirit_harvest.1": "Harvesting the spirits of ",
   "cle.malum.millager_afraid_spirit_harvest.2": "%1$s ",
   "cle.malum.millager_afraid_spirit_harvest.2.proper": "the %1$s ",
-  "cle.malum.millager_afraid_spirit_harvest.3": "has creeped out %1$s!"
+  "cle.malum.millager_afraid_spirit_harvest.3": "has creeped out %1$s!",
+
+  "cle.tooltip.controlled_hopper.name": "Controlled Hopper",
+  "cle.tooltip.controlled_hopper": "Controlled Hopper of %1$s "
 }

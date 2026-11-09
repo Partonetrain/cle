@@ -11,6 +11,7 @@ public class CleConfig {
 
     //general
     public static ModConfigSpec.BooleanValue PREVENT_HOPPER_INTERACTIONS;
+    public static ModConfigSpec.BooleanValue CONTROLLED_HOPPERS;
     public static ModConfigSpec.BooleanValue COMPOST_DATAPACK;
     public static ModConfigSpec.BooleanValue OWN_RIGHT_CLICK_DATAPACK;
     public static ModConfigSpec.ConfigValue<String> MODIFIED_DAMAGE_DEALT;
@@ -72,6 +73,13 @@ public class CleConfig {
                 .comment("They only work with hoppers by default due to inheriting vanilla chest code")
                 .comment("However, other modded hoppers may or may not be affected by this - it depends on how they were implemented")
                 .define("Prevent Hopper Interactions", false);
+
+        CONTROLLED_HOPPERS = BUILDER
+                .comment("If true, Controlled Hoppers will be craftable and function")
+                .comment("Create Controlled Hoppers by either crafting a hopper with a controlled village scroll or by shift-right-clicking a hopper block")
+                .comment("Controlled Hoppers allow for inserting and exporting from controlled millage chests even when Prevent Hopper Interactions is false")
+                .comment("Technical note: controlled hoppers do not have an item form, only block and block entity, as they use a custom component")
+                .define("Controlled Hoppers", false);
 
         COMPOST_DATAPACK = BUILDER
                 .comment("If true, enables a datapack containing composter values for Millenaire crops and related blocks will be enabled")

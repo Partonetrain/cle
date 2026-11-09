@@ -10,7 +10,7 @@ import org.millenaire.village.PlayerCultureReputation;
 
 public class LearnCropsCommand {
 
-    public final String[] CROPS = { "cotton", "maize", "rice", "turmeric", "grapes", "sapling_appletree", "sapling_olivetree", "sapling_pistachio" };
+    public final String[] CROPS = { "cotton", "maize", "rice", "turmeric", "grapes", "millet", "sapling_appletree", "sapling_olivetree", "sapling_pistachio" };
 
     @SubscribeEvent
     public void onRegisterCommands(RegisterCommandsEvent event) {

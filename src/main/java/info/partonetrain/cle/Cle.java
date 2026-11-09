@@ -1,5 +1,7 @@
 package info.partonetrain.cle;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import info.partonetrain.cle.client.QuestHighlighterManager;
 import info.partonetrain.cle.command.*;
 import info.partonetrain.cle.compat.ArsNouveauCompat;
@@ -7,7 +9,12 @@ import info.partonetrain.cle.compat.QuarkCompat;
 import info.partonetrain.cle.entity.ThrownInuitTridentEntity;
 import info.partonetrain.cle.entity.goal.FleeBlockGoal;
 import info.partonetrain.cle.item.AlternativeInuitTrident;
+import info.partonetrain.cle.recipe.ControlledHopperRecipe;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.core.UUIDUtil;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,6 +32,9 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.goal.GoalSelector;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -103,6 +113,46 @@ public class Cle {
                     .updateInterval(20)
                     .build("thrown_inuit_trident"));
 
+    //EVERYTHING HAVING TO DO WITH CONTROLLED HOPPERS (THIS IS A LOT OF CODE FOR JUST ONE FEATURE)
+        //DATA COMPONENT TYPES
+    public static final Codec<ControlledHopper> CONTROLLED_HOPPER_CODEC = RecordCodecBuilder.create(instance ->
+            instance.group(
+                    UUIDUtil.CODEC.fieldOf("villageUUID").forGetter(ControlledHopper::villageUUID)
+            ).apply(instance, ControlledHopper::new)
+    );
+    public static final StreamCodec<ByteBuf, ControlledHopper> CONTROLLED_HOPPER_STREAM_CODEC = StreamCodec.composite(
+            UUIDUtil.STREAM_CODEC, ControlledHopper::villageUUID,
+            ControlledHopper::new
+    );
+
+    // The specialized DeferredRegister.DataComponents simplifies data component registration and avoids some generic inference issues with the `DataComponentType.Builder` within a `Supplier`
+    public static final DeferredRegister.DataComponents DATA_COMPONENT_TYPES = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, MODID);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ControlledHopper>> CONTROLLED_HOPPER_DATA_COMPONENT_TYPE = DATA_COMPONENT_TYPES.registerComponentType(
+            "controlled_hopper",
+            builder -> builder
+                    // The codec to read/write the data to disk
+                    .persistent(CONTROLLED_HOPPER_CODEC)
+                    // The codec to read/write the data across the network
+                    .networkSynchronized(CONTROLLED_HOPPER_STREAM_CODEC)
+    );
+        //RECIPE TYPE
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
+                DeferredRegister.create(Registries.RECIPE_TYPE, Cle.MODID);
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
+            DeferredRegister.create(Registries.RECIPE_SERIALIZER, Cle.MODID);
+
+    public static final Supplier<RecipeType<ControlledHopperRecipe>> CONTROLLED_HOPPER_RECIPE_TYPE =
+            RECIPE_TYPES.register("controlled_hopper", () -> new RecipeType<ControlledHopperRecipe>() {
+                @Override
+                public String toString() {
+                    return "controlled_hopper";
+                }
+            });
+
+    public static final Supplier<RecipeSerializer<ControlledHopperRecipe>> CONTROLLED_HOPPER_RECIPE_SERIALIZER =
+            RECIPE_SERIALIZERS.register("controlled_hopper", () -> new SimpleCraftingRecipeSerializer<>(ControlledHopperRecipe::new)); //no field serializer
+
+    //TAG CONSTANTS
     public static final TagKey<EntityType<?>> MILLAGERS_AVOID_HUNTING = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "millagers_avoid_hunting"));
     public static final TagKey<EntityType<?>> MILLAGERS_TRY_HUNTING = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "millagers_try_hunting"));
 
@@ -123,6 +173,9 @@ public class Cle {
         ITEMS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
         ENTITY_TYPES.register(modEventBus);
+        DATA_COMPONENT_TYPES.register(modEventBus);
+        RECIPE_TYPES.register(modEventBus);
+        RECIPE_SERIALIZERS.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
         //i should probably be registering these differently...

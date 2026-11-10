@@ -42,12 +42,13 @@ public class CleConfig {
     public static ModConfigSpec.ConfigValue<List<String>> STRUCTURES_TO_AVOID;
     //network
     public static ModConfigSpec.BooleanValue DISABLE_VERSION_CHECK;
-    public static ModConfigSpec.BooleanValue DISABLE_ADVANCEMENT_REPORTER;
     //client
     public static ModConfigSpec.ConfigValue<String> SORT_CONSTRUCTIONS_PANEL;
     public static ModConfigSpec.BooleanValue READABLE_SCREENS;
     public static ModConfigSpec.BooleanValue PREVENT_KEYBINDS;
     public static ModConfigSpec.BooleanValue QUEST_HIGHLIGHTING;
+    public static ModConfigSpec.BooleanValue DISABLE_SPEECH_NAMETAG;
+    public static ModConfigSpec.BooleanValue DISABLE_SPEECH_CHAT;
     //malum
     public static ModConfigSpec.IntValue SPIRIT_REAP_REPUTATION_LOSS;
     //ars
@@ -246,6 +247,13 @@ public class CleConfig {
 
         QUEST_HIGHLIGHTING = BUILDER.comment("If millagers related to accepted quests should be highlighted as if they had the Glowing effect or not")
                 .define("Quest Highlighting", true);
+
+        DISABLE_SPEECH_NAMETAG = BUILDER.comment("If millagers should not show their speech text above their names")
+                .define("Disable Speech on Nametags", false);
+
+        DISABLE_SPEECH_CHAT = BUILDER.comment("If millagers should not show their speech in chat like other players")
+                .comment("Note: millenaire-server.toml's sentenceDistance options still applies, and the multiplayer version is set to 0 by default")
+                .define("Disable Speech in Chat", false);
 
         BUILDER.pop();
 

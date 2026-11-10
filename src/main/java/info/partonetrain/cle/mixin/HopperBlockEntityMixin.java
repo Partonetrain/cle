@@ -61,7 +61,7 @@ public class HopperBlockEntityMixin {
         }
     }
 
-    @Inject(method = "pushItemsTick", at = @At("HEAD"))
+    @Inject(method = "pushItemsTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/HopperBlockEntity;tryMoveItems(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/entity/HopperBlockEntity;Ljava/util/function/BooleanSupplier;)Z"))
     private static void cle$pushItemsTick(Level level, BlockPos pos, BlockState state, HopperBlockEntity blockEntity, CallbackInfo ci) {
         if (blockEntity instanceof ControlledHopperBlockEntity chbe) {
             chbe.showColoredParticle();

@@ -23,10 +23,10 @@ public class QuestScreenMixin {
     @ModifyArg(method = "buildContentLines", at= @At(value = "INVOKE", target = "Lorg/millenaire/client/gui/QuestScreen;addSplitLines(Ljava/util/List;Ljava/lang/String;Ljava/lang/String;)V", ordinal = 2), index = 2)
     public String cle$buildContentLines2(String original){
         if(CleConfig.READABLE_SCREENS.getAsBoolean()){
-            if(original.equals("§a")){
+            if(original.equals("§a")){ //green
                 return "§" + ChatFormatting.DARK_GREEN.getChar(); //"§2" = DARK_GREEN
             }
-            else if(original.equals("§c")){
+            else if(original.equals("§c")){ //red
                 return "§" + ChatFormatting.DARK_RED.getChar(); //"§4" = DARK_RED
             }
         }

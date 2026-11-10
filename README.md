@@ -47,12 +47,14 @@ Note: This mod (as well as the general Millénaire community) refers to Milléna
 | Structures To Avoid | Additional structures for Millenaire's structure avoidance logic                                    | "minecraft:monument" |
 
 ### Client
-| Name                     | Function                                                                                    | Default    |
-|--------------------------|---------------------------------------------------------------------------------------------|------------|
-| Sort Constructions Panel | Moves less important constructions to the end of the construction panel in town halls       | wall,tower |
-| Readable Screens         | changes some font colors in Millenaire screens to be more readable                          | true       |
-| Prevent Keybindings      | Prevents Millenaire from registering keybindings                                            | false      |
-| Quest Highlighting       | Highlights millagers as though they had the Glowing effect for accepted quests              | true       |
+| Name                       | Function                                                                              | Default    |
+|----------------------------|---------------------------------------------------------------------------------------|------------|
+| Sort Constructions Panel   | Moves less important constructions to the end of the construction panel in town halls | wall,tower |
+| Readable Screens           | changes some font colors in Millenaire screens to be more readable                    | true       |
+| Prevent Keybindings        | Prevents Millenaire from registering keybindings                                      | false      |
+| Quest Highlighting         | Highlights millagers as though they had the Glowing effect for accepted quests        | true       |
+| Disable Speech on Nametags | Prevents millager speech from showing above nametag                                   | false      |
+| Disable Speech in Chat     | Prevents millager speech from showing in chat                                         | false      |
 
 ## Useful Tags
 #### entity_type

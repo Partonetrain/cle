@@ -29,6 +29,7 @@
     "VillageReputationAccessor",
     "VillagerInventoryAccessor",
     "VillageSpawnQueueMixin",
+    "client.ClientPayloadHandlerMixin",
     "client.ClientQuestCacheAccessor",
     "client.ClientQuestCacheMixin",
     "client.MillenaireKeyBindingsMixin",
@@ -44,6 +45,7 @@
   "client": [
     "client.ItemRendererMixin",
     "client.LockedChestScreenMixin",
+    "client.MillVillagerRendererMixin",
     "client.MinecraftMixin",
     "client.QuestScreenMixin",
     "client.VillagePanelScreenMixin"

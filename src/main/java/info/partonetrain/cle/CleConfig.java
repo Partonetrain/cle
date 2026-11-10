@@ -10,7 +10,7 @@ public class CleConfig {
     public static final ModConfigSpec SPEC;
 
     //general
-    public static ModConfigSpec.BooleanValue PREVENT_HOPPER_INTERACTIONS;
+    public static ModConfigSpec.BooleanValue FIX_HOPPER_INTERACTIONS;
     public static ModConfigSpec.BooleanValue CONTROLLED_HOPPERS;
     public static ModConfigSpec.BooleanValue COMPOST_DATAPACK;
     public static ModConfigSpec.BooleanValue OWN_RIGHT_CLICK_DATAPACK;
@@ -67,19 +67,20 @@ public class CleConfig {
 
         BUILDER.push("General");
 
-        PREVENT_HOPPER_INTERACTIONS = BUILDER
-                .comment("If true, prevent all hopper interactions with Locked Chests")
+        FIX_HOPPER_INTERACTIONS = BUILDER
+                .comment("If true, prevent hopper interactions with Locked Chests blocks that belong to buildings")
                 .comment("Locked Chests should not work with standard modded item transfers (i.e., Create chutes) regardless of this config, because they lack Capabilities")
                 .comment("They only work with hoppers by default due to inheriting vanilla chest code")
                 .comment("However, other modded hoppers may or may not be affected by this - it depends on how they were implemented")
-                .define("Prevent Hopper Interactions", false);
+                .define("Fix Hopper Interactions", true);
 
         CONTROLLED_HOPPERS = BUILDER
                 .comment("If true, Controlled Hoppers will be craftable and function")
                 .comment("Create Controlled Hoppers by either crafting a hopper with a controlled village scroll or by shift-right-clicking a hopper block")
                 .comment("Controlled Hoppers allow for inserting and exporting from controlled millage chests even when Prevent Hopper Interactions is false")
-                .comment("Technical note: controlled hoppers do not have an item form, only block and block entity, as they use a custom component")
-                .define("Controlled Hoppers", false);
+                .comment("This will not function if Prevent Hopper Interactions is false, but the option is provided separately in case you want to have only this disabled")
+                .comment("Technical note: controlled hoppers do not have an item form, only block and block entity, as they use a custom item component")
+                .define("Controlled Hoppers", true);
 
         COMPOST_DATAPACK = BUILDER
                 .comment("If true, enables a datapack containing composter values for Millenaire crops and related blocks will be enabled")
@@ -87,7 +88,7 @@ public class CleConfig {
 
         OWN_RIGHT_CLICK_DATAPACK = BUILDER
                 .comment("If true, enables a datapack that tags various vanilla and modded items with `#millenaire:own_right_click`, which allows them to be used on villagers instead of opening the villager's menu")
-                .comment("(As of 9.0.1 this only applies to bandits, which is a bug that needs to be fixed in the main mod)")
+                .comment("(As of 9.1.0 this only applies to bandits, which is a bug that needs to be fixed in the main mod)")
                 .define("Own Right Click Datapack", true);
 
         MODIFIED_DAMAGE_DEALT = BUILDER
@@ -184,6 +185,11 @@ public class CleConfig {
                 .comment("If true, any alternative items that are enabled above will also be converted in Millager inventories")
                 .comment("This puts a \"cle_millagers_convert_to_alternatives\" folder in your millenaire-custom folder, so millagers can actually use these items. Delete it if you set the option back to false")
                 .define("Millagers Convert to Alternative Items", true);
+
+        GHANA_SPEAR_REACH_INCREASE = BUILDER
+                .comment("If true, the Ghana Spear will have its reach increased by 1 block")
+                .comment("NOTE: GHANA CULTURE IS NOT YET IMPLEMENTED IN MILLENAIRE")
+                .define("Ghana Spear Reach Increase", true);
 
         builder.pop();
 

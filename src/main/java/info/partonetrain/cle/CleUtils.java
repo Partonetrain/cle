@@ -3,6 +3,7 @@ package info.partonetrain.cle;
 import info.partonetrain.cle.mixin.PlayerCultureReputationAccessor;
 import info.partonetrain.cle.mixin.VillageReputationAccessor;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -15,13 +16,11 @@ import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.fml.loading.FMLEnvironment;
 import org.millenaire.ReputationConstants;
+import org.millenaire.building.BuildingId;
 import org.millenaire.culture.ModCultures;
 import org.millenaire.culture.VillagerType;
 import org.millenaire.entity.MillVillager;
-import org.millenaire.village.PlayerCultureReputation;
-import org.millenaire.village.Village;
-import org.millenaire.village.VillageReputation;
-import org.millenaire.village.VillageSavedData;
+import org.millenaire.village.*;
 
 import java.util.*;
 
@@ -114,7 +113,6 @@ public class CleUtils {
                     MutableComponent actionBarMessage = constructActionBarMessage(langKeysWithPlaceholders);
                     player.displayClientMessage(actionBarMessage, true);
                     return true;
-                    //for FleeBlockGoal the particles come from there
                 }
             }
         }
@@ -143,6 +141,10 @@ public class CleUtils {
                     livingEntity.getRandom().nextGaussian() * 0.02, livingEntity.getRandom().nextGaussian() * 0.02, livingEntity.getRandom().nextGaussian() * 0.02,
                     0);
         }
+    }
+
+    public static void addParticlesToBlock(ParticleOptions particleOptions, BlockPos pos, ServerLevel serverLevel){
+        serverLevel.sendParticles(particleOptions, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, 0, 0, 0, 0);
     }
 
     public static void resetReputation(Village village, ServerPlayer player){
@@ -250,6 +252,10 @@ public class CleUtils {
         int color = java.awt.Color.HSBtoRGB(hue, 0.9f, 0.9f);
         colorCache.put(cultureName, color);
         return color;
+    }
+
+    public static Village getVillageFromBuildingId(ServerLevel serverLevel, BuildingId buildingId){
+        return VillageSavedData.get(serverLevel).getVillageManager().findVillageContaining(buildingId);
     }
 
 }

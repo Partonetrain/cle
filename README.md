@@ -10,25 +10,24 @@ Note: This mod (as well as the general Millénaire community) refers to Milléna
 - Quark: Simple Harvest now checks if players have the requisite knowledge of a Millenaire crop before letting them harvest. For Rice Paddy blocks, you will need to add the following to your Quark config's "Harvestable Blocks" option:
   ``"millenaire:rice_paddy[planted=true,age=7,waterlogged=false],millenaire:rice_paddy[planted=true,age=0,waterlogged=false]", "millenaire:rice_paddy[planted=true,age=7,waterlogged=true],millenaire:rice_paddy[planted=true,age=0,waterlogged=true]"``
 
-
-Clé's options are as follows:
-
+# Config options
 ### General
-| Name                        | Function                                                                                                                | Default       |
-|-----------------------------|-------------------------------------------------------------------------------------------------------------------------|---------------|
-| Prevent Hopper Interactions | Prevents hopper interactions with Millenaire's Locked Chests.                                                           | false         |
-| Compost Datapack            | Adds a datapack that adds composter values to various Millenaire items                                                  | true          |
-| Modified Damage             | Tagged mobs will take more and deal less damage to/from millagers                                                       | x2 and /2     |
-| Hunts Millagers             | Tagged mobs will hunt millagers                                                                                         | true          |
-| Despawns in Millage         | Tagged mobs will despawn in millages like how creepers do                                                               | true          |
-| Disable Despawn All Mobs    | Disables all mobs despawning around special buildings like the Pantheon                                                 | false         |
-| Reputation Cap per Day      | Caps the amount of reputation a player can gain per village per Minecraft day                                           | -1 (disabled) |
-| Travel Book Info Panel      | If true, Travel Book will open the Millenaire Info Panel instead of the Travel Book screen                              | false         |
-| Grape Vine Right Click      | If true, Grape Vines can be right-clicked like Sweet Berry Bushes if the player has learned how to plant grapes         | true          |
-| Add Flee Block Goal         | Adds a "run away from scary block" AI goal to millagers                                                                 | true          |
-| Tag Players In Millage      | Players in millagers get the `cle.in_millage` nbt tag; useful for advancements or commands                              | true          |
-| Disable Hardcoded Egg Check | Extremely minor optimization: disables a redundant check for `minecraft:egg`                                            | true          |
-| Change Team Colors          | Changes the team color (vanilla mechanic) of millagers, used in Glowing effect and also Clé's Quest Highlighting option | true          |
+| Name                        | Function                                                                                                                      | Default       |
+|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------|---------------|
+| Fix Hopper Interactions     | Only allow hopper interactions with Millenaire's Locked Chest blocks if they are set to Unlocked.                             | true          |
+| Controlled Hoppers          | Allows for the creation of Controlled Hoppers, which are explicitly allowed to interact with chests from controlled villages. | true          |
+| Compost Datapack            | Adds a datapack that adds composter values to various Millenaire items                                                        | true          |
+| Modified Damage             | Tagged mobs will take more and deal less damage to/from millagers                                                             | x2 and /2     |
+| Hunts Millagers             | Tagged mobs will hunt millagers                                                                                               | true          |
+| Despawns in Millage         | Tagged mobs will despawn in millages like how creepers do                                                                     | true          |
+| Disable Despawn All Mobs    | Disables all mobs despawning around special buildings like the Pantheon                                                       | false         |
+| Reputation Cap per Day      | Caps the amount of reputation a player can gain per village per Minecraft day                                                 | -1 (disabled) |
+| Travel Book Info Panel      | If true, Travel Book will open the Millenaire Info Panel instead of the Travel Book screen                                    | false         |
+| Grape Vine Right Click      | If true, Grape Vines can be right-clicked like Sweet Berry Bushes if the player has learned how to plant grapes               | true          |
+| Add Flee Block Goal         | Adds a "run away from scary block" AI goal to millagers                                                                       | true          |
+| Tag Players In Millage      | Players in millagers get the `cle.in_millage` nbt tag; useful for advancements or commands                                    | true          |
+| Disable Hardcoded Egg Check | Extremely minor optimization: disables a redundant check for `minecraft:egg`                                                  | true          |
+| Change Team Colors          | Changes the team color (vanilla mechanic) of millagers, used in Glowing effect and also Clé's Quest Highlighting option       | true          |
 
 ### Items
 | Name                              | Function                                                                                                          | Default |

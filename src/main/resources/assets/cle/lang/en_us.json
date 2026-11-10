@@ -24,5 +24,9 @@
   "cle.malum.millager_afraid_spirit_harvest.3": "has creeped out %1$s!",
 
   "cle.tooltip.controlled_hopper.name": "Controlled Hopper",
-  "cle.tooltip.controlled_hopper": "Controlled Hopper of %1$s "
+  "cle.tooltip.controlled_hopper.lore": "Controlled Hopper of %1$s",
+  "cle.controlled_hopper_converted": "Converted to Controlled Hopper",
+  "block.cle.controlled_hopper": "Controlled Hopper",
+  "cle.gui.controlled_hopper": "Controlled Hopper: %1$s",
+  "cle.gui.controlled_hopper.short": "C. Hopper: %1$s"
 }

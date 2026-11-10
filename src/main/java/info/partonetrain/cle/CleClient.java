@@ -1,6 +1,7 @@
 package info.partonetrain.cle;
 
 import info.partonetrain.cle.client.InuitTridentRenderer;
+import info.partonetrain.cle.client.QuestHighlighterManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.network.chat.Component;
@@ -12,6 +13,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -48,17 +50,18 @@ public class CleClient {
     public static void onItemTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
         if (stack.is(Items.HOPPER)) {
-            String villageName = "?";
             if (stack.get(Cle.CONTROLLED_HOPPER_DATA_COMPONENT_TYPE.get()) != null){
                 ControlledHopper ch = stack.get(Cle.CONTROLLED_HOPPER_DATA_COMPONENT_TYPE);
-                VillageId villageId = new VillageId(ch.villageUUID());
-                //TODO set villageName with village name cache? does millenaire provide this?
-                event.getToolTip().add(Component.translatable("cle.tooltip.controlled_hopper", villageName).withStyle(ChatFormatting.BLUE));
 
                 if(event.getFlags().isAdvanced()){
                     event.getToolTip().add(Component.literal(ch.villageUUID().toString()));
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(ClientTickEvent.Post event) {
+        QuestHighlighterManager.tickCooldown();
     }
 }

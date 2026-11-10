@@ -3,6 +3,7 @@ package info.partonetrain.cle.recipe;
 import info.partonetrain.cle.Cle;
 import info.partonetrain.cle.CleConfig;
 import info.partonetrain.cle.ControlledHopper;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
@@ -10,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.millenaire.item.ModItems;
@@ -17,6 +19,8 @@ import org.millenaire.item.VillageBookItem;
 import org.millenaire.village.Village;
 import org.millenaire.village.VillageId;
 import org.millenaire.village.VillageSavedData;
+
+import java.util.List;
 import java.util.UUID;
 
 public class ControlledHopperRecipe extends CustomRecipe {
@@ -32,11 +36,19 @@ public class ControlledHopperRecipe extends CustomRecipe {
             return false;
         }
 
+        boolean hopperFound = false;
         for(ItemStack stack : craftingInput.items()){
             if(!stack.isEmpty() && !stack.is(Items.HOPPER) && !stack.is(ModItems.VILLAGE_SCROLL)) {
-                Cle.LOGGER.info(stack.getDescriptionId());
                 return false;
             }
+            if(stack.is(Items.HOPPER)){
+                hopperFound = true;
+            }
+        }
+
+        if (!hopperFound)
+        {
+            return false;
         }
 
         //check if village is controlled
@@ -62,7 +74,7 @@ public class ControlledHopperRecipe extends CustomRecipe {
         ItemStack scroll = findScroll(craftingInput);
         UUID villageUuid = new VillageId(VillageBookItem.getVillageId(scroll)).uuid();
 
-        return makeHopperWithComponent(villageUuid);
+        return makeHopperWithComponent(villageUuid, VillageBookItem.getVillageName(scroll));
     }
 
     @Override
@@ -80,14 +92,21 @@ public class ControlledHopperRecipe extends CustomRecipe {
         return Cle.CONTROLLED_HOPPER_RECIPE_SERIALIZER.get();
     }
 
+    //leave the village scroll in the crafting grid after crafting a controlled hopper
     @Override
     public NonNullList<ItemStack> getRemainingItems(CraftingInput input) {
-        NonNullList<ItemStack> ret = NonNullList.withSize(input.size(), ItemStack.EMPTY);
-        ItemStack scroll = findScroll(input);
-        if(!scroll.isEmpty()){
-            ret.add(scroll);
+        NonNullList<ItemStack> remainingItems = super.getRemainingItems(input);
+
+        for (int i = 0; i < input.size(); i++) {
+            ItemStack stack = input.getItem(i);
+            if (stack.is(ModItems.VILLAGE_SCROLL)) {
+                ItemStack scrollRemainder = stack.copy();
+                remainingItems.set(i, scrollRemainder);
+                break;
+            }
         }
-        return ret;
+
+        return remainingItems;
     }
 
     public ItemStack findScroll(CraftingInput craftingInput){
@@ -99,10 +118,16 @@ public class ControlledHopperRecipe extends CustomRecipe {
         return ItemStack.EMPTY;
     }
 
-    public ItemStack makeHopperWithComponent(UUID uuid){
+    public ItemStack makeHopperWithComponent(UUID uuid, String villageName){
         ItemStack result = new ItemStack(Items.HOPPER);
         result.set(Cle.CONTROLLED_HOPPER_DATA_COMPONENT_TYPE, new ControlledHopper(uuid)); //cle:controlled_hopper
         result.set(DataComponents.CUSTOM_NAME, Component.translatable("cle.tooltip.controlled_hopper.name"));
+
+        List<Component> loreLines = List.of(
+                Component.translatable("cle.tooltip.controlled_hopper.lore", villageName).withStyle(ChatFormatting.BLUE)
+        );
+
+        result.set(DataComponents.LORE, new ItemLore(loreLines));
         return result;
     }
 

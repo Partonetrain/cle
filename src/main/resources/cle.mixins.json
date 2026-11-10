@@ -21,6 +21,7 @@
     "ToolCategoryRegistryAccessor",
     "TravelBookItemMixin",
     "VersionCheckerMixin",
+    "VillageBookItemMixin",
     "VillageEnvironmentHelperMixin",
     "VillageMixin",
     "VillagerCombatMixin",
@@ -42,6 +43,7 @@
   },
   "client": [
     "client.ItemRendererMixin",
+    "client.LockedChestScreenMixin",
     "client.MinecraftMixin",
     "client.QuestScreenMixin",
     "client.VillagePanelScreenMixin"

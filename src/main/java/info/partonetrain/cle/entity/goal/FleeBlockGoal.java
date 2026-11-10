@@ -163,13 +163,13 @@ public class FleeBlockGoal<T extends LivingEntity> extends Goal {
 
     private void spawnDebugParticle(SimpleParticleType type, BlockPos pos){
         if(false && owner.level() instanceof ServerLevel sl){
-            sl.sendParticles(type, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, 0, 0, 0, 0);
+            CleUtils.addParticlesToBlock(type, pos, sl);
         }
     }
 
     private void spawnParticle(SimpleParticleType type, BlockPos pos){
         if(owner.level() instanceof ServerLevel sl){
-            sl.sendParticles(type, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, 0, 0, 0, 0);
+            CleUtils.addParticlesToBlock(type, pos, sl);
         }
     }
 

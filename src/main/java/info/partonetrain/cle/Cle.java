@@ -2,7 +2,8 @@ package info.partonetrain.cle;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import info.partonetrain.cle.client.QuestHighlighterManager;
+import info.partonetrain.cle.block.ControlledHopperBlock;
+import info.partonetrain.cle.blockentity.ControlledHopperBlockEntity;
 import info.partonetrain.cle.command.*;
 import info.partonetrain.cle.compat.ArsNouveauCompat;
 import info.partonetrain.cle.compat.QuarkCompat;
@@ -11,6 +12,7 @@ import info.partonetrain.cle.entity.goal.FleeBlockGoal;
 import info.partonetrain.cle.item.AlternativeInuitTrident;
 import info.partonetrain.cle.recipe.ControlledHopperRecipe;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
@@ -25,35 +27,52 @@ import net.minecraft.server.packs.PathPackResources;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.GoalSelector;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.LoadingModList;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.UseItemOnBlockEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforgespi.locating.IModFile;
 import org.millenaire.content.BuiltInCultures;
 import org.millenaire.entity.MillVillager;
 import org.millenaire.entity.VillagerInventory;
 import org.millenaire.item.ModCreativeTabs;
 import org.millenaire.item.ModItems;
+import org.millenaire.item.VillageBookItem;
+import org.millenaire.village.Village;
+import org.millenaire.village.VillageId;
+import org.millenaire.village.VillageSavedData;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -73,6 +92,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 @Mod(Cle.MODID)
@@ -86,6 +106,7 @@ public class Cle {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, MODID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MODID);
 
     public static final DeferredItem<Item> ALTERNATIVE_INUIT_TRIDENT = ITEMS.register("inuit_trident", () ->
             new AlternativeInuitTrident((new Item.Properties()).rarity(Rarity.COMMON).durability(250).attributes(AlternativeInuitTrident.createAttributes()).component(DataComponents.TOOL, TridentItem.createToolProperties())));
@@ -140,7 +161,6 @@ public class Cle {
                 DeferredRegister.create(Registries.RECIPE_TYPE, Cle.MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
             DeferredRegister.create(Registries.RECIPE_SERIALIZER, Cle.MODID);
-
     public static final Supplier<RecipeType<ControlledHopperRecipe>> CONTROLLED_HOPPER_RECIPE_TYPE =
             RECIPE_TYPES.register("controlled_hopper", () -> new RecipeType<ControlledHopperRecipe>() {
                 @Override
@@ -151,6 +171,15 @@ public class Cle {
 
     public static final Supplier<RecipeSerializer<ControlledHopperRecipe>> CONTROLLED_HOPPER_RECIPE_SERIALIZER =
             RECIPE_SERIALIZERS.register("controlled_hopper", () -> new SimpleCraftingRecipeSerializer<>(ControlledHopperRecipe::new)); //no field serializer
+        //BLOCK
+    public static final DeferredBlock<Block> CONTROLLED_HOPPER_BLOCK = BLOCKS.register("controlled_hopper", () -> new ControlledHopperBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.HOPPER)));
+        //BLOCK ENTITY TYPE
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ControlledHopperBlockEntity>> CONTROLLED_HOPPER_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("controlled_hopper", () -> BlockEntityType.Builder.of(
+            ControlledHopperBlockEntity::new,
+            CONTROLLED_HOPPER_BLOCK.get()
+        )
+    .build(null));
+
 
     //TAG CONSTANTS
     public static final TagKey<EntityType<?>> MILLAGERS_AVOID_HUNTING = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "millagers_avoid_hunting"));
@@ -172,6 +201,7 @@ public class Cle {
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
+        BLOCK_ENTITY_TYPES.register(modEventBus);
         ENTITY_TYPES.register(modEventBus);
         DATA_COMPONENT_TYPES.register(modEventBus);
         RECIPE_TYPES.register(modEventBus);
@@ -198,6 +228,7 @@ public class Cle {
         }
 
         modEventBus.addListener(this::addPackFinders);
+        modEventBus.addListener(this::onModifyDefaultComponents);
         modContainer.registerConfig(ModConfig.Type.STARTUP, CleConfig.SPEC);
 
         if(!FMLEnvironment.production) {
@@ -226,6 +257,17 @@ public class Cle {
             if(CleConfig.OWN_RIGHT_CLICK_DATAPACK.getAsBoolean()){
                 addSubDataPack("cle_own_right_click", event);
             }
+        }
+    }
+
+    public void onModifyDefaultComponents(ModifyDefaultComponentsEvent event) {
+        if(CleConfig.GHANA_SPEAR_REACH_INCREASE.getAsBoolean()){
+            event.modify(ModItems.GHANA_SPEAR, (builder) -> {
+                    ItemAttributeModifiers mods = ModItems.GHANA_SPEAR.get().getDefaultInstance().get(DataComponents.ATTRIBUTE_MODIFIERS);
+                    builder.set(DataComponents.ATTRIBUTE_MODIFIERS, mods.withModifierAdded(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(
+                            ResourceLocation.withDefaultNamespace("player.entity_interaction_range"), 1, AttributeModifier.Operation.ADD_VALUE
+                    ), EquipmentSlotGroup.MAINHAND));
+                });
         }
     }
 
@@ -409,8 +451,61 @@ public class Cle {
     }
 
     @SubscribeEvent
-    public void onClientTick(ClientTickEvent.Post event) {
-        QuestHighlighterManager.tickCooldown();
+    public void onEntityPlace(BlockEvent.EntityPlaceEvent event) {
+        if (CleConfig.CONTROLLED_HOPPERS.getAsBoolean()) {
+            if(event.getPlacedBlock().getBlock() == Blocks.HOPPER){
+                if(event.getEntity() instanceof Player player){
+                    for(InteractionHand ih : InteractionHand.values()){
+                        ItemStack stack = player.getItemInHand(ih);
+                        if(stack.is(Items.HOPPER) && stack.get(CONTROLLED_HOPPER_DATA_COMPONENT_TYPE) != null){
+                            //event.setCanceled(true);
+                            UUID villageUuid = stack.get(CONTROLLED_HOPPER_DATA_COMPONENT_TYPE).villageUUID();
+                            String villageName = ControlledHopperBlockEntity.createNameFromStack(stack);
+                            placeControlledHopper(villageUuid, villageName, event.getEntity().level(), event.getPos(), event.getState());
+                            break;
+                        }
+
+                    }
+                }
+
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onUseItemOnBlock(UseItemOnBlockEvent event) {
+        if (CleConfig.CONTROLLED_HOPPERS.getAsBoolean() && event.getPlayer() != null && event.getPlayer().isShiftKeyDown()) {
+            if (event.getItemStack().is(ModItems.VILLAGE_SCROLL)) {
+                if (event.getLevel().getBlockState(event.getPos()).getBlock() == Blocks.HOPPER) {
+                    UUID villageUuid = new VillageId(VillageBookItem.getVillageId(event.getItemStack())).uuid();
+                    if (villageUuid != null) {
+                        String villageName = ControlledHopperBlockEntity.createNameFromStack(event.getItemStack());
+                        placeControlledHopper(villageUuid, villageName, event.getLevel(), event.getPos(), event.getLevel().getBlockState(event.getPos()));
+                        event.cancelWithResult(ItemInteractionResult.SUCCESS);
+                        event.getPlayer().displayClientMessage(Component.translatable("cle.controlled_hopper_converted"), true);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void placeControlledHopper(UUID villageUuid, String villageName, Level level, BlockPos pos, BlockState originalState){
+        //place block
+        BlockState newState = CONTROLLED_HOPPER_BLOCK.get().defaultBlockState();
+        newState = newState.setValue(BlockStateProperties.FACING_HOPPER, originalState.getValue(BlockStateProperties.FACING_HOPPER));
+        newState = newState.setValue(BlockStateProperties.ENABLED, originalState.getValue(BlockStateProperties.ENABLED));
+        level.setBlockAndUpdate(pos, newState);
+
+        //setup block entity
+        BlockEntity be = level.getBlockEntity(pos);
+        if(be instanceof ControlledHopperBlockEntity chbe){
+            chbe.villageId = new VillageId(villageUuid);
+            chbe.villageName = villageName;
+            chbe.showColoredParticle();
+        }
+        else{
+            Cle.LOGGER.error("Controlled Hopper Block somehow had a Block Entity of wrong type! " + be.getType());
+        }
     }
 
 }

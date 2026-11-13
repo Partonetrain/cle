@@ -21,7 +21,6 @@
     "ToolCategoryRegistryAccessor",
     "TravelBookItemMixin",
     "VersionCheckerMixin",
-    "VillageBookItemMixin",
     "VillageEnvironmentHelperMixin",
     "VillageMixin",
     "VillagerCombatMixin",

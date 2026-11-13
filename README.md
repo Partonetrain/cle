@@ -3,7 +3,10 @@
 This mod tweaks Millénaire 9, provides some customization and balance options, and enhances compatibility.
 Note: This mod (as well as the general Millénaire community) refers to Millénaire villages and its villagers as "millages" and "millagers" respectively to distinguish them from vanilla villagers.
 
+As of 2.0, Clé keeps up with and requires Millénaire releases that may not yet be approved on CurseForge. Check https://www.millenaire.org/ for the latest versions.
+
 # Mod Integrations:
+- FTB Chunks: option to prevent claiming millage chunks of uncontrolled millages
 - Malum: Spirit reaping near millagers creeps them out and reduces your reputation
 - Ars Nouveau, Ars Elemental: Using positive spells on millagers improves reputation, negative spells reduce it
 - Wayward Attributes (bugged): Millenaire's Bows, when used by the player, now use the stats programmed for them that are normally only used for millager combat. In practice this only affects the Yumi Bow

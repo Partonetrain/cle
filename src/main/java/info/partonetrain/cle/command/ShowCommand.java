@@ -1,6 +1,7 @@
 package info.partonetrain.cle.command;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
+import info.partonetrain.cle.ParsedConfigs;
 import info.partonetrain.cle.mixin.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.Commands;
@@ -22,6 +23,8 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.millenaire.Millenaire;
 import org.millenaire.building.BlockCostRegistry;
 import org.millenaire.config.VillagerConfig;
+import org.millenaire.culture.ModCultures;
+import org.millenaire.culture.VillageType;
 import org.millenaire.culture.VillagerType;
 import org.millenaire.quest.Quest;
 import org.millenaire.quest.QuestVillagerDef;
@@ -131,8 +134,13 @@ public class ShowCommand {
                                                         List<ResourceKey<Structure>> avoided = StructureAvoidanceAccessor.cle$getAvoidedStructureKeys();
                                                         context.getSource().sendSystemMessage(Component.literal("--- Avoided structures ---").withStyle(ChatFormatting.ITALIC));
                                                         for (ResourceKey<?> s : avoided) {
-                                                            context.getSource().sendSystemMessage(Component.literal(s.location().toString()));
+                                                            if(ParsedConfigs.structuresToAvoid.contains(s)) {
+                                                                context.getSource().sendSystemMessage(Component.literal("*"+s.location().toString()));
+                                                            }else{
+                                                                context.getSource().sendSystemMessage(Component.literal(s.location().toString()));
+                                                            }
                                                         }
+                                                        context.getSource().sendSystemMessage(Component.literal("IDs with * were added from Cle config").withStyle(ChatFormatting.ITALIC));
                                                         context.getSource().sendSystemMessage(Component.literal("Vanilla villages are hardcoded to be avoided too, but not in the same method as these").withStyle(ChatFormatting.ITALIC));
 
                                                         return 1;
@@ -173,6 +181,38 @@ public class ShowCommand {
                                                         context.getSource().sendFailure(Component.literal("Must be a player executed command"));
                                                         return 0;
                                                     }
+                                                }
+                                        ))));
+
+        event.getDispatcher().register(
+                Commands.literal("cle")
+                        .then(Commands.literal("show")
+                                .then(Commands.literal("village_types")
+                                        .requires(source -> source.hasPermission(2))
+                                        .executes(context -> {
+                                                    if (context.getSource().isPlayer()) {
+
+                                                        context.getSource().sendSystemMessage(Component.literal("--- Village types ---").withStyle(ChatFormatting.ITALIC));
+                                                        for (VillageType vt : ModCultures.getAllVillageTypes().values()) {
+
+                                                            context.getSource().sendSystemMessage(Component.literal("- " + vt.id() + ", " + vt.name() + " (" + vt.culture().toString() + ") -"));
+                                                            context.getSource().sendSystemMessage(Component.literal("Lone: " + vt.loneBuilding() + " Controlled: " + vt.playerControlled() + " Hamlet: " + vt.isHamlet() + " Spawnable: " + vt.spawnable() + " Allow Extra Buildings: " + vt.allowExtraBuildings()));
+                                                            context.getSource().sendSystemMessage(Component.literal("Biomes"));
+                                                            for(TagKey<Biome> tag : vt.biomeTags()){
+                                                                context.getSource().sendSystemMessage(Component.literal(" -" + tag.location().toString()));
+                                                            }
+                                                            context.getSource().sendSystemMessage(Component.literal("weight: " + String.valueOf(vt.weight())));
+                                                            context.getSource().sendSystemMessage(Component.literal("minimumBiomeValidity: " + String.valueOf(vt.minimumBiomeValidity())));
+                                                            context.getSource().sendSystemMessage(Component.literal("---"));
+
+                                                        }
+
+                                                        return 1;
+                                                    } else {
+                                                        context.getSource().sendFailure(Component.literal("Must be a player executed command"));
+                                                        return 0;
+                                                    }
+
                                                 }
                                         ))));
 

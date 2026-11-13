@@ -69,6 +69,8 @@ neoForge {
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            systemProperty 'millenaire.siteChat', 'true'
+            systemProperty 'millenaire.siteHunterLog', 'true'
         }
 
         server {
@@ -151,6 +153,11 @@ dependencies {
     //for testing waywardattributes damage
     runtimeOnly "curse.maven:mmmmmmmmmmmm-225738:8903254"
     runtimeOnly "curse.maven:selene-499980:8963246"
+
+    implementation "curse.maven:architechtury-api-419699:8492726"
+    implementation "curse.maven:ftb-chunks-forge-314906:9594476"
+    implementation "curse.maven:ftb-teams-forge-404468:9434081"
+    implementation "curse.maven:ftb-library-forge-404465:9350706"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

@@ -6,6 +6,7 @@ import info.partonetrain.cle.block.ControlledHopperBlock;
 import info.partonetrain.cle.blockentity.ControlledHopperBlockEntity;
 import info.partonetrain.cle.command.*;
 import info.partonetrain.cle.compat.ArsNouveauCompat;
+import info.partonetrain.cle.compat.FTBChunksCompat;
 import info.partonetrain.cle.compat.QuarkCompat;
 import info.partonetrain.cle.entity.ThrownInuitTridentEntity;
 import info.partonetrain.cle.entity.goal.FleeBlockGoal;
@@ -226,6 +227,9 @@ public class Cle {
         if(LoadingModList.get().getModFileById("quark") != null){
             NeoForge.EVENT_BUS.register(new QuarkCompat());
         }
+        if(LoadingModList.get().getModFileById("ftbchunks") != null){
+            FTBChunksCompat.init();
+        }
 
         modEventBus.addListener(this::addPackFinders);
         modEventBus.addListener(this::onModifyDefaultComponents);
@@ -235,6 +239,7 @@ public class Cle {
             for (String s : BuiltInCultures.IDS) {
                 Cle.LOGGER.info("color of " + s + ": " + String.valueOf(CleUtils.getARGBfromCultureName(s)));
             }
+            Cle.LOGGER.info("color of NYI ghanaians" + ": " + String.valueOf(CleUtils.getARGBfromCultureName("ghanaians")));
         }
     }
 

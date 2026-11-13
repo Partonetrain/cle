@@ -55,6 +55,8 @@ public class CleConfig {
     public static ModConfigSpec.ConfigValue<List<String>> SPELL_EFFECT_REPUTATIONS;
     //quark
     public static ModConfigSpec.BooleanValue SIMPLE_HARVEST_NON_PLAYERS;
+    //ftbchunks
+    public static ModConfigSpec.BooleanValue DISALLOW_CLAIMING_VILLAGE;
     //jei
     //public static ModConfigSpec.BooleanValue JEI_ENABLED;
 
@@ -328,6 +330,13 @@ public class CleConfig {
                 .comment("However, non-players (i.e., fake players and other automated right-click blocks) are in theory still capable of triggering this check, which would always fail.")
                 .comment("Setting this to true allows non players to simple harvest")
                 .define("Simple Harvest Non Players", false);
+
+        BUILDER.pop();
+
+        BUILDER.push("FTB Chunks");
+
+        DISALLOW_CLAIMING_VILLAGE = BUILDER.comment("If true, you will not be allowed to claim chunks in a millage that is not controlled by you")
+                .define("Disallow Claiming Village", false);
 
         BUILDER.pop();
 

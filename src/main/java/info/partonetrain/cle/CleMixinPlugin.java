@@ -32,6 +32,9 @@ public class CleMixinPlugin implements IMixinConfigPlugin {
         if (mixinClassName.contains("integration/quark")) {
             return LoadingModList.get().getModFileById("quark") != null;
         }
+        if (mixinClassName.contains("integration/ftbchunks")) {
+            return LoadingModList.get().getModFileById("ftbchunks") != null;
+        }
 
         return true;
     }

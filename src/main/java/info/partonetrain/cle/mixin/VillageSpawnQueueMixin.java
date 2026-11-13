@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import org.millenaire.village.VillageManager;
 import org.millenaire.village.VillageSavedData;
+import org.millenaire.world.SiteValidator;
 import org.millenaire.world.VillageSpawnQueue;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,9 +28,7 @@ public class VillageSpawnQueueMixin {
         if(CleConfig.MAX_DISTANCE.get() != 0) {
             double distToSpawnSq = candidate.distSqr(level.getSharedSpawnPos());
             if (distToSpawnSq > (CleConfig.MAX_DISTANCE.get() * CleConfig.MAX_DISTANCE.get())) {
-                if (log || Cle.DEV) {
-                    Cle.LOGGER.info("Spawn at " + candidate.toShortString() + " was rejected due to max distance config " + CleConfig.MAX_DISTANCE.get());
-                }
+                Cle.LOGGER.info("Spawn queue at " + candidate.toShortString() + " was rejected due to max distance config " + CleConfig.MAX_DISTANCE.get());
                 ci.cancel();
             }
         }
@@ -37,9 +36,7 @@ public class VillageSpawnQueueMixin {
         if(CleConfig.REJECTION_CHANCE.getAsDouble() != 0.0D){
             double roll = level.getRandom().nextDouble();
             if(roll < CleConfig.REJECTION_CHANCE.getAsDouble()){
-                if (log || Cle.DEV) {
-                    Cle.LOGGER.info("Spawn at " + candidate.toShortString() + " was rejected due to rolling " + roll + " which was < rejection chance config " + CleConfig.REJECTION_CHANCE.get());
-                }
+                Cle.LOGGER.info("Spawn queue at " + candidate.toShortString() + " was rejected due to rolling " + roll + " which was < rejection chance config " + CleConfig.REJECTION_CHANCE.get());
                 ci.cancel();
             }
         }

@@ -26,6 +26,7 @@ public class CleConfig {
     public static ModConfigSpec.BooleanValue TAG_PLAYERS_IN_VILLAGE;
     public static ModConfigSpec.BooleanValue DISABLE_HARDCODED_EGG_CHECK;
     public static ModConfigSpec.BooleanValue CHANGE_TEAM_COLORS;
+    public static ModConfigSpec.ConfigValue<List<String>> SPECIFIC_COLORS;
 
     //items
     public static ModConfigSpec.BooleanValue USE_FOOD_COMPONENTS;
@@ -151,10 +152,14 @@ public class CleConfig {
                 .define("Disable Hardcoded Egg Check", true);
 
         CHANGE_TEAM_COLORS = BUILDER.comment("If true, Millagers will have their team color (from the vanilla teams mechanic) changed instead of using the default pure-white")
-                .comment("The team color used for a millager are red if it always hostile, and automatically generated based on the culture's name if not")
+                .comment("The team color used for a millager is either: red if it always hostile, a culture color defined below, or an automatically generated color based on culture name")
                 .comment("This affects millagers inflicted with the Glowing effect, but also the Quest Highlighting option")
                 .define("Change Team Colors", true);
 
+        SPECIFIC_COLORS = BUILDER.comment("Specific colors to use for certain cultures in certain contexts (such as the above option), in the format <culture name>,<ARGB int color>")
+                .comment("For example, \"norman,-16711936\" would make normans solid green")
+                .comment("If a culture is not listed here, its color will be automatically generated based on its name")
+                .define("Specific Colors", List.of());
 
         BUILDER.pop();
 

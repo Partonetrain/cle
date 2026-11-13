@@ -29,7 +29,6 @@ import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -57,6 +56,7 @@ import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.UseItemOnBlockEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
@@ -71,9 +71,7 @@ import org.millenaire.entity.VillagerInventory;
 import org.millenaire.item.ModCreativeTabs;
 import org.millenaire.item.ModItems;
 import org.millenaire.item.VillageBookItem;
-import org.millenaire.village.Village;
 import org.millenaire.village.VillageId;
-import org.millenaire.village.VillageSavedData;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -234,13 +232,6 @@ public class Cle {
         modEventBus.addListener(this::addPackFinders);
         modEventBus.addListener(this::onModifyDefaultComponents);
         modContainer.registerConfig(ModConfig.Type.STARTUP, CleConfig.SPEC);
-
-        if(!FMLEnvironment.production) {
-            for (String s : BuiltInCultures.IDS) {
-                Cle.LOGGER.info("color of " + s + ": " + String.valueOf(CleUtils.getARGBfromCultureName(s)));
-            }
-            Cle.LOGGER.info("color of NYI ghanaians" + ": " + String.valueOf(CleUtils.getARGBfromCultureName("ghanaians")));
-        }
     }
 
     private void addPackFinders(AddPackFindersEvent event){
@@ -301,6 +292,7 @@ public class Cle {
     public void onServerStarted(ServerStartedEvent event) {
         ParsedConfigs.parseDamageMods();
         ParsedConfigs.parseStructuresToAvoid();
+        ParsedConfigs.parseColors();
         CleUtils.playerRepNotifCooldowns.clear();
 
         if(CleConfig.MILLAGERS_CONVERT_TO_ALTERNATIVES.getAsBoolean()){
@@ -382,6 +374,13 @@ public class Cle {
                     player.addTag("cle.in_millage");
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event){
+        if(Cle.DEV){
+
         }
     }
 

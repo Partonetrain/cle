@@ -12,7 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.fml.loading.FMLEnvironment;
 import org.millenaire.ReputationConstants;
@@ -26,7 +25,7 @@ import java.util.*;
 
 public class CleUtils {
 
-    private static Map<String, Integer> colorCache = new HashMap<>();
+    public static Map<String, Integer> calculatedColorCache = new HashMap<>();
 
     public static Map<UUID, Integer> playerRepNotifCooldowns = new HashMap<>();
     public static final int REP_COOLDOWN = 500;
@@ -234,23 +233,30 @@ public class CleUtils {
         return millager.isNoAi();
     }
 
+    //kinda sorta similar idea to what future locator bar does?
+    public static int colorRotation = 2;
     public static int getARGBfromCultureName(String cultureName){
         if(cultureName.length() < 3){
             return -1;
         }
-
-        if(colorCache.containsKey(cultureName)){
-            return colorCache.get(cultureName);
+        if(ParsedConfigs.specificColors.containsKey(cultureName)){
+            return ParsedConfigs.specificColors.get(cultureName);
+        }
+        if(calculatedColorCache.containsKey(cultureName)){
+            return calculatedColorCache.get(cultureName);
         }
 
-        //kinda sorta similar to what future locator bar does?
-        //we want bright distinct colors so use HSV.
         int hash = cultureName.hashCode();
+        //rotate for variety
+        hash = colorRotation % 2 == 0 ? Integer.rotateLeft(hash, colorRotation) : Integer.rotateRight(hash, colorRotation);
+        colorRotation++;
         float hue = (hash >>> 16) / 65535f; //top 16 bits of hash divided by largest value possible,
         //get a float between 0 and 1
 
+        //we want bright distinct colors so use HSV.
         int color = java.awt.Color.HSBtoRGB(hue, 0.9f, 0.9f);
-        colorCache.put(cultureName, color);
+
+        calculatedColorCache.put(cultureName, color);
         return color;
     }
 

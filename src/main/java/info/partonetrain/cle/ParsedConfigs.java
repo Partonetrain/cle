@@ -20,6 +20,8 @@ public class ParsedConfigs {
     //public static List<MinDistanceConfig> minDistanceConfigs = new ArrayList<>();
     public static List<ResourceKey<Structure>> structuresToAvoid = new ArrayList<>();
 
+    public static Map<String, Integer> specificColors = new HashMap<>();
+
     public static void parseDamageMods(){
         modifiedDamageDealt = DamageMod.parse(CleConfig.MODIFIED_DAMAGE_DEALT.get());
         modifiedDamageReceived = DamageMod.parse(CleConfig.MODIFIED_DAMAGE_RECEIVED.get());
@@ -29,6 +31,15 @@ public class ParsedConfigs {
         for(String s : CleConfig.STRUCTURES_TO_AVOID.get()){
             ResourceKey<Structure> structureResourceKey = ResourceKey.create(Registries.STRUCTURE, ResourceLocation.parse(s));
             structuresToAvoid.add(structureResourceKey);
+        }
+    }
+
+    public static void parseColors(){
+        for(String s : CleConfig.SPECIFIC_COLORS.get()){
+            String[] split = s.split(",");
+            String cultureName = split[0];
+            int color = Integer.parseInt(split[1]);
+            specificColors.put(cultureName, color);
         }
     }
 

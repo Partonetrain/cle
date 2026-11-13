@@ -16,35 +16,32 @@ import org.millenaire.village.VillageSavedData;
 public class FTBChunksCompat {
 
     public static void init(){
-        if(CleConfig.DISALLOW_CLAIMING_VILLAGE.getAsBoolean()) {
-            ClaimedChunkEvent.BEFORE_CLAIM.register(FTBChunksCompat::onClaimedChunkEvent);
-        }
+        ClaimedChunkEvent.BEFORE_CLAIM.register(FTBChunksCompat::onClaimedChunkEvent);
     }
 
     private static CompoundEventResult<ClaimResult> onClaimedChunkEvent(CommandSourceStack commandSourceStack, ClaimedChunk claimedChunk) {
-        ServerLevel serverLevel = (ServerLevel) commandSourceStack.getPlayer().level();
+        if (CleConfig.DISALLOW_CLAIMING_VILLAGE.getAsBoolean()) {
+            ServerLevel serverLevel = (ServerLevel) commandSourceStack.getPlayer().level();
 
-        ChunkPos chunkPos = new ChunkPos(claimedChunk.getPos().x(), claimedChunk.getPos().z());
-        BlockPos center = chunkPos.getMiddleBlockPosition(0);
-        Village village = VillageSavedData.get(serverLevel)
-                .getVillageManager()
-                .findNearestVillage(center, 100.0);
+            ChunkPos chunkPos = new ChunkPos(claimedChunk.getPos().x(), claimedChunk.getPos().z());
+            BlockPos center = chunkPos.getMiddleBlockPosition(0);
+            Village village = VillageSavedData.get(serverLevel)
+                    .getVillageManager()
+                    .findNearestVillage(center, 100.0);
 
-        if(village != null && !village.isLoneBuilding() && village.computeVillageChunks().contains(chunkPos)) {
-            if (village.isPlayerControlled() && village.getOwnerUUID() != null) {
-                if (commandSourceStack.getPlayer().getUUID() == village.getOwnerUUID()) {
-                    //do nothing. allow operation
-                    return CompoundEventResult.pass();
+            if (village != null && !village.isLoneBuilding() && village.computeVillageChunks().contains(chunkPos)) {
+                if (village.isPlayerControlled() && village.getOwnerUUID() != null) {
+                    if (commandSourceStack.getPlayer().getUUID() == village.getOwnerUUID()) {
+                        //do nothing. allow operation
+                        return CompoundEventResult.pass();
+                    } else {
+                        return CompoundEventResult.interruptDefault(ClaimResult.customProblem("cle.ftbchunks.too_close_to_millage"));
+                    }
                 } else {
                     return CompoundEventResult.interruptDefault(ClaimResult.customProblem("cle.ftbchunks.too_close_to_millage"));
                 }
             }
-            else{
-                return CompoundEventResult.interruptDefault(ClaimResult.customProblem("cle.ftbchunks.too_close_to_millage"));
-            }
         }
         return CompoundEventResult.pass();
     }
-
-
 }

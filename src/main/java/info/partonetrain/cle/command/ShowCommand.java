@@ -1,6 +1,7 @@
 package info.partonetrain.cle.command;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
+import info.partonetrain.cle.CleUtils;
 import info.partonetrain.cle.ParsedConfigs;
 import info.partonetrain.cle.mixin.*;
 import net.minecraft.ChatFormatting;
@@ -23,9 +24,9 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.millenaire.Millenaire;
 import org.millenaire.building.BlockCostRegistry;
 import org.millenaire.config.VillagerConfig;
+import org.millenaire.content.BuiltInCultures;
 import org.millenaire.culture.ModCultures;
 import org.millenaire.culture.VillageType;
-import org.millenaire.culture.VillagerType;
 import org.millenaire.quest.Quest;
 import org.millenaire.quest.QuestVillagerDef;
 import org.millenaire.tool.ToolCategory;
@@ -214,6 +215,33 @@ public class ShowCommand {
                                                     }
 
                                                 }
+                                        ))));
+
+
+        event.getDispatcher().register(
+                Commands.literal("cle")
+                        .then(Commands.literal("show")
+                                .then(Commands.literal("cle_culture_colors")
+                                        .requires(source -> source.hasPermission(2))
+                                        .executes(context -> {
+                                                    if (context.getSource().isPlayer()) {
+                                                        //reset cache for hotswap reasons
+                                                        CleUtils.calculatedColorCache.clear();
+                                                        CleUtils.colorRotation = 2;
+                                                        for (String s : BuiltInCultures.IDS) {
+                                                            int color = CleUtils.getARGBfromCultureName(s);
+                                                            context.getSource().sendSystemMessage(Component.literal("color of " + s + ": " + String.valueOf(color)).withColor(color));
+                                                        }
+                                                        String s = "ghanaians";
+                                                        int color = CleUtils.getARGBfromCultureName(s);
+                                                        context.getSource().sendSystemMessage(Component.literal("color of NYI " + s + ": " + String.valueOf(color)).withColor(color));
+                                                        return 1;
+                                                    }
+                                                    else {
+                                                        context.getSource().sendFailure(Component.literal("Must be a player executed command"));
+                                                        return 0;
+                                                    }
+                                                    }
                                         ))));
 
 

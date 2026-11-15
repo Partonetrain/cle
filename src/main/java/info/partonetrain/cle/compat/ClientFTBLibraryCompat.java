@@ -10,6 +10,7 @@ import java.util.UUID;
 @OnlyIn(Dist.CLIENT)
 public class ClientFTBLibraryCompat {
 
+    //idk how to do dis
 
     /*
     public static class MillenaireFaceIcon extends FaceIcon {

@@ -127,7 +127,7 @@ public class ParsedConfigs {
 
     public static int parseSpells(){
         int parsed = 0;
-        List<String> cfg = CleConfig.SPELL_EFFECT_REPUTATIONS.get();
+        List<? extends String> cfg = CleConfig.SPELL_EFFECT_REPUTATIONS.get();
         for(String s : cfg){
             String[] split = s.split(",");
             spellEffectReputations.put(ResourceLocation.parse(split[0]), Integer.parseInt(split[1]));

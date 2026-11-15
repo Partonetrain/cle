@@ -3,7 +3,7 @@
 This mod tweaks Millénaire 9, provides some customization and balance options, and enhances compatibility.
 Note: This mod (as well as the general Millénaire community) refers to Millénaire villages and its villagers as "millages" and "millagers" respectively to distinguish them from vanilla villagers.
 
-As of 2.0, Clé keeps up with and requires Millénaire releases that may not yet be approved on CurseForge. Check https://www.millenaire.org/ for the latest versions.
+As of 2.0, Clé keeps up with and requires Millénaire releases that may not yet be approved on CurseForge. If you are getting version errors, check https://www.millenaire.org/ for the latest release.
 
 # Mod Integrations:
 - FTB Chunks: option to prevent claiming millage chunks of uncontrolled millages

@@ -4,15 +4,22 @@ import com.hollingsworth.arsnouveau.api.event.EffectResolveEvent;
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
+import info.partonetrain.cle.Cle;
+import info.partonetrain.cle.CleConfig;
 import info.partonetrain.cle.CleUtils;
 import info.partonetrain.cle.ParsedConfigs;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.EntityHitResult;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import org.millenaire.culture.ModCultures;
+import org.millenaire.culture.VillagerType;
+import org.millenaire.discovery.DiscoveryTracker;
 import org.millenaire.entity.MillVillager;
 import org.millenaire.village.Village;
 
@@ -27,8 +34,15 @@ public class ArsNouveauCompat {
     public record FoundSpellEffect(ResourceLocation registryName, int location){}
 
     @SubscribeEvent
-    public void OnServerStart(ServerStartedEvent event){
+    public void onServerStart(ServerStartedEvent event){
         parsed = ParsedConfigs.parseSpells();
+    }
+
+    @SubscribeEvent
+    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event){
+        if(Cle.DEV){
+            event.getEntity().sendSystemMessage(Component.literal("cle: parsed " + String.valueOf(parsed) + " spell effects from config"));
+        }
     }
 
     @SubscribeEvent
@@ -70,18 +84,18 @@ public class ArsNouveauCompat {
                     int repChangeForThisEffect = ParsedConfigs.spellEffectReputations.get(fse.registryName);
                     finalRepChange = repChangeForThisEffect * amplifies;
                 }
-                repChangeFromSpell(sp.getUUID(), mv, finalRepChange);
+                repChangeFromSpell(sp, mv, finalRepChange);
             }
 
         }
     }
 
-    public static void repChangeFromSpell(UUID playerUUID, MillVillager millVillager, int change){
+    public static void repChangeFromSpell(ServerPlayer serverPlayer, MillVillager millVillager, int change){
         ServerLevel sl = (ServerLevel) millVillager.level();
         Village village = Village.resolve(sl, millVillager.getVillageId());
         if(village != null) {
-            int oldRep = village.getReputation().get(playerUUID);
-            int newRep = village.adjustReputation(sl, playerUUID, change);
+            int oldRep = village.getReputation().get(serverPlayer.getUUID());
+            int newRep = village.adjustReputation(sl, serverPlayer.getUUID(), change);
             CleUtils.printAdjustedReputation(oldRep, change, newRep, "repChangeFromSpell");
         }
 
@@ -92,6 +106,10 @@ public class ArsNouveauCompat {
             else{
                 CleUtils.addParticlesAroundEntity(ParticleTypes.ANGRY_VILLAGER, millVillager, (ServerLevel) millVillager.level());
             }
+        }
+
+        if(CleConfig.SPELLS_CAUSE_DISCOVERY.getAsBoolean()) {
+            CleUtils.discoverVillagerType(serverPlayer, millVillager);
         }
     }
 }

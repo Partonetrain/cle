@@ -18,6 +18,7 @@ import org.millenaire.ReputationConstants;
 import org.millenaire.building.BuildingId;
 import org.millenaire.culture.ModCultures;
 import org.millenaire.culture.VillagerType;
+import org.millenaire.discovery.DiscoveryTracker;
 import org.millenaire.entity.MillVillager;
 import org.millenaire.village.*;
 
@@ -262,6 +263,20 @@ public class CleUtils {
 
     public static Village getVillageFromBuildingId(ServerLevel serverLevel, BuildingId buildingId){
         return VillageSavedData.get(serverLevel).getVillageManager().findVillageContaining(buildingId);
+    }
+
+    public static void discoverVillagerType(ServerPlayer serverPlayer, MillVillager millVillager){
+        ServerLevel sl = (ServerLevel) serverPlayer.level();
+        VillagerType vType = ModCultures.getVillagerType(millVillager.getVillagerTypeId());
+        if (vType != null) {
+            String cultureKey = vType.culture().getPath();
+            String villagerKey = millVillager.getVillagerTypeId().getPath();
+
+            DiscoveryTracker tracker = DiscoveryTracker.get(sl);
+            if (tracker.unlockVillager(serverPlayer.getUUID(), cultureKey, villagerKey)) {
+                serverPlayer.sendSystemMessage(Component.translatable("travelbook.discovered.villager", new Object[]{vType.nativeName()}));
+            }
+        }
     }
 
 }

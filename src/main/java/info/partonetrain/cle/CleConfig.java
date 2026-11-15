@@ -26,7 +26,7 @@ public class CleConfig {
     public static ModConfigSpec.BooleanValue TAG_PLAYERS_IN_VILLAGE;
     public static ModConfigSpec.BooleanValue DISABLE_HARDCODED_EGG_CHECK;
     public static ModConfigSpec.BooleanValue CHANGE_TEAM_COLORS;
-    public static ModConfigSpec.ConfigValue<List<String>> SPECIFIC_COLORS;
+    public static ModConfigSpec.ConfigValue<List<? extends String>> SPECIFIC_COLORS;
 
     //items
     public static ModConfigSpec.BooleanValue USE_FOOD_COMPONENTS;
@@ -39,8 +39,7 @@ public class CleConfig {
     //world
     public static ModConfigSpec.IntValue MAX_DISTANCE;
     public static ModConfigSpec.DoubleValue REJECTION_CHANCE;
-    //public static ModConfigSpec.ConfigValue<List<String>>  MIN_DISTANCE_FROM_STRUCTURES;
-    public static ModConfigSpec.ConfigValue<List<String>> STRUCTURES_TO_AVOID;
+    public static ModConfigSpec.ConfigValue<List<? extends String>> STRUCTURES_TO_AVOID;
     //network
     public static ModConfigSpec.BooleanValue DISABLE_VERSION_CHECK;
     //client
@@ -53,7 +52,8 @@ public class CleConfig {
     //malum
     public static ModConfigSpec.IntValue SPIRIT_REAP_REPUTATION_LOSS;
     //ars
-    public static ModConfigSpec.ConfigValue<List<String>> SPELL_EFFECT_REPUTATIONS;
+    public static ModConfigSpec.ConfigValue<List<? extends String>> SPELL_EFFECT_REPUTATIONS;
+    public static ModConfigSpec.BooleanValue SPELLS_CAUSE_DISCOVERY;
     //quark
     public static ModConfigSpec.BooleanValue SIMPLE_HARVEST_NON_PLAYERS;
     //ftbchunks
@@ -159,7 +159,7 @@ public class CleConfig {
         SPECIFIC_COLORS = BUILDER.comment("Specific colors to use for certain cultures in certain contexts (such as the above option), in the format <culture name>,<ARGB int color>")
                 .comment("For example, \"norman,-16711936\" would make normans solid green")
                 .comment("If a culture is not listed here, its color will be automatically generated based on its name")
-                .define("Specific Colors", List.of());
+                .defineListAllowEmpty("Specific Colors", List.of(), () -> "", obj -> obj instanceof String);
 
         BUILDER.pop();
 
@@ -172,7 +172,7 @@ public class CleConfig {
                 .define("Use Food Components", true);
 
         FOOD_GIVES_BOWL = BUILDER
-                .comment("If true, Yogurt and Curry will give the player a bowl after it is eaten (only in survival)")
+                .comment("If true, foods such as Yogurt and Curry will give the player a bowl after it is eaten (only in survival)")
                 .define("Food Gives Bowl", false);
 
         DRINK_GIVES_BOTTLE = BUILDER
@@ -233,7 +233,7 @@ public class CleConfig {
         STRUCTURES_TO_AVOID = BUILDER.comment("Structure IDs to add to Millenaire's built-in structure avoidance logic")
                 .comment("Millenaire already avoids structures like vanilla igloos and desert pyramids, this just adds more structures to that logic")
                 .comment("Keep in mind the more of these there are, the longer a millage/lone building will take to be placed")
-                .define("Structures To Avoid", List.of(BuiltinStructures.OCEAN_MONUMENT.location().toString()));
+                .defineListAllowEmpty("Structures To Avoid", List.of(BuiltinStructures.OCEAN_MONUMENT.location().toString()), () -> "", obj -> obj instanceof String);
 
         BUILDER.pop();
 
@@ -278,7 +278,7 @@ public class CleConfig {
         SPELL_EFFECT_REPUTATIONS = BUILDER
                 .comment("A map of spell effects to integers, that when resolved on a non-hostile millager, will affect reputation with their village")
                 .comment("The number of amplifies in the spell recipe will multiply the value provided")
-                .define("Spell Effect Reputations", List.of(
+                .defineListAllowEmpty("Spell Effect Reputations", List.of(
                         "ars_nouveau:glyph_bubble,-4",
                         "ars_nouveau:glyph_cold_snap,-5",
                         "ars_nouveau:glyph_crush,-3",
@@ -324,8 +324,13 @@ public class CleConfig {
                         "ars_elemental:glyph_summon_bee,-9",
                         "ars_elemental:glyph_summon_slime,-9",
                         "ars_elemental:glyph_water_jet,-5",
-                        "ars_elemental:glyph_watery_grave,-7"
-                ));
+                        "ars_elemental:glyph_watery_grave,-7",
+
+                        "ars_hex:glyph_soul_shatter,-9"
+                ), () -> "", obj -> obj instanceof String);
+
+        SPELLS_CAUSE_DISCOVERY = BUILDER.comment("If true, casting a spell on a non-hostile millager will cause the player to discover the millager type in the travel book if they haven't already")
+                .define("Spells Cause Discovery", true);
 
         BUILDER.pop();
 

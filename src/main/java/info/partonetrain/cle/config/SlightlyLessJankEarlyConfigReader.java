@@ -32,8 +32,7 @@ public class SlightlyLessJankEarlyConfigReader {
 
         Path configFilePath = Paths.get(System.getProperty("user.dir"), "config", "cle-startup.toml");
 
-        try {
-            BufferedReader reader = Files.newBufferedReader(configFilePath);
+        try (BufferedReader reader = Files.newBufferedReader(configFilePath)) { //try-with-resources so reader is closed if crash (2.0.7 had this bug)
             Config config = new TomlParser().parse(reader);
 
             minBand = getNumberFromConfig(config, "Min Band").floatValue();
@@ -45,8 +44,13 @@ public class SlightlyLessJankEarlyConfigReader {
             Cle.LOGGER.info("SlightlyLessJankEarlyConfigReader: Config parsed early. " + minBand + ", " + maxCoreSpread + ", " + minGentle2 + ", " + minCentreWeighted + ", " + minConnected);
             configRead = true;
 
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             Cle.LOGGER.error("Early config error (file likely just doesn't exist yet):" + e.getMessage());
+            configRead = true;
+        }
+        catch (Exception e){
+            Cle.LOGGER.error("Unknown Early config error:" + e.getMessage());
             configRead = true;
         }
     }

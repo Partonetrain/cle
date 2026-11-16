@@ -1,19 +1,12 @@
 package info.partonetrain.cle.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.mojang.datafixers.util.Pair;
 import info.partonetrain.cle.Cle;
-import info.partonetrain.cle.CleConfig;
-import info.partonetrain.cle.ParsedConfigs;
+import info.partonetrain.cle.config.CleConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.levelgen.structure.Structure;
 import org.millenaire.village.VillageManager;
 import org.millenaire.village.VillageSavedData;
-import org.millenaire.world.SiteValidator;
 import org.millenaire.world.VillageSpawnQueue;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

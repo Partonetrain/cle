@@ -1,6 +1,6 @@
 package info.partonetrain.cle.mixin.client;
 
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import net.minecraft.ChatFormatting;
 import org.millenaire.client.gui.QuestScreen;
 import org.spongepowered.asm.mixin.Mixin;

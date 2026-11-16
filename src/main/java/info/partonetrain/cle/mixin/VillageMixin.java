@@ -2,9 +2,8 @@ package info.partonetrain.cle.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import info.partonetrain.cle.*;
+import info.partonetrain.cle.config.CleConfig;
 import net.minecraft.server.level.ServerLevel;
-import org.millenaire.building.BuildingId;
-import org.millenaire.entity.MillVillager;
 import org.millenaire.village.Village;
 import org.millenaire.village.VillageId;
 import org.spongepowered.asm.mixin.Final;
@@ -12,9 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import java.util.UUID;

@@ -2,7 +2,7 @@ package info.partonetrain.cle.mixin.client;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import org.millenaire.client.render.MillVillagerRenderer;
 import org.millenaire.entity.MillVillager;
 import org.spongepowered.asm.mixin.Mixin;

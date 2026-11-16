@@ -1,7 +1,6 @@
 package info.partonetrain.cle.command;
 
-import info.partonetrain.cle.CleConfig;
-import info.partonetrain.cle.CleUtils;
+import info.partonetrain.cle.config.CleConfig;
 import info.partonetrain.cle.ReputationCapSaveData;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;

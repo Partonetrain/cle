@@ -1,5 +1,6 @@
 package info.partonetrain.cle;
 
+import info.partonetrain.cle.config.CleConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

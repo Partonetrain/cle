@@ -2,7 +2,8 @@ package info.partonetrain.cle.command;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import info.partonetrain.cle.CleUtils;
-import info.partonetrain.cle.ParsedConfigs;
+import info.partonetrain.cle.config.ParsedConfigs;
+import info.partonetrain.cle.config.SlightlyLessJankEarlyConfigReader;
 import info.partonetrain.cle.mixin.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.Commands;
@@ -143,6 +144,28 @@ public class ShowCommand {
                                                         }
                                                         context.getSource().sendSystemMessage(Component.literal("IDs with * were added from Cle config").withStyle(ChatFormatting.ITALIC));
                                                         context.getSource().sendSystemMessage(Component.literal("Vanilla villages are hardcoded to be avoided too, but not in the same method as these").withStyle(ChatFormatting.ITALIC));
+
+                                                        return 1;
+                                                    } else {
+                                                        context.getSource().sendFailure(Component.literal("Must be a player executed command"));
+                                                        return 0;
+                                                    }
+
+                                                }
+                                        ))));
+
+        event.getDispatcher().register(
+                Commands.literal("cle")
+                        .then(Commands.literal("show")
+                                .then(Commands.literal("cle_site_values")
+                                        .requires(source -> source.hasPermission(2))
+                                        .executes(context -> {
+                                                    if (context.getSource().isPlayer()) {
+
+                                                        context.getSource().sendSystemMessage(Component.literal("--- Site values parsed by SlightlyLessJankEarlyConfigReader ---").withStyle(ChatFormatting.ITALIC));
+                                                        context.getSource().sendSystemMessage(Component.literal("minBand " + SlightlyLessJankEarlyConfigReader.minBand + ", maxCoreSpread " + SlightlyLessJankEarlyConfigReader.maxCoreSpread));
+                                                        context.getSource().sendSystemMessage(Component.literal("minGentle2 " + SlightlyLessJankEarlyConfigReader.minGentle2 + ", minCentreWeighted " + SlightlyLessJankEarlyConfigReader.minCentreWeighted + ", minConnected " + SlightlyLessJankEarlyConfigReader.minConnected));
+                                                        context.getSource().sendSystemMessage(Component.literal("JVM args (not shown) take precedence").withStyle(ChatFormatting.ITALIC));
 
                                                         return 1;
                                                     } else {

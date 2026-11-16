@@ -1,6 +1,6 @@
 package info.partonetrain.cle.mixin;
 
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import info.partonetrain.cle.CleUtils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;

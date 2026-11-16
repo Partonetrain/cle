@@ -2,7 +2,7 @@ package info.partonetrain.cle.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import org.millenaire.building.BuildingInventory;

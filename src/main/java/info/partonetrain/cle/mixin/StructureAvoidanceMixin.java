@@ -1,6 +1,6 @@
 package info.partonetrain.cle.mixin;
 
-import info.partonetrain.cle.ParsedConfigs;
+import info.partonetrain.cle.config.ParsedConfigs;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import org.millenaire.world.StructureAvoidance;

@@ -1,6 +1,6 @@
 package info.partonetrain.cle.mixin;
 
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import info.partonetrain.cle.CleUtils;
 import info.partonetrain.cle.blockentity.ControlledHopperBlockEntity;
 import net.minecraft.core.BlockPos;

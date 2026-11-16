@@ -2,7 +2,7 @@ package info.partonetrain.cle.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import info.partonetrain.cle.Cle;
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.AABB;
 import org.millenaire.entity.MillVillager;

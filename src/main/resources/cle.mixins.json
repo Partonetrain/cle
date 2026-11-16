@@ -16,6 +16,8 @@
     "PlayerCultureReputationAccessor",
     "QuestManagerAccessor",
     "QuestRegistryAccessor",
+    "SiteHunterMixin",
+    "SiteMeasuresMixin",
     "StructureAvoidanceAccessor",
     "StructureAvoidanceMixin",
     "ToolCategoryRegistryAccessor",

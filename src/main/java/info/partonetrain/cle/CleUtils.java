@@ -1,5 +1,6 @@
 package info.partonetrain.cle;
 
+import info.partonetrain.cle.config.ParsedConfigs;
 import info.partonetrain.cle.mixin.PlayerCultureReputationAccessor;
 import info.partonetrain.cle.mixin.VillageReputationAccessor;
 import net.minecraft.client.Minecraft;

@@ -1,7 +1,7 @@
 package info.partonetrain.cle.recipe;
 
 import info.partonetrain.cle.Cle;
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import info.partonetrain.cle.ControlledHopper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;

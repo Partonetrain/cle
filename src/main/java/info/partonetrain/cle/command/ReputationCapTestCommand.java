@@ -1,7 +1,7 @@
 package info.partonetrain.cle.command;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import info.partonetrain.cle.ReputationCapSaveData;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;

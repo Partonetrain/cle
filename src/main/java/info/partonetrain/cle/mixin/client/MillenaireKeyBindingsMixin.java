@@ -1,6 +1,6 @@
 package info.partonetrain.cle.mixin.client;
 
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.millenaire.client.MillenaireKeyBindings;
 import org.spongepowered.asm.mixin.Mixin;

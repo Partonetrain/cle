@@ -1,7 +1,7 @@
 package info.partonetrain.cle.mixin;
 
 import info.partonetrain.cle.Cle;
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import net.minecraft.server.level.ServerPlayer;
 import org.millenaire.net.VersionChecker;
 import org.spongepowered.asm.mixin.Mixin;

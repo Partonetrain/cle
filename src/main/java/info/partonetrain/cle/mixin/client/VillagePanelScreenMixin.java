@@ -1,7 +1,7 @@
 package info.partonetrain.cle.mixin.client;
 
-import info.partonetrain.cle.CleConfig;
-import info.partonetrain.cle.ParsedConfigs;
+import info.partonetrain.cle.config.CleConfig;
+import info.partonetrain.cle.config.ParsedConfigs;
 import org.millenaire.client.gui.VillagePanelScreen;
 import org.millenaire.village.panel.PanelContent;
 import org.millenaire.village.panel.PanelLine;

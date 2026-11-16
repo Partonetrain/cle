@@ -1,6 +1,6 @@
 package info.partonetrain.cle.mixin.client;
 
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.millenaire.network.ClientPayloadHandler;
 import org.millenaire.network.SpeechChatPayload;

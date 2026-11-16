@@ -1,7 +1,7 @@
 package info.partonetrain.cle.mixin.integration.malum;
 
 import com.sammy.malum.core.handlers.SoulHarvestHandler;
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import info.partonetrain.cle.CleUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;

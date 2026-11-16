@@ -1,12 +1,11 @@
 package info.partonetrain.cle.client;
 
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import info.partonetrain.cle.mixin.client.ClientQuestCacheAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
 import org.millenaire.client.ClientQuestCache;
 import org.millenaire.entity.MillVillager;
-import org.millenaire.network.QuestNetworkHelper;
 
 import java.util.ArrayList;
 import java.util.List;

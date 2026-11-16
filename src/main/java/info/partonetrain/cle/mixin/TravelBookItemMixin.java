@@ -1,7 +1,6 @@
 package info.partonetrain.cle.mixin;
 
-import info.partonetrain.cle.CleClient;
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -9,10 +8,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.millenaire.item.ModItems;
 import org.millenaire.item.TravelBookItem;
 import org.millenaire.network.InfoPanelRequestPayload;
-import org.millenaire.network.ModPayloads;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

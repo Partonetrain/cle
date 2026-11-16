@@ -1,5 +1,6 @@
-package info.partonetrain.cle;
+package info.partonetrain.cle.config;
 
+import info.partonetrain.cle.Cle;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
@@ -40,6 +41,12 @@ public class CleConfig {
     public static ModConfigSpec.IntValue MAX_DISTANCE;
     public static ModConfigSpec.DoubleValue REJECTION_CHANCE;
     public static ModConfigSpec.ConfigValue<List<? extends String>> STRUCTURES_TO_AVOID;
+        //site
+    public static ModConfigSpec.DoubleValue MIN_BAND_VALUE; //SH
+    public static ModConfigSpec.IntValue MAX_CORE_SPREAD_VALUE; //SH
+    public static ModConfigSpec.DoubleValue MIN_GENTLE2_VALUE; //SM
+    public static ModConfigSpec.DoubleValue MIN_CENTRE_WEIGHTED_VALUE; //SM
+    public static ModConfigSpec.DoubleValue MIN_CONNECTED_VALUE; //SM
     //network
     public static ModConfigSpec.BooleanValue DISABLE_VERSION_CHECK;
     //client
@@ -234,6 +241,36 @@ public class CleConfig {
                 .comment("Millenaire already avoids structures like vanilla igloos and desert pyramids, this just adds more structures to that logic")
                 .comment("Keep in mind the more of these there are, the longer a millage/lone building will take to be placed")
                 .defineListAllowEmpty("Structures To Avoid", List.of(BuiltinStructures.OCEAN_MONUMENT.location().toString()), () -> "", obj -> obj instanceof String);
+
+        //read in SuperJankEarlyConfigReader
+            BUILDER.push("Site Settings (Experimental)");
+
+            MIN_BAND_VALUE = BUILDER.comment("If not -1, the value used by Millenaire's SiteHunter to determine if a site has enough flat-enough terrain")
+                    .comment("JVM arg \"millenaire.siteBand\" takes precedence over this option, if present")
+                    .comment("<0.7 is less restrictive, >0.7 is more restrictive")
+                    .defineInRange("Min Band", -1D, -1D, 1.0);
+
+            MAX_CORE_SPREAD_VALUE = BUILDER.comment("If not -1, the value used by Millenaire's SiteHunter to determine acceptable ranges of elevation for the center of the village")
+                    .comment("JVM arg \"millenaire.siteCoreSpread\" takes precedence over this option, if present")
+                    .comment("<10 is more restrictive, >10 is less restrictive")
+                    .defineInRange("Max Core Spread", -1, -1, 100);
+
+            MIN_GENTLE2_VALUE = BUILDER.comment("If not -1, the value used by Millenaire's SiteMeasures to determine if a site has enough gently sloped terrain")
+                            .comment("JVM arg \"millenaire.siteGentle\" takes precedence over this option, if present")
+                            .comment("<0.7 is less restrictive, >0.7 is more restrictive")
+                            .defineInRange("Min Gentle2", -1D, -1D, 1.0D);
+
+            MIN_CENTRE_WEIGHTED_VALUE = BUILDER.comment("If not -1, the value used by Millenaire's SiteMeasures to determine if a site has enough gently sloped terrain in the center of the village")
+                            .comment("JVM arg \"millenaire.siteWeighted\" takes precedence over this option, if present")
+                            .comment("<0.75 is less restrictive, >0.75 is more restrictive")
+                            .defineInRange("Min Centre Weighted", -1D, -1D, 1.0D);
+
+            MIN_CONNECTED_VALUE = BUILDER.comment("If not -1, the value used by Millenaire's SiteMeasures to determine if a site has enough \"connected\" terrain")
+                            .comment("JVM arg \"millenaire.siteConnected\" takes precedence over this option, if present")
+                            .comment("<0.6 is less restrictive, >0.6 is more restrictive")
+                            .defineInRange("Min Connected", -1D, -1D, 1.0D);
+
+            BUILDER.pop();
 
         BUILDER.pop();
 

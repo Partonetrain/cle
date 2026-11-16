@@ -1,7 +1,7 @@
 package info.partonetrain.cle.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import info.partonetrain.cle.CleConfig;
+import info.partonetrain.cle.config.CleConfig;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
@@ -10,7 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.extensions.IItemStackExtension;
 import org.millenaire.item.MillFoodItem;
 import org.millenaire.item.ModItems;
 import org.spongepowered.asm.mixin.Final;

@@ -293,6 +293,7 @@ public class Cle {
         ParsedConfigs.parseDamageMods();
         ParsedConfigs.parseStructuresToAvoid();
         ParsedConfigs.parseColors();
+        ParsedConfigs.parseRandomlyConsumedItems();
         CleUtils.playerRepNotifCooldowns.clear();
 
         if(CleConfig.MILLAGERS_CONVERT_TO_ALTERNATIVES.getAsBoolean()){

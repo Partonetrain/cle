@@ -13,17 +13,20 @@ import static team.lodestar.wayward_attributes.tweaks.RangedAttributeTweaks.addR
 
 @Mixin(RangedAttributeTweaks.class)
 public class RangedAttributeTweaksMixin {
+    /*
+    * Disabled for now, pending Wayward Attributes update(s)
+
     @Inject(method = "addBowProperties", at=@At("HEAD"), cancellable = true)
     private static void cle$addBowProperties(Item item, DataComponentPatch.Builder builder, CallbackInfo ci){
         if(item instanceof MillenaireBow millenaireBow){
-            /*
-            yumibow: 2 speedFactor, 0.5 damageBonus, 1 enchantability (same enchantability as vanilla bow)
-            inuitbow: 1 speedFactor, 0 damageBonus, 20 enchantability
-            seljuk_bow: identical to vanilla, actually literally, it uses vanilla Bow class instead of MillenaireBow and has same durability
-             */
+            //yumibow: 2 speedFactor, 0.5 damageBonus, 1 enchantability (same enchantability as vanilla bow)
+            //inuitbow: 1 speedFactor, 0 damageBonus, 20 enchantability
+            //seljuk_bow: identical to vanilla, actually literally, it uses vanilla Bow class instead of MillenaireBow and has same durability
 
             addRangedItemProperties(item, builder, 2f + millenaireBow.getDamageBonus(), 3f * millenaireBow.getSpeedFactor(), 1.0f / millenaireBow.getSpeedFactor());
             ci.cancel();
         }
     }
+
+    */
 }

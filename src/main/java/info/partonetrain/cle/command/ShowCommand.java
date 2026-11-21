@@ -187,7 +187,7 @@ public class ShowCommand {
                                                         Registry<Biome> biomeRegistry = registryAccess.registryOrThrow(Registries.BIOME);
                                                         List<TagKey<Biome>> tags = List.of(Tags.Biomes.IS_FOREST, Tags.Biomes.IS_HILL, Tags.Biomes.IS_MOUNTAIN, Tags.Biomes.IS_DESERT, Tags.Biomes.IS_OCEAN);
 
-                                                        context.getSource().sendSystemMessage(Component.literal("Villages that spawn in biomes in each of these tags can spawn with qualifying names, e.g., la-fôret").withStyle(ChatFormatting.ITALIC));
+                                                        context.getSource().sendSystemMessage(Component.literal("Villages that spawn in biomes in each of these tags can spawn with qualifying names, e.g., la-forêt").withStyle(ChatFormatting.ITALIC));
                                                         for (TagKey<Biome> tag : tags) {
                                                             context.getSource().sendSystemMessage(Component.literal("- " + tag.location().toString() + " -"));
                                                             Optional<HolderSet.Named<Biome>> tagHolderSet = biomeRegistry.getTag(tag);

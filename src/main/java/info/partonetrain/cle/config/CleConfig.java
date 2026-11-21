@@ -28,6 +28,7 @@ public class CleConfig {
     public static ModConfigSpec.BooleanValue DISABLE_HARDCODED_EGG_CHECK;
     public static ModConfigSpec.BooleanValue CHANGE_TEAM_COLORS;
     public static ModConfigSpec.ConfigValue<List<? extends String>> SPECIFIC_COLORS;
+    public static ModConfigSpec.ConfigValue<List<? extends String>> RANDOM_CONSUME_ITEMS;
 
     //items
     public static ModConfigSpec.BooleanValue USE_FOOD_COMPONENTS;
@@ -167,6 +168,11 @@ public class CleConfig {
                 .comment("For example, \"norman,-16711936\" would make normans solid green")
                 .comment("If a culture is not listed here, its color will be automatically generated based on its name")
                 .defineListAllowEmpty("Specific Colors", List.of(), () -> "", obj -> obj instanceof String);
+
+        RANDOM_CONSUME_ITEMS = BUILDER.comment("Items in millage chests that will be randomly consumed (25% chance) at night")
+                .comment("Each millager rolls this each night and if one of these items is found they will consume one and stop checking for the night")
+                .comment("This is useful if you want to make modded items sellable to millagers and simulate them being \"used up\" but they don't actually have a use")
+                .defineListAllowEmpty("Random Consume Items", List.of("minecraft:barrier"), () -> "", obj -> obj instanceof String);
 
         BUILDER.pop();
 

@@ -1,8 +1,13 @@
 package info.partonetrain.cle.config;
 
+import info.partonetrain.cle.Cle;
+import net.minecraft.ResourceLocationException;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
 import java.util.*;
@@ -16,10 +21,11 @@ public class ParsedConfigs {
 
     public static Map<ResourceLocation, Integer> spellEffectReputations = new HashMap<>();
 
-    //public static List<MinDistanceConfig> minDistanceConfigs = new ArrayList<>();
     public static List<ResourceKey<Structure>> structuresToAvoid = new ArrayList<>();
 
     public static Map<String, Integer> specificColors = new HashMap<>();
+
+    public static List<ResourceLocation> itemsToRandomlyConsume = new ArrayList<>();
 
     public static void parseDamageMods(){
         modifiedDamageDealt = DamageMod.parse(CleConfig.MODIFIED_DAMAGE_DEALT.get());
@@ -27,6 +33,7 @@ public class ParsedConfigs {
     }
 
     public static void parseStructuresToAvoid(){
+        structuresToAvoid.clear();
         for(String s : CleConfig.STRUCTURES_TO_AVOID.get()){
             ResourceKey<Structure> structureResourceKey = ResourceKey.create(Registries.STRUCTURE, ResourceLocation.parse(s));
             structuresToAvoid.add(structureResourceKey);
@@ -34,11 +41,29 @@ public class ParsedConfigs {
     }
 
     public static void parseColors(){
+        spellEffectReputations.clear();
         for(String s : CleConfig.SPECIFIC_COLORS.get()){
             String[] split = s.split(",");
             String cultureName = split[0];
             int color = Integer.parseInt(split[1]);
             specificColors.put(cultureName, color);
+        }
+    }
+
+    public static void parseRandomlyConsumedItems(){
+        itemsToRandomlyConsume.clear();
+        for(String s : CleConfig.RANDOM_CONSUME_ITEMS.get()){
+            try {
+                ResourceLocation rl = ResourceLocation.tryParse(s);
+                //check if item is in registry
+                Item item = BuiltInRegistries.ITEM.get(rl);
+                if(item == Items.AIR){
+                    Cle.LOGGER.error(s + " is not a valid item!");
+                }
+                itemsToRandomlyConsume.add(rl);
+            } catch (ResourceLocationException rle){
+                Cle.LOGGER.error(s + " is not a valid ResourceLocation!" + rle.getMessage());
+            }
         }
     }
 
